@@ -16,23 +16,14 @@ import static org.junit.Assert.*;
  */
 public class CompanyDaoTest {
 
-    private CompanyDao companyDao = new JdbcCompanyDao();
+    private CompanyDao companyDao = JdbcCompanyDao.INSTANCE;
 
     @Before
     public void setUp(){
         companyDao.deleteAll();
-
-        companyDao.saveOrUpdate(new Company("Apple Inc."));
-        companyDao.saveOrUpdate(new Company("RCA"));
-        companyDao.saveOrUpdate(new Company("Thinking Machines"));
-        companyDao.saveOrUpdate(new Company("Netronics"));
-        companyDao.saveOrUpdate(new Company("Tandy Corporation"));
-        companyDao.saveOrUpdate(new Company("Commodore International"));
-        companyDao.saveOrUpdate(new Company("MOS Technology"));
-        companyDao.saveOrUpdate(new Company("Micro Instrumentation and Telemetry Systems"));
-        companyDao.saveOrUpdate(new Company("IMS Associates, Inc."));
-        companyDao.saveOrUpdate(new Company("Digital Equipment Corporation"));
+        insertSomeCompanies();
     }
+
 
     @Test
     public void testGetAll(){
@@ -54,6 +45,25 @@ public class CompanyDaoTest {
         companyDao.saveOrUpdate(c);
         assertEquals("eBusiness", companyDao.findById(c.getId()).getName());
         assertEquals(11, companyDao.getAll().size());
+    }
+
+    @Test
+    public void testGetWithBadId(){
+        assertEquals(null, companyDao.findById(-15));
+    }
+
+
+    private void insertSomeCompanies() {
+        companyDao.saveOrUpdate(new Company("Apple Inc."));
+        companyDao.saveOrUpdate(new Company("RCA"));
+        companyDao.saveOrUpdate(new Company("Thinking Machines"));
+        companyDao.saveOrUpdate(new Company("Netronics"));
+        companyDao.saveOrUpdate(new Company("Tandy Corporation"));
+        companyDao.saveOrUpdate(new Company("Commodore International"));
+        companyDao.saveOrUpdate(new Company("MOS Technology"));
+        companyDao.saveOrUpdate(new Company("Micro Instrumentation and Telemetry Systems"));
+        companyDao.saveOrUpdate(new Company("IMS Associates, Inc."));
+        companyDao.saveOrUpdate(new Company("Digital Equipment Corporation"));
     }
 
 }

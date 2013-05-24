@@ -17,6 +17,5 @@ public interface CompanyDao {
     Set<Company> getAll();
     void saveOrUpdate(Company company);
     void deleteAll();
-
     Company findById(int companyId);
 }

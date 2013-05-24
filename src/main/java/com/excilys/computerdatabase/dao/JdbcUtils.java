@@ -45,4 +45,9 @@ public class JdbcUtils {
             }
         }
     }
+
+    public static java.sql.Date dateUtilToSql(java.util.Date date) {
+        if (date == null) return null;
+        return new java.sql.Date(date.getTime());
+    }
 }

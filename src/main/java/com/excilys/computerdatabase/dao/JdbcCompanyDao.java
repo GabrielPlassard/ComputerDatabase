@@ -13,8 +13,8 @@ import java.util.Set;
  * Time: 12:20
  * To change this template use File | Settings | File Templates.
  */
-public class JdbcCompanyDao implements CompanyDao{
-
+public enum JdbcCompanyDao implements CompanyDao{
+    INSTANCE;
 
     private Company companyFromTuple(ResultSet resultSet) throws SQLException {
         Company company = new Company();
@@ -62,7 +62,6 @@ public class JdbcCompanyDao implements CompanyDao{
             resultSet = statement.executeQuery();
             if (resultSet.next()){
                 return companyFromTuple(resultSet);
-
             }
         } catch (SQLException e) {
             e.printStackTrace();  //To change body of catch statement use File | Settings | File Templates.
