@@ -8,8 +8,8 @@
 <html>
     <head>
         <title>Computers database</title>
-        <link rel="stylesheet" type="text/css" media="screen" href="css/bootstrap.min.css">
-        <link rel="stylesheet" type="text/css" media="screen" href="css/main.css">
+        <link rel="stylesheet" type="text/css" media="screen" href="/css/bootstrap.min.css">
+        <link rel="stylesheet" type="text/css" media="screen" href="/css/main.css">
     </head>
     <body>
 

@@ -15,9 +15,20 @@
         <servlet-class>com.excilys.computerdatabase.servlet.IndexServlet</servlet-class>
     </servlet>
 
+    <servlet>
+        <description></description>
+        <display-name>NewComputerServlet</display-name>
+        <servlet-name>NewComputerServlet</servlet-name>
+        <servlet-class>com.excilys.computerdatabase.servlet.NewComputerServlet</servlet-class>
+    </servlet>
+
     <servlet-mapping>
         <servlet-name>IndexServlet</servlet-name>
         <url-pattern>/computers</url-pattern>
+    </servlet-mapping>
+    <servlet-mapping>
+        <servlet-name>NewComputerServlet</servlet-name>
+        <url-pattern>/computers/new</url-pattern>
     </servlet-mapping>
 
 
