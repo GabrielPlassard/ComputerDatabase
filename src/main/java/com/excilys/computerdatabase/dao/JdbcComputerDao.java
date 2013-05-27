@@ -195,11 +195,18 @@ public enum JdbcComputerDao implements ComputerDao {
             request.append(" LEFT JOIN company ON computer.company_id=company.id ");
         }
         request.append(" WHERE computer.name LIKE ? ORDER BY ");
-        if (columnId > 0){
+        if (columnId > 0 && columnId != 2){
             request.append("-");
+            request.append(COLUMN_NAMES[Math.abs(columnId)]);
+            request.append(" DESC ");
         }
-        request.append(COLUMN_NAMES[Math.abs(columnId)]);
-        request.append(" DESC ");
+        else if (columnId < 0){
+            request.append(COLUMN_NAMES[Math.abs(columnId)]);
+            request.append(" DESC ");
+        }
+        else{
+            request.append(COLUMN_NAMES[Math.abs(columnId)]);
+        }
         request.append(" LIMIT ? OFFSET ?");
         return request.toString();
     }
