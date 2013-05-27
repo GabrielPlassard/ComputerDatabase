@@ -38,21 +38,21 @@ public class IndexServlet extends javax.servlet.http.HttpServlet implements java
     protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
         int currentSheet = intParameterOrDefault(request.getParameter("p"),1);
         String research = stringParameterOrDefault(request.getParameter("f"),"");
-        int sorting = intParameterOrDefault(request.getParameter("s"),2);
+        int sortedColumnNumber = intParameterOrDefault(request.getParameter("s"),2);
 
         int numberOfMatchingComputers =  computerDatabaseService.numberOfMatchingComputers(research);
         int maxSheet = (int) Math.ceil((1.0 * numberOfMatchingComputers)/ 10);
         int firstComputerIndice = (currentSheet - 1) * 10 + 1;
         int lastComputerIndice = firstComputerIndice + 10;
 
-        request.setAttribute("sorting",sorting);
+        request.setAttribute("sorting",sortedColumnNumber);
         request.setAttribute("research",research);
         request.setAttribute("currentSheet",currentSheet);
         request.setAttribute("maxSheet",maxSheet);
         request.setAttribute("firstComputerIndice",firstComputerIndice);
         request.setAttribute("lastComputerIndice",lastComputerIndice);
         request.setAttribute("totalComputersFound",numberOfMatchingComputers);
-        request.setAttribute("computers",computerDatabaseService.getMatchingComputersFromTo(research,firstComputerIndice, lastComputerIndice));
+        request.setAttribute("computers",computerDatabaseService.getMatchingComputersFromToSortedByColumn(research, firstComputerIndice, lastComputerIndice,sortedColumnNumber));
         getServletContext().getRequestDispatcher("/WEB-INF/jsp/computers.jsp").forward(request,response);
     }
 

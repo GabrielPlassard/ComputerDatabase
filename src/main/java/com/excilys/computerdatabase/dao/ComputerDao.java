@@ -18,6 +18,6 @@ public interface ComputerDao {
     void saveOrUpdate(Computer computer);
     void deleteAll();
     Computer findById(int computerId);
-    List<Computer> getMatchingFromToWhith(String namePattern, int firstIndice, int lastIndice);
+    List<Computer> getMatchingFromToWhithSortedByColumn(String namePattern, int firstIndice, int lastIndice, int columnId);
     int numberOfMatching(String namePattern);
 }

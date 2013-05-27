@@ -14,6 +14,6 @@ import java.util.List;
 public interface ComputerDatabaseService {
 
     List<Computer> allComputers();
-    List<Computer> getMatchingComputersFromTo(String namePattern,int firstIndice, int lastIndice);
+    List<Computer> getMatchingComputersFromToSortedByColumn(String namePattern, int firstIndice, int lastIndice, int columnId);
     int numberOfMatchingComputers(String namePattern);
 }

@@ -15,6 +15,7 @@ import java.util.Date;
  */
 public enum JdbcComputerDao implements ComputerDao {
     INSTANCE;
+    private static final String[] COLUMN_NAMES = {"","computer.id","computer.name","computer.introduced","computer.discontinued","company.name"};
 
     private CompanyDao companyDao = JdbcCompanyDao.INSTANCE;
 
@@ -162,17 +163,18 @@ public enum JdbcComputerDao implements ComputerDao {
     }
 
     @Override
-    public List<Computer> getMatchingFromToWhith(String namePattern,int firstIndice, int lastIndice) {
+    public List<Computer> getMatchingFromToWhithSortedByColumn(String namePattern, int firstIndice, int lastIndice, int columnId) {
         Connection connection = null;
         PreparedStatement statement = null;
         ResultSet resultSet = null;
         List<Computer> result = new ArrayList<Computer>();
         try {
             connection = JdbcUtils.getConnection();
-            statement = connection.prepareStatement("SELECT * FROM computer WHERE name LIKE ? ORDER BY computer.name LIMIT ? OFFSET ?");
+            statement = connection.prepareStatement(getSqlSelect(columnId));
             statement.setString(1,"%"+namePattern+"%");
             statement.setInt(2, lastIndice - firstIndice);
             statement.setInt(3, firstIndice);
+            System.out.println("query : " + statement.toString());
             resultSet = statement.executeQuery();
             while (resultSet.next()){
                 result.add(computerFromTuple(resultSet));
@@ -185,6 +187,21 @@ public enum JdbcComputerDao implements ComputerDao {
             JdbcUtils.closeConnection(connection);
         }
         return result;
+    }
+
+    private String getSqlSelect(int columnId) {
+        StringBuilder request = new StringBuilder("SELECT * FROM computer");
+        if (Math.abs(columnId) == 5){
+            request.append(" LEFT JOIN company ON computer.company_id=company.id ");
+        }
+        request.append(" WHERE computer.name LIKE ? ORDER BY ");
+        if (columnId > 0){
+            request.append("-");
+        }
+        request.append(COLUMN_NAMES[Math.abs(columnId)]);
+        request.append(" DESC ");
+        request.append(" LIMIT ? OFFSET ?");
+        return request.toString();
     }
 
     @Override

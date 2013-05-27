@@ -24,8 +24,8 @@ public enum SimpleComputerDatabaseService implements ComputerDatabaseService {
     }
 
     @Override
-    public List<Computer> getMatchingComputersFromTo(String namePattern, int firstIndice, int lastIndice) {
-        return computerDao.getMatchingFromToWhith(namePattern, firstIndice, lastIndice);
+    public List<Computer> getMatchingComputersFromToSortedByColumn(String namePattern, int firstIndice, int lastIndice, int columnId) {
+        return computerDao.getMatchingFromToWhithSortedByColumn(namePattern, firstIndice, lastIndice, columnId);
     }
 
     @Override
