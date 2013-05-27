@@ -3,8 +3,7 @@ package com.excilys.computerdatabase.dao;
 import com.excilys.computerdatabase.model.Computer;
 
 import java.sql.*;
-import java.util.HashSet;
-import java.util.Set;
+import java.util.*;
 import java.util.Date;
 
 /**
@@ -33,30 +32,6 @@ public enum JdbcComputerDao implements ComputerDao {
         computer.setCompany(companyDao.findById(companyId));
         return computer;
     }
-
-    @Override
-    public Computer findByName(String name) {
-        Connection connection = null;
-        PreparedStatement statement = null;
-        ResultSet resultSet = null;
-        try {
-            connection = JdbcUtils.getConnection();
-            statement = connection.prepareStatement("SELECT * FROM computer WHERE name=?");
-            statement.setString(1, name);
-            resultSet = statement.executeQuery();
-            if (resultSet.next()){
-                return computerFromTuple(resultSet);
-            }
-        } catch (SQLException e) {
-            e.printStackTrace();  //To change body of catch statement use File | Settings | File Templates.
-        }finally {
-            JdbcUtils.closeResultSet(resultSet);
-            JdbcUtils.closeStatement(statement);
-            JdbcUtils.closeConnection(connection);
-        }
-        return null;
-    }
-
 
     private void save(Computer computer) {
         Connection connection = null;
@@ -115,11 +90,11 @@ public enum JdbcComputerDao implements ComputerDao {
 
 
     @Override
-    public Set<Computer> getAll() {
+    public List<Computer> getAll() {
         Connection connection = null;
         PreparedStatement statement = null;
         ResultSet resultSet = null;
-        Set<Computer> result = new HashSet<Computer>();
+        List<Computer> result = new ArrayList<Computer>();
         try {
             connection = JdbcUtils.getConnection();
             statement = connection.prepareStatement("SELECT * FROM computer");
@@ -184,5 +159,54 @@ public enum JdbcComputerDao implements ComputerDao {
             JdbcUtils.closeConnection(connection);
         }
         return null;
+    }
+
+    @Override
+    public List<Computer> getMatchingFromToWhith(String namePattern,int firstIndice, int lastIndice) {
+        Connection connection = null;
+        PreparedStatement statement = null;
+        ResultSet resultSet = null;
+        List<Computer> result = new ArrayList<Computer>();
+        try {
+            connection = JdbcUtils.getConnection();
+            statement = connection.prepareStatement("SELECT * FROM computer WHERE name LIKE ? ORDER BY computer.name LIMIT ? OFFSET ?");
+            statement.setString(1,"%"+namePattern+"%");
+            statement.setInt(2, lastIndice - firstIndice);
+            statement.setInt(3, firstIndice);
+            resultSet = statement.executeQuery();
+            while (resultSet.next()){
+                result.add(computerFromTuple(resultSet));
+            }
+        } catch (SQLException e) {
+            e.printStackTrace();  //To change body of catch statement use File | Settings | File Templates.
+        }finally {
+            JdbcUtils.closeResultSet(resultSet);
+            JdbcUtils.closeStatement(statement);
+            JdbcUtils.closeConnection(connection);
+        }
+        return result;
+    }
+
+    @Override
+    public int numberOfMatching(String namePattern) {
+        Connection connection = null;
+        PreparedStatement statement = null;
+        ResultSet resultSet = null;
+        int numberOfMatchings = 0;
+        try {
+            connection = JdbcUtils.getConnection();
+            statement = connection.prepareStatement("SELECT COUNT(id) FROM computer WHERE name LIKE ?");
+            statement.setString(1,"%"+namePattern+"%");
+            resultSet = statement.executeQuery();
+            resultSet.next();
+            numberOfMatchings = resultSet.getInt(1);
+        } catch (SQLException e) {
+            e.printStackTrace();  //To change body of catch statement use File | Settings | File Templates.
+        }finally {
+            JdbcUtils.closeResultSet(resultSet);
+            JdbcUtils.closeStatement(statement);
+            JdbcUtils.closeConnection(connection);
+        }
+        return numberOfMatchings;
     }
 }

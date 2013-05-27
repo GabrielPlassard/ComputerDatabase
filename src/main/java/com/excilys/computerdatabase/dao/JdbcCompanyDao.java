@@ -3,7 +3,9 @@ package com.excilys.computerdatabase.dao;
 import com.excilys.computerdatabase.model.Company;
 
 import java.sql.*;
+import java.util.ArrayList;
 import java.util.HashSet;
+import java.util.List;
 import java.util.Set;
 
 /**
@@ -77,7 +79,7 @@ public enum JdbcCompanyDao implements CompanyDao{
         ResultSet resultKey = null;
         try {
             connection = JdbcUtils.getConnection();
-            statement =  connection.prepareStatement("INSERT INTO company(name) VALUES(?)",Statement.RETURN_GENERATED_KEYS);
+            statement =  connection.prepareStatement("INSERT INTO company(name) VALUES(?)", Statement.RETURN_GENERATED_KEYS);
             statement.setString(1, company.getName());
             statement.execute();
             resultKey = statement.getGeneratedKeys();
@@ -111,11 +113,11 @@ public enum JdbcCompanyDao implements CompanyDao{
     }
 
     @Override
-    public Set<Company> getAll() {
+    public List<Company> getAll() {
         Connection connection = null;
         PreparedStatement statement = null;
         ResultSet resultSet = null;
-        Set<Company> result = new HashSet<Company>();
+        List<Company> result = new ArrayList<Company>();
         try {
             connection = JdbcUtils.getConnection();
             statement = connection.prepareStatement("SELECT * FROM company");

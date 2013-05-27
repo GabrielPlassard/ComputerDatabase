@@ -19,13 +19,38 @@ public class IndexServlet extends javax.servlet.http.HttpServlet implements java
 
     private ComputerDatabaseService computerDatabaseService = SimpleComputerDatabaseService.INSTANCE;
 
+
+    private int intParameterOrDefault(String parameter, int defaultValue){
+        try{
+            return Integer.valueOf(parameter);
+        }catch(NumberFormatException e){
+
+        }
+        return defaultValue;
+    }
+
+    private String stringParameterOrDefault(String parameter, String defaultValue){
+        if (parameter != null) return parameter;
+        return defaultValue;
+    }
+
     @Override
     protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
-        request.setAttribute("currentSheet",1);
-        request.setAttribute("firstComputerIndice",1);
-        request.setAttribute("lastComputerIndice",10);
-        request.setAttribute("totalComputersFound",578);
-        request.setAttribute("computers",computerDatabaseService.allComputers());
+        int currentSheet = intParameterOrDefault(request.getParameter("p"),1);
+        String research = stringParameterOrDefault(request.getParameter("f"),"");
+
+        int numberOfMatchingComputers =  computerDatabaseService.numberOfMatchingComputers(research);
+        int maxSheet = (int) Math.ceil((1.0 * numberOfMatchingComputers)/ 10);
+        int firstComputerIndice = (currentSheet - 1) * 10 + 1;
+        int lastComputerIndice = firstComputerIndice + 10;
+
+        request.setAttribute("research",research);
+        request.setAttribute("currentSheet",currentSheet);
+        request.setAttribute("maxSheet",maxSheet);
+        request.setAttribute("firstComputerIndice",firstComputerIndice);
+        request.setAttribute("lastComputerIndice",lastComputerIndice);
+        request.setAttribute("totalComputersFound",numberOfMatchingComputers);
+        request.setAttribute("computers",computerDatabaseService.getMatchingComputersFromTo(research,firstComputerIndice, lastComputerIndice));
         getServletContext().getRequestDispatcher("/WEB-INF/jsp/computers.jsp").forward(request,response);
     }
 

@@ -12,7 +12,7 @@ import java.util.Date;
  * Time: 12:12
  * To change this template use File | Settings | File Templates.
  */
-public class Computer {
+public class Computer{
 
     private static final DateFormat dateFormatter = new SimpleDateFormat("yyyy-MM-dd");
 

@@ -3,7 +3,6 @@ package com.excilys.computerdatabase.service;
 import com.excilys.computerdatabase.model.Computer;
 
 import java.util.List;
-import java.util.Set;
 
 /**
  * Created with IntelliJ IDEA.
@@ -14,6 +13,7 @@ import java.util.Set;
  */
 public interface ComputerDatabaseService {
 
-    Set<Computer> allComputers();
-
+    List<Computer> allComputers();
+    List<Computer> getMatchingComputersFromTo(String namePattern,int firstIndice, int lastIndice);
+    int numberOfMatchingComputers(String namePattern);
 }

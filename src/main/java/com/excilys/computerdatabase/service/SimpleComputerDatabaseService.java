@@ -5,7 +5,6 @@ import com.excilys.computerdatabase.dao.JdbcComputerDao;
 import com.excilys.computerdatabase.model.Computer;
 
 import java.util.List;
-import java.util.Set;
 
 /**
  * Created with IntelliJ IDEA.
@@ -20,8 +19,18 @@ public enum SimpleComputerDatabaseService implements ComputerDatabaseService {
     private ComputerDao computerDao = JdbcComputerDao.INSTANCE;
 
     @Override
-    public Set<Computer> allComputers() {
+    public List<Computer> allComputers() {
         return computerDao.getAll();
+    }
+
+    @Override
+    public List<Computer> getMatchingComputersFromTo(String namePattern, int firstIndice, int lastIndice) {
+        return computerDao.getMatchingFromToWhith(namePattern, firstIndice, lastIndice);
+    }
+
+    @Override
+    public int numberOfMatchingComputers(String namePattern) {
+        return computerDao.numberOfMatching(namePattern);
     }
 
 

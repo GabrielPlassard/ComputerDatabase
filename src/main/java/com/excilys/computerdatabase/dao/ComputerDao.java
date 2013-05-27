@@ -2,6 +2,7 @@ package com.excilys.computerdatabase.dao;
 
 import com.excilys.computerdatabase.model.Computer;
 
+import java.util.List;
 import java.util.Set;
 
 /**
@@ -13,9 +14,10 @@ import java.util.Set;
  */
 public interface ComputerDao {
 
-    Computer findByName(String name);
-    Set<Computer> getAll();
+    List<Computer> getAll();
     void saveOrUpdate(Computer computer);
     void deleteAll();
     Computer findById(int computerId);
+    List<Computer> getMatchingFromToWhith(String namePattern, int firstIndice, int lastIndice);
+    int numberOfMatching(String namePattern);
 }
