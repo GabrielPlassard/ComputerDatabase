@@ -2,10 +2,7 @@ package com.excilys.computerdatabase.dao;
 
 import com.excilys.computerdatabase.model.Computer;
 
-import java.sql.Connection;
-import java.sql.PreparedStatement;
-import java.sql.ResultSet;
-import java.sql.SQLException;
+import java.sql.*;
 import java.util.HashSet;
 import java.util.Set;
 import java.util.Date;
@@ -64,9 +61,10 @@ public enum JdbcComputerDao implements ComputerDao {
     private void save(Computer computer) {
         Connection connection = null;
         PreparedStatement statement = null;
+        ResultSet resultKey = null;
         try {
             connection = JdbcUtils.getConnection();
-            statement =  connection.prepareStatement("INSERT INTO computer(name,introduced,discontinued,company_id) VALUES(?,?,?,?)");
+            statement =  connection.prepareStatement("INSERT INTO computer(name,introduced,discontinued,company_id) VALUES(?,?,?,?)", Statement.RETURN_GENERATED_KEYS);
             statement.setString(1, computer.getName());
             statement.setDate(2, JdbcUtils.dateUtilToSql(computer.getIntroduced()));
             statement.setDate(3, JdbcUtils.dateUtilToSql(computer.getDiscontinued()));
@@ -77,11 +75,14 @@ public enum JdbcComputerDao implements ComputerDao {
                 statement.setNull(4,java.sql.Types.INTEGER);
             }
             statement.execute();
-            int id = findByName(computer.getName()).getId();
+            resultKey = statement.getGeneratedKeys();
+            resultKey.next();
+            int id = resultKey.getInt(1);
             computer.setId(id);
         } catch (SQLException e) {
             e.printStackTrace();  //To change body of catch statement use File | Settings | File Templates.
         }finally {
+            JdbcUtils.closeResultSet(resultKey);
             JdbcUtils.closeStatement(statement);
             JdbcUtils.closeConnection(connection);
         }

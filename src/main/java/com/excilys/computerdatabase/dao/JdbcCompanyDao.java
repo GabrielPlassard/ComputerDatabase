@@ -38,8 +38,6 @@ public enum JdbcCompanyDao implements CompanyDao{
             if (resultSet.next()){
                 return companyFromTuple(resultSet);
             }
-
-
         } catch (SQLException e) {
             e.printStackTrace();  //To change body of catch statement use File | Settings | File Templates.
         } finally {
@@ -76,16 +74,20 @@ public enum JdbcCompanyDao implements CompanyDao{
     private void save(Company company) {
         Connection connection = null;
         PreparedStatement statement = null;
+        ResultSet resultKey = null;
         try {
             connection = JdbcUtils.getConnection();
-            statement =  connection.prepareStatement("INSERT INTO company(name) VALUES(?)");
+            statement =  connection.prepareStatement("INSERT INTO company(name) VALUES(?)",Statement.RETURN_GENERATED_KEYS);
             statement.setString(1, company.getName());
             statement.execute();
-            int id = findByName(company.getName()).getId();
+            resultKey = statement.getGeneratedKeys();
+            resultKey.next();
+            int id = resultKey.getInt(1);
             company.setId(id);
         } catch (SQLException e) {
             e.printStackTrace();  //To change body of catch statement use File | Settings | File Templates.
         }finally {
+            JdbcUtils.closeResultSet(resultKey);
             JdbcUtils.closeStatement(statement);
             JdbcUtils.closeConnection(connection);
         }
