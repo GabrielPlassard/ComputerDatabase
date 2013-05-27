@@ -11,6 +11,14 @@ import java.sql.*;
  */
 public class JdbcUtils {
 
+    static{
+        try {
+            Class.forName("com.mysql.jdbc.Driver");
+        } catch (ClassNotFoundException e) {
+            e.printStackTrace();  //To change body of catch statement use File | Settings | File Templates.
+        }
+    }
+
 
     static Connection getConnection() throws SQLException {
         return DriverManager.getConnection("jdbc:mysql://localhost/computer_database", "root", "root");
