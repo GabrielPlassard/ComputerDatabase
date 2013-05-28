@@ -23,4 +23,6 @@ public interface ComputerDatabaseService {
     void saveOrUpdateComputer(Computer computer);
 
     Computer computerById(int id);
+
+    void deleteComputerById(int computerId);
 }

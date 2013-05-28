@@ -226,4 +226,21 @@ public enum JdbcComputerDao implements ComputerDao {
         }
         return numberOfMatchings;
     }
+
+    @Override
+    public void deleteById(int computerId) {
+        Connection connection = null;
+        PreparedStatement statement = null;
+        try {
+            connection = JdbcUtils.getConnection();
+            statement =  connection.prepareStatement("DELETE FROM computer WHERE id=?");
+            statement.setInt(1,computerId);
+            statement.execute();
+        } catch (SQLException e) {
+            e.printStackTrace();  //To change body of catch statement use File | Settings | File Templates.
+        } finally {
+            JdbcUtils.closeStatement(statement);
+            JdbcUtils.closeConnection(connection);
+        }
+    }
 }

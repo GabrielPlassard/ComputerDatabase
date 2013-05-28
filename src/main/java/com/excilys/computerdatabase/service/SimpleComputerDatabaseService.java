@@ -57,5 +57,10 @@ public enum SimpleComputerDatabaseService implements ComputerDatabaseService {
         return computerDao.findById(id);
     }
 
+    @Override
+    public void deleteComputerById(int computerId) {
+        computerDao.deleteById(computerId);
+    }
+
 
 }

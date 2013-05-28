@@ -20,4 +20,6 @@ public interface ComputerDao {
     Computer findById(int computerId);
     List<Computer> getMatchingFromToWhithSortedByColumn(String namePattern, int firstIndice, int lastIndice, int columnId);
     int numberOfMatching(String namePattern);
+
+    void deleteById(int computerId);
 }

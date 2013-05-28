@@ -40,7 +40,7 @@ public class EditComputerServlet extends javax.servlet.http.HttpServlet implemen
         ComputerForm form = new ComputerForm(request,computerDatabaseService);
 
         if (form.isValid()){
-            request.getSession().setAttribute("alertMessage","Computer "+form.getComputer().getName()+" added successfully");
+            request.getSession().setAttribute("alertMessage","Computer "+form.getComputer().getName()+" modified successfully");
             Computer computer = form.getComputer();
             int id = Utils.intParameterOrDefault(request.getParameter("id"),0);
             computer.setId(id);
