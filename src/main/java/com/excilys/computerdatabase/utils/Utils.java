@@ -41,4 +41,9 @@ public abstract class Utils {
             return defaultValue;
         }
     }
+
+    public static String format(Date date){
+        if (date == null) return null;
+        return dateFormatter.format(date);
+    }
 }

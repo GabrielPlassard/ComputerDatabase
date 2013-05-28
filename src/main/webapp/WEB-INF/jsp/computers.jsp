@@ -51,7 +51,7 @@
 
                 <c:forEach var="computer" items="${computers}">
                     <tr>
-                        <td><a href="computer/${computer.id}">${computer.name}</a></td>
+                        <td><a href="computers/edit?id=${computer.id}">${computer.name}</a></td>
                         <td>
                             <c:choose>
                                 <c:when test="${computer.introduced == null}"><em>-</em></c:when>

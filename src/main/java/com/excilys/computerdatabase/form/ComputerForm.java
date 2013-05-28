@@ -42,11 +42,27 @@ public class ComputerForm {
         buildFieldValues();
     }
 
+    public ComputerForm(Computer computer){
+        if (computer == null) return;
+
+        this.computer = computer;
+        name = computer.getName();
+        stringIntroduced = Utils.format(computer.getIntroduced());
+        stringDiscontinued = Utils.format(computer.getDiscontinued());
+        if (computer.getCompany() != null){
+            stringCompanyId = ""+computer.getCompany().getId();
+        }
+        buildFieldValues();
+    }
+
     private void buildFieldValues() {
         fieldValues.put("name",name);
         fieldValues.put("introduced",stringIntroduced);
         fieldValues.put("discontinued",stringDiscontinued);
         fieldValues.put("company",stringCompanyId);
+        if (computer != null){
+            fieldValues.put("id",""+computer.getId());
+        }
     }
 
     private void buildErrorMessages() {

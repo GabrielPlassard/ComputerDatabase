@@ -52,5 +52,10 @@ public enum SimpleComputerDatabaseService implements ComputerDatabaseService {
         computerDao.saveOrUpdate(computer);
     }
 
+    @Override
+    public Computer computerById(int id) {
+        return computerDao.findById(id);
+    }
+
 
 }

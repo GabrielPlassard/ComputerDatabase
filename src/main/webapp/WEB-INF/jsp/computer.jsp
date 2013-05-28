@@ -21,9 +21,9 @@
 
 <section id="main">
 
-    <h1>Add a computer</h1>
+    <h1>${mode =="edit" ? "Edit" : "Create"} a computer</h1>
 
-    <form action="/computers/new" method="POST" >
+    <form action="/computers/${mode}?id=${fieldValues["id"]}" method="POST" >
 
         <fieldset>
             <div class="clearfix ${errorMessages["name"] == null ? "" : "error" }">
@@ -65,11 +65,18 @@
         </fieldset>
 
         <div class="actions">
-            <input type="submit" value="Create this computer" class="btn primary"> or
+            <input type="submit" value="${mode == "edit" ? "Save" : "Create"} this computer" class="btn primary"> or
             <a href="/computers" class="btn">Cancel</a>
         </div>
 
     </form>
+
+    <c:if test= "${mode == 'edit'}" >
+        <form action="/computers/delete?id=${fieldValues["id"]}" method="POST" class="topRight">
+            <input type="submit" value="Delete this computer" class="btn danger">
+        </form>
+    </c:if>
+
 </section>
 </body>
 </html>

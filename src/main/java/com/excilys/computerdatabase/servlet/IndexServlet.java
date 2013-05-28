@@ -5,6 +5,7 @@ import com.excilys.computerdatabase.service.SimpleComputerDatabaseService;
 import com.excilys.computerdatabase.utils.Utils;
 
 import javax.servlet.ServletException;
+import javax.servlet.annotation.WebServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import java.io.IOException;
@@ -16,6 +17,8 @@ import java.io.IOException;
  * Time: 09:27
  * To change this template use File | Settings | File Templates.
  */
+
+@WebServlet("/computers")
 public class IndexServlet extends javax.servlet.http.HttpServlet implements javax.servlet.Servlet  {
 
     public final static int COMPUTERS_PER_SHEET = 10;
@@ -25,8 +28,8 @@ public class IndexServlet extends javax.servlet.http.HttpServlet implements java
     @Override
     protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
         int currentSheet = Utils.intParameterOrDefault(request.getParameter("p"), 1);
-        String research = Utils.stringParameterOrDefault(request.getParameter("f"),"");
-        int sortedColumnNumber = Utils.intParameterOrDefault(request.getParameter("s"),2);
+        String research = Utils.stringParameterOrDefault(request.getParameter("f"), "");
+        int sortedColumnNumber = Utils.intParameterOrDefault(request.getParameter("s"), 2);
         String alertMessage = Utils.stringParameterOrDefault((String)request.getSession().getAttribute("alertMessage"),null);
         request.getSession().removeAttribute("alertMessage");
 

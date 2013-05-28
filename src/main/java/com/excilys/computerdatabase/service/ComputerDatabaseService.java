@@ -21,4 +21,6 @@ public interface ComputerDatabaseService {
     Company companyById(int id);
 
     void saveOrUpdateComputer(Computer computer);
+
+    Computer computerById(int id);
 }
