@@ -23,7 +23,7 @@
 
         <h1>${totalComputersFound} computers found</h1>
 
-        <c:if test="alertMessage != null">
+        <c:if test="${alertMessage != null}">
             <div class="alert-message warning">
                 <strong>${alertMessage}</strong>
             </div>
@@ -76,7 +76,7 @@
                 <c:choose>
                     <c:when test="${currentSheet > 1}">
                         <li class="prev">
-                            <a href="computers?p=${currentSheet - 1}&p=${sorting}&f=${research}">&larr; Previous</a>
+                            <a href="computers?p=${currentSheet - 1}&s=${sorting}&f=${research}">&larr; Previous</a>
                         </li>
                     </c:when>
                     <c:otherwise>
@@ -93,7 +93,7 @@
                 <c:choose>
                     <c:when test="${currentSheet < maxSheet}">
                         <li class="next">
-                            <a href="computers?p=${currentSheet + 1}&p=${sorting}&f=${research}">Next &rarr;</a>
+                            <a href="computers?p=${currentSheet + 1}&s=${sorting}&f=${research}">Next &rarr;</a>
                         </li>
                     </c:when>
                     <c:otherwise>
