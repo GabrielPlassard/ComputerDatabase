@@ -34,13 +34,16 @@ public class IndexServlet extends javax.servlet.http.HttpServlet implements java
         int maxSheet = (int) Math.ceil((1.0 * numberOfMatchingComputers)/ COMPUTERS_PER_SHEET);
         int firstComputerIndice = (currentSheet - 1) * COMPUTERS_PER_SHEET;
         int lastComputerIndice = firstComputerIndice + COMPUTERS_PER_SHEET;
+        if (lastComputerIndice > numberOfMatchingComputers){
+            lastComputerIndice = numberOfMatchingComputers;
+        }
 
         request.setAttribute("alertMessage",alertMessage);
         request.setAttribute("sorting",sortedColumnNumber);
         request.setAttribute("research",research);
         request.setAttribute("currentSheet",currentSheet);
         request.setAttribute("maxSheet",maxSheet);
-        request.setAttribute("firstComputerIndice",firstComputerIndice);
+        request.setAttribute("firstComputerIndice",firstComputerIndice + 1);
         request.setAttribute("lastComputerIndice",lastComputerIndice);
         request.setAttribute("totalComputersFound",numberOfMatchingComputers);
         request.setAttribute("computers",computerDatabaseService.getMatchingComputersFromToSortedByColumn(research, firstComputerIndice, lastComputerIndice,sortedColumnNumber));
