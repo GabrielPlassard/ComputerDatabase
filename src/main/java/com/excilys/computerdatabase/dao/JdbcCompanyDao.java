@@ -120,7 +120,7 @@ public enum JdbcCompanyDao implements CompanyDao{
         List<Company> result = new ArrayList<Company>();
         try {
             connection = JdbcUtils.getConnection();
-            statement = connection.prepareStatement("SELECT * FROM company");
+            statement = connection.prepareStatement("SELECT * FROM company ORDER BY name");
             resultSet = statement.executeQuery();
             while (resultSet.next()){
                 result.add(companyFromTuple(resultSet));

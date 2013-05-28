@@ -1,5 +1,6 @@
 package com.excilys.computerdatabase.service;
 
+import com.excilys.computerdatabase.model.Company;
 import com.excilys.computerdatabase.model.Computer;
 
 import java.util.List;
@@ -16,4 +17,8 @@ public interface ComputerDatabaseService {
     List<Computer> allComputers();
     List<Computer> getMatchingComputersFromToSortedByColumn(String namePattern, int firstIndice, int lastIndice, int columnId);
     int numberOfMatchingComputers(String namePattern);
+    List<Company> allCompanies();
+    Company companyById(int id);
+
+    void saveOrUpdateComputer(Computer computer);
 }

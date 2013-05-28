@@ -213,6 +213,7 @@ public enum JdbcComputerDao implements ComputerDao {
             connection = JdbcUtils.getConnection();
             statement = connection.prepareStatement("SELECT COUNT(id) FROM computer WHERE name LIKE ?");
             statement.setString(1,"%"+namePattern+"%");
+            System.out.println("query : "+statement.toString());
             resultSet = statement.executeQuery();
             resultSet.next();
             numberOfMatchings = resultSet.getInt(1);

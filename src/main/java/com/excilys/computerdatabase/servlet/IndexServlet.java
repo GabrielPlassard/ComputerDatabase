@@ -2,6 +2,7 @@ package com.excilys.computerdatabase.servlet;
 
 import com.excilys.computerdatabase.service.ComputerDatabaseService;
 import com.excilys.computerdatabase.service.SimpleComputerDatabaseService;
+import com.excilys.computerdatabase.utils.Utils;
 
 import javax.servlet.ServletException;
 import javax.servlet.http.HttpServletRequest;
@@ -17,34 +18,24 @@ import java.io.IOException;
  */
 public class IndexServlet extends javax.servlet.http.HttpServlet implements javax.servlet.Servlet  {
 
+    public final static int COMPUTERS_PER_SHEET = 10;
+
     private ComputerDatabaseService computerDatabaseService = SimpleComputerDatabaseService.INSTANCE;
-
-
-    private int intParameterOrDefault(String parameter, int defaultValue){
-        try{
-            return Integer.valueOf(parameter);
-        }catch(NumberFormatException e){
-
-        }
-        return defaultValue;
-    }
-
-    private String stringParameterOrDefault(String parameter, String defaultValue){
-        if (parameter != null) return parameter;
-        return defaultValue;
-    }
 
     @Override
     protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
-        int currentSheet = intParameterOrDefault(request.getParameter("p"),1);
-        String research = stringParameterOrDefault(request.getParameter("f"),"");
-        int sortedColumnNumber = intParameterOrDefault(request.getParameter("s"),2);
+        int currentSheet = Utils.intParameterOrDefault(request.getParameter("p"), 1);
+        String research = Utils.stringParameterOrDefault(request.getParameter("f"),"");
+        int sortedColumnNumber = Utils.intParameterOrDefault(request.getParameter("s"),2);
+        String alertMessage = Utils.stringParameterOrDefault((String)request.getSession().getAttribute("alertMessage"),null);
+        request.getSession().removeAttribute("alertMessage");
 
         int numberOfMatchingComputers =  computerDatabaseService.numberOfMatchingComputers(research);
-        int maxSheet = (int) Math.ceil((1.0 * numberOfMatchingComputers)/ 10);
-        int firstComputerIndice = (currentSheet - 1) * 10 + 1;
-        int lastComputerIndice = firstComputerIndice + 10;
+        int maxSheet = (int) Math.ceil((1.0 * numberOfMatchingComputers)/ COMPUTERS_PER_SHEET);
+        int firstComputerIndice = (currentSheet - 1) * COMPUTERS_PER_SHEET;
+        int lastComputerIndice = firstComputerIndice + COMPUTERS_PER_SHEET;
 
+        request.setAttribute("alertMessage",alertMessage);
         request.setAttribute("sorting",sortedColumnNumber);
         request.setAttribute("research",research);
         request.setAttribute("currentSheet",currentSheet);

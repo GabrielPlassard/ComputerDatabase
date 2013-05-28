@@ -23,15 +23,13 @@
 
     <h1>Add a computer</h1>
 
-    <form action="/computers" method="POST" >
+    <form action="/computers/new" method="POST" >
 
         <fieldset>
             <div class="clearfix ">
                 <label for="name">Computer name</label>
                 <div class="input">
-
                     <input type="text" id="name" name="name" value="" >
-
                     <span class="help-inline">Required</span>
                 </div>
             </div>
@@ -39,9 +37,7 @@
             <div class="clearfix ">
                 <label for="introduced">Introduced date</label>
                 <div class="input">
-
                     <input type="text" id="introduced" name="introduced" value="" >
-
                     <span class="help-inline">Date (&#x27;yyyy-MM-dd&#x27;)</span>
                 </div>
             </div>
@@ -49,9 +45,7 @@
             <div class="clearfix ">
                 <label for="discontinued">Discontinued date</label>
                 <div class="input">
-
                     <input type="text" id="discontinued" name="discontinued" value="" >
-
                     <span class="help-inline">Date (&#x27;yyyy-MM-dd&#x27;)</span>
                 </div>
             </div>
@@ -61,6 +55,9 @@
                 <div class="input">
                     <select id="company" name="company" >
                         <option class="blank" value="">-- Choose a company --</option>
+                        <c:forEach var="company" items="${companies}">
+                            <option value="${company.id}">${company.name}</option>
+                        </c:forEach>
                     </select>
                     <span class="help-inline"></span>
                 </div>
