@@ -17,6 +17,19 @@ public enum JdbcComputerDao implements ComputerDao {
     INSTANCE;
     private static final String[] COLUMN_NAMES = {"","computer.id","computer.name","computer.introduced","computer.discontinued","company.name"};
 
+    private static final String SAVE_QUERY = "INSERT INTO computer(name,introduced,discontinued,company_id) VALUES(?,?,?,?)";
+    private static final String UPDATE_QUERY = "UPDATE computer SET name=?,introduced=?, discontinued=?, company_id=? WHERE id=?";
+    private static final String GET_ALL_QUERY = "SELECT * FROM computer";
+    private static final String DELETE_ALL_QUERY = "DELETE FROM computer";
+    private static final String FIND_BY_ID_QUERY = "SELECT * FROM computer WHERE id=?";
+    private static final String SELECT_COMPUTER = "SELECT * FROM computer";
+    private static final String JOIN_COMPANY = " LEFT JOIN company ON computer.company_id=company.id ";
+    private static final String WHERE_AND_ORDER = " WHERE computer.name LIKE ? ORDER BY ";
+    private static final String DESC = " DESC ";
+    private static final String LIMIT_OFFSET = " LIMIT ? OFFSET ?";
+    private static final String SELECT_NUMBER_MATCHING = "SELECT COUNT(id) FROM computer WHERE name LIKE ?";
+    private static final String DELETE_BY_ID = "DELETE FROM computer WHERE id=?";
+
     private CompanyDao companyDao = JdbcCompanyDao.INSTANCE;
 
     private Computer computerFromTuple(ResultSet resultSet) throws SQLException{
@@ -40,7 +53,7 @@ public enum JdbcComputerDao implements ComputerDao {
         ResultSet resultKey = null;
         try {
             connection = JdbcUtils.getConnection();
-            statement =  connection.prepareStatement("INSERT INTO computer(name,introduced,discontinued,company_id) VALUES(?,?,?,?)", Statement.RETURN_GENERATED_KEYS);
+            statement =  connection.prepareStatement(SAVE_QUERY, Statement.RETURN_GENERATED_KEYS);
             statement.setString(1, computer.getName());
             statement.setDate(2, JdbcUtils.dateUtilToSql(computer.getIntroduced()));
             statement.setDate(3, JdbcUtils.dateUtilToSql(computer.getDiscontinued()));
@@ -69,7 +82,7 @@ public enum JdbcComputerDao implements ComputerDao {
         PreparedStatement statement = null;
         try {
             connection = JdbcUtils.getConnection();
-            statement =  connection.prepareStatement("UPDATE computer SET name=?,introduced=?, discontinued=?, company_id=? WHERE id=?");
+            statement =  connection.prepareStatement(UPDATE_QUERY);
             statement.setString(1, computer.getName());
             statement.setDate(2, JdbcUtils.dateUtilToSql(computer.getIntroduced()));
             statement.setDate(3, JdbcUtils.dateUtilToSql(computer.getDiscontinued()));
@@ -98,7 +111,7 @@ public enum JdbcComputerDao implements ComputerDao {
         List<Computer> result = new ArrayList<Computer>();
         try {
             connection = JdbcUtils.getConnection();
-            statement = connection.prepareStatement("SELECT * FROM computer");
+            statement = connection.prepareStatement(GET_ALL_QUERY);
             resultSet = statement.executeQuery();
             while (resultSet.next()){
                 result.add(computerFromTuple(resultSet));
@@ -129,7 +142,7 @@ public enum JdbcComputerDao implements ComputerDao {
         PreparedStatement statement = null;
         try {
             connection = JdbcUtils.getConnection();
-            statement =  connection.prepareStatement("DELETE FROM computer");
+            statement =  connection.prepareStatement(DELETE_ALL_QUERY);
             statement.execute();
         } catch (SQLException e) {
             e.printStackTrace();  //To change body of catch statement use File | Settings | File Templates.
@@ -146,7 +159,7 @@ public enum JdbcComputerDao implements ComputerDao {
         ResultSet resultSet = null;
         try {
             connection = JdbcUtils.getConnection();
-            statement = connection.prepareStatement("SELECT * FROM computer WHERE id=?");
+            statement = connection.prepareStatement(FIND_BY_ID_QUERY);
             statement.setInt(1,computerId);
             resultSet = statement.executeQuery();
             if (resultSet.next()){
@@ -190,16 +203,16 @@ public enum JdbcComputerDao implements ComputerDao {
     }
 
     private String getSqlSelect(int columnId) {
-        StringBuilder request = new StringBuilder("SELECT * FROM computer");
+        StringBuilder request = new StringBuilder(SELECT_COMPUTER);
         if (Math.abs(columnId) == 5){
-            request.append(" LEFT JOIN company ON computer.company_id=company.id ");
+            request.append(JOIN_COMPANY);
         }
-        request.append(" WHERE computer.name LIKE ? ORDER BY ");
+        request.append(WHERE_AND_ORDER);
         request.append(COLUMN_NAMES[Math.abs(columnId)]);
         if (columnId < 0){
-            request.append(" DESC ");
+            request.append(DESC);
         }
-        request.append(" LIMIT ? OFFSET ?");
+        request.append(LIMIT_OFFSET);
         return request.toString();
     }
 
@@ -211,7 +224,7 @@ public enum JdbcComputerDao implements ComputerDao {
         int numberOfMatchings = 0;
         try {
             connection = JdbcUtils.getConnection();
-            statement = connection.prepareStatement("SELECT COUNT(id) FROM computer WHERE name LIKE ?");
+            statement = connection.prepareStatement(SELECT_NUMBER_MATCHING);
             statement.setString(1,"%"+namePattern+"%");
             System.out.println("query : "+statement.toString());
             resultSet = statement.executeQuery();
@@ -233,7 +246,7 @@ public enum JdbcComputerDao implements ComputerDao {
         PreparedStatement statement = null;
         try {
             connection = JdbcUtils.getConnection();
-            statement =  connection.prepareStatement("DELETE FROM computer WHERE id=?");
+            statement =  connection.prepareStatement(DELETE_BY_ID);
             statement.setInt(1,computerId);
             statement.execute();
         } catch (SQLException e) {

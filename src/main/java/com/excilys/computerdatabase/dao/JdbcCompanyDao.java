@@ -17,6 +17,12 @@ import java.util.Set;
  */
 public enum JdbcCompanyDao implements CompanyDao{
     INSTANCE;
+    private static final String FIND_BY_ID = "SELECT * FROM company WHERE id=?";
+    private static final String FIND_BY_NAME = "SELECT * FROM company WHERE name=?";
+    private static final String SAVE = "INSERT INTO company(name) VALUES(?)";
+    private static final String UPDATE = "UPDATE company SET name=? WHERE id=?";
+    private static final String GET_ALL = "SELECT * FROM company ORDER BY name";
+    private static final String DELETE = "DELETE FROM company";
 
     private Company companyFromTuple(ResultSet resultSet) throws SQLException {
         Company company = new Company();
@@ -34,7 +40,7 @@ public enum JdbcCompanyDao implements CompanyDao{
         ResultSet resultSet = null;
         try {
             connection = JdbcUtils.getConnection();
-            statement = connection.prepareStatement("SELECT * FROM company WHERE id=?");
+            statement = connection.prepareStatement(FIND_BY_ID);
             statement.setInt(1,companyId);
             resultSet = statement.executeQuery();
             if (resultSet.next()){
@@ -57,7 +63,7 @@ public enum JdbcCompanyDao implements CompanyDao{
         ResultSet resultSet = null;
         try {
             connection = JdbcUtils.getConnection();
-            statement = connection.prepareStatement("SELECT * FROM company WHERE name=?");
+            statement = connection.prepareStatement(FIND_BY_NAME);
             statement.setString(1, companyName);
             resultSet = statement.executeQuery();
             if (resultSet.next()){
@@ -79,7 +85,7 @@ public enum JdbcCompanyDao implements CompanyDao{
         ResultSet resultKey = null;
         try {
             connection = JdbcUtils.getConnection();
-            statement =  connection.prepareStatement("INSERT INTO company(name) VALUES(?)", Statement.RETURN_GENERATED_KEYS);
+            statement =  connection.prepareStatement(SAVE, Statement.RETURN_GENERATED_KEYS);
             statement.setString(1, company.getName());
             statement.execute();
             resultKey = statement.getGeneratedKeys();
@@ -100,7 +106,7 @@ public enum JdbcCompanyDao implements CompanyDao{
         PreparedStatement statement = null;
         try {
             connection = JdbcUtils.getConnection();
-            statement =  connection.prepareStatement("UPDATE company SET name=? WHERE id=?");
+            statement =  connection.prepareStatement(UPDATE);
             statement.setString(1, company.getName());
             statement.setInt(2,company.getId());
             statement.execute();
@@ -120,7 +126,7 @@ public enum JdbcCompanyDao implements CompanyDao{
         List<Company> result = new ArrayList<Company>();
         try {
             connection = JdbcUtils.getConnection();
-            statement = connection.prepareStatement("SELECT * FROM company ORDER BY name");
+            statement = connection.prepareStatement(GET_ALL);
             resultSet = statement.executeQuery();
             while (resultSet.next()){
                 result.add(companyFromTuple(resultSet));
@@ -152,7 +158,7 @@ public enum JdbcCompanyDao implements CompanyDao{
         PreparedStatement statement = null;
         try {
             connection = JdbcUtils.getConnection();
-            statement =  connection.prepareStatement("DELETE FROM company");
+            statement =  connection.prepareStatement(DELETE);
             statement.execute();
         } catch (SQLException e) {
             e.printStackTrace();  //To change body of catch statement use File | Settings | File Templates.

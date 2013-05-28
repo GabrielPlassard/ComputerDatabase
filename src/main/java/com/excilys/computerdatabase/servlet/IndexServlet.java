@@ -30,6 +30,7 @@ public class IndexServlet extends javax.servlet.http.HttpServlet implements java
         int currentSheet = Utils.intParameterOrDefault(request.getParameter("p"), 1);
         String research = Utils.stringParameterOrDefault(request.getParameter("f"), "");
         int sortedColumnNumber = Utils.intParameterOrDefault(request.getParameter("s"), 2);
+
         String alertMessage = Utils.stringParameterOrDefault((String)request.getSession().getAttribute("alertMessage"),null);
         request.getSession().removeAttribute("alertMessage");
 
@@ -48,7 +49,6 @@ public class IndexServlet extends javax.servlet.http.HttpServlet implements java
             sortedColumnNumber = 2;
         }
 
-
         request.setAttribute("alertMessage",alertMessage);
         request.setAttribute("sorting",sortedColumnNumber);
         request.setAttribute("research",research);
@@ -58,6 +58,7 @@ public class IndexServlet extends javax.servlet.http.HttpServlet implements java
         request.setAttribute("lastComputerIndice",lastComputerIndice);
         request.setAttribute("totalComputersFound",numberOfMatchingComputers);
         request.setAttribute("computers",computerDatabaseService.getMatchingComputersFromToSortedByColumn(research, firstComputerIndice, lastComputerIndice,sortedColumnNumber));
+
         getServletContext().getRequestDispatcher("/WEB-INF/jsp/computers.jsp").forward(request,response);
     }
 
