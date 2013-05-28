@@ -1,6 +1,7 @@
 package com.excilys.computerdatabase.dao;
 
 import com.excilys.computerdatabase.model.Computer;
+import com.sun.javafx.binding.StringFormatter;
 
 import java.sql.*;
 import java.util.*;
@@ -22,11 +23,9 @@ public enum JdbcComputerDao implements ComputerDao {
     private static final String GET_ALL_QUERY = "SELECT * FROM computer";
     private static final String DELETE_ALL_QUERY = "DELETE FROM computer";
     private static final String FIND_BY_ID_QUERY = "SELECT * FROM computer WHERE id=?";
-    private static final String SELECT_COMPUTER = "SELECT * FROM computer";
+
+    private static final String SELECT_QUERY = "SELECT * FROM computer %s WHERE computer.name LIKE ? ORDER BY ISNULL(%s),%s %s LIMIT ? OFFSET ?";
     private static final String JOIN_COMPANY = " LEFT JOIN company ON computer.company_id=company.id ";
-    private static final String WHERE_AND_ORDER = " WHERE computer.name LIKE ? ORDER BY ";
-    private static final String DESC = " DESC ";
-    private static final String LIMIT_OFFSET = " LIMIT ? OFFSET ?";
     private static final String SELECT_NUMBER_MATCHING = "SELECT COUNT(id) FROM computer WHERE name LIKE ?";
     private static final String DELETE_BY_ID = "DELETE FROM computer WHERE id=?";
 
@@ -203,17 +202,16 @@ public enum JdbcComputerDao implements ComputerDao {
     }
 
     private String getSqlSelect(int columnId) {
-        StringBuilder request = new StringBuilder(SELECT_COMPUTER);
+        String leftJoin = "";
         if (Math.abs(columnId) == 5){
-            request.append(JOIN_COMPANY);
+            leftJoin = JOIN_COMPANY;
         }
-        request.append(WHERE_AND_ORDER);
-        request.append(COLUMN_NAMES[Math.abs(columnId)]);
+        String column = COLUMN_NAMES[Math.abs(columnId)];
+        String order = "ASC";
         if (columnId < 0){
-            request.append(DESC);
+            order = "DESC";
         }
-        request.append(LIMIT_OFFSET);
-        return request.toString();
+        return String.format(SELECT_QUERY, leftJoin, column, column, order );
     }
 
     @Override
