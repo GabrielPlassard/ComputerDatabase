@@ -43,15 +43,10 @@ public class ComputerForm {
     }
 
     private void buildFieldValues() {
-        if (name != null && !name.trim().isEmpty()){
-            fieldValues.put("name",name);
-        }
-        if (!isBadFormatted(stringIntroduced)){
-            fieldValues.put("introduced",stringIntroduced);
-        }
-        if (!isBadFormatted(stringDiscontinued)){
-            fieldValues.put("discontinued",stringDiscontinued);
-        }
+        fieldValues.put("name",name);
+        fieldValues.put("introduced",stringIntroduced);
+        fieldValues.put("discontinued",stringDiscontinued);
+        fieldValues.put("company",stringCompanyId);
     }
 
     private void buildErrorMessages() {

@@ -8,7 +8,6 @@ import javax.servlet.ServletException;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import java.io.IOException;
-import java.util.Map;
 
 
 /**
@@ -40,12 +39,8 @@ public class NewComputerServlet extends javax.servlet.http.HttpServlet implement
         else{
             request.setAttribute("companies", computerDatabaseService.allCompanies());
             request.setAttribute("errorMessages",form.getErrorMessages());
-            System.out.println("Error messages :");
             request.setAttribute("fieldValues",form.getFieldValues());
             getServletContext().getRequestDispatcher("/WEB-INF/jsp/computer.jsp").forward(request,response);
         }
     }
-
-
-
 }

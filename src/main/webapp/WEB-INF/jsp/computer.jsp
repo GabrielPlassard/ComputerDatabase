@@ -15,7 +15,7 @@
 
     <header class="topbar">
         <h1 class="fill">
-            <a href="computers">Play 2.0 sample application &mdash; Computer database</a>
+            <a href="/computers">Play 2.0 sample application &mdash; Computer database</a>
         </h1>
     </header>
 
@@ -26,27 +26,27 @@
     <form action="/computers/new" method="POST" >
 
         <fieldset>
-            <div class="clearfix ">
+            <div class="clearfix ${errorMessages["name"] == null ? "" : "error" }">
                 <label for="name">Computer name</label>
                 <div class="input">
-                    <input type="text" id="name" name="name" value="" >
-                    <span class="help-inline">Required</span>
+                    <input type="text" id="name" name="name" value="${fieldValues["name"]}" >
+                    <span class="help-inline"> ${errorMessages["name"] == null ? "Required" : errorMessages["name"] }</span>
                 </div>
             </div>
 
-            <div class="clearfix ">
+            <div class="clearfix ${errorMessages["introduced"] == null ? "" : "error" }">
                 <label for="introduced">Introduced date</label>
                 <div class="input">
-                    <input type="text" id="introduced" name="introduced" value="" >
-                    <span class="help-inline">Date (&#x27;yyyy-MM-dd&#x27;)</span>
+                    <input type="text" id="introduced" name="introduced" value="${fieldValues["introduced"]}" >
+                    <span class="help-inline"> ${errorMessages["introduced"] == null ? "Date (&#x27;yyyy-MM-dd&#x27;)" : errorMessages["introduced"] }</span>
                 </div>
             </div>
 
-            <div class="clearfix ">
+            <div class="clearfix ${errorMessages["discontinued"] == null ? "" : "error" }">
                 <label for="discontinued">Discontinued date</label>
                 <div class="input">
-                    <input type="text" id="discontinued" name="discontinued" value="" >
-                    <span class="help-inline">Date (&#x27;yyyy-MM-dd&#x27;)</span>
+                    <input type="text" id="discontinued" name="discontinued" value="${fieldValues["discontinued"]}" >
+                    <span class="help-inline"> ${errorMessages["discontinued"] == null ? "Date (&#x27;yyyy-MM-dd&#x27;)" : errorMessages["discontinued"] }</span>
                 </div>
             </div>
 
@@ -56,7 +56,7 @@
                     <select id="company" name="company" >
                         <option class="blank" value="">-- Choose a company --</option>
                         <c:forEach var="company" items="${companies}">
-                            <option value="${company.id}">${company.name}</option>
+                            <option value="${company.id}" ${company.id == fieldValues["company"] ? "selected" : ""}>${company.name}</option>
                         </c:forEach>
                     </select>
                     <span class="help-inline"></span>
