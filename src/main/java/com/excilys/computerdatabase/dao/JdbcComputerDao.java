@@ -183,7 +183,7 @@ public enum JdbcComputerDao implements ComputerDao {
         try {
             connection = JdbcUtils.getConnection();
             statement = connection.prepareStatement(getSqlSelect(columnId));
-            statement.setString(1,"%"+namePattern+"%");
+            statement.setString(1,new StringBuilder("%").append(namePattern).append("%").toString());
             statement.setInt(2, lastIndice - firstIndice);
             statement.setInt(3, firstIndice);
             System.out.println("query : " + statement.toString());

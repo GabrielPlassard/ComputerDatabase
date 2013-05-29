@@ -21,7 +21,7 @@
 
     <section id="main">
 
-        <h1>${totalComputersFound} computers found</h1>
+        <h1>${totalComputersFound} computer(s) found</h1>
 
         <c:if test="${alertMessage != null}">
             <div class="alert-message warning">
