@@ -37,73 +37,84 @@
             <a class="btn success" id="add" href="/computers/new">Add a new computer</a>
         </div>
 
-        <table class="computers zebra-striped">
-            <thead>
-                <tr>
-                    <tag:tableHeader columnNumber="2" columnName="Computer name" currentPage="${currentPage}" research="${research}" sorting="${sorting}" />
-                    <tag:tableHeader columnNumber="3" columnName="Introduced" currentPage="${currentPage}" research="${research}" sorting="${sorting}" />
-                    <tag:tableHeader columnNumber="4" columnName="Discontinued" currentPage="${currentPage}" research="${research}" sorting="${sorting}" />
-                    <tag:tableHeader columnNumber="5" columnName="Company" currentPage="${currentPage}" research="${research}" sorting="${sorting}" />
-                </tr>
-            </thead>
+        <c:choose>
+            <c:when test="${computers.size() == 0}">
+                <div class="well">
+                    <em>Nothing to display</em>
+                </div>
+            </c:when>
 
-            <tbody>
-
-                <c:forEach var="computer" items="${computers}">
+            <c:otherwise>
+                <table class="computers zebra-striped">
+                    <thead>
                     <tr>
-                        <td><a href="computers/edit?id=${computer.id}">${computer.name}</a></td>
-                        <td>
-                            <c:choose>
-                                <c:when test="${computer.introduced == null}"><em>-</em></c:when>
-                                <c:otherwise><fmt:formatDate value="${computer.introduced}" pattern="dd MMM yyyy" /></c:otherwise>
-                            </c:choose>
-                        </td>
-                        <td>
-                            <c:choose>
-                                <c:when test="${computer.discontinued == null}"><em>-</em></c:when>
-                                <c:otherwise><fmt:formatDate value="${computer.discontinued}" pattern="dd MMM yyyy" /></c:otherwise>
-                            </c:choose>
-                        </td>
-                        <td>${computer.company.name}</td>
+                        <tag:tableHeader columnNumber="2" columnName="Computer name" currentPage="${currentPage}" research="${research}" sorting="${sorting}" />
+                        <tag:tableHeader columnNumber="3" columnName="Introduced" currentPage="${currentPage}" research="${research}" sorting="${sorting}" />
+                        <tag:tableHeader columnNumber="4" columnName="Discontinued" currentPage="${currentPage}" research="${research}" sorting="${sorting}" />
+                        <tag:tableHeader columnNumber="5" columnName="Company" currentPage="${currentPage}" research="${research}" sorting="${sorting}" />
                     </tr>
-                </c:forEach>
+                    </thead>
 
-            </tbody>
-        </table>
+                    <tbody>
 
-        <div id="pagination" class="pagination">
-            <ul>
-                <c:choose>
-                    <c:when test="${currentPage > 1}">
-                        <li class="prev">
-                            <a href="computers?p=${currentPage - 1}&s=${sorting}&f=${research}">&larr; Previous</a>
-                        </li>
-                    </c:when>
-                    <c:otherwise>
-                        <li class="prev disabled">
-                            <a>&larr; Previous</a>
-                        </li>
-                    </c:otherwise>
-                </c:choose>
+                    <c:forEach var="computer" items="${computers}">
+                        <tr>
+                            <td><a href="computers/edit?id=${computer.id}">${computer.name}</a></td>
+                            <td>
+                                <c:choose>
+                                    <c:when test="${computer.introduced == null}"><em>-</em></c:when>
+                                    <c:otherwise><fmt:formatDate value="${computer.introduced}" pattern="dd MMM yyyy" /></c:otherwise>
+                                </c:choose>
+                            </td>
+                            <td>
+                                <c:choose>
+                                    <c:when test="${computer.discontinued == null}"><em>-</em></c:when>
+                                    <c:otherwise><fmt:formatDate value="${computer.discontinued}" pattern="dd MMM yyyy" /></c:otherwise>
+                                </c:choose>
+                            </td>
+                            <td>${computer.company.name}</td>
+                        </tr>
+                    </c:forEach>
 
-                <li class="current">
-                    <a>Displaying ${firstComputerIndice} to ${lastComputerIndice} of ${totalComputersFound}</a>
-                </li>
+                    </tbody>
+                </table>
 
-                <c:choose>
-                    <c:when test="${currentPage < maxPage}">
-                        <li class="next">
-                            <a href="computers?p=${currentPage + 1}&s=${sorting}&f=${research}">Next &rarr;</a>
+                <div id="pagination" class="pagination">
+                    <ul>
+                        <c:choose>
+                            <c:when test="${currentPage > 1}">
+                                <li class="prev">
+                                    <a href="computers?p=${currentPage - 1}&s=${sorting}&f=${research}">&larr; Previous</a>
+                                </li>
+                            </c:when>
+                            <c:otherwise>
+                                <li class="prev disabled">
+                                    <a>&larr; Previous</a>
+                                </li>
+                            </c:otherwise>
+                        </c:choose>
+
+                        <li class="current">
+                            <a>Displaying ${firstComputerIndice} to ${lastComputerIndice} of ${totalComputersFound}</a>
                         </li>
-                    </c:when>
-                    <c:otherwise>
-                        <li class="next disabled">
-                            <a>Next &rarr;</a>
-                        </li>
-                    </c:otherwise>
-                </c:choose>
-            </ul>
-        </div>
+
+                        <c:choose>
+                            <c:when test="${currentPage < maxPage}">
+                                <li class="next">
+                                    <a href="computers?p=${currentPage + 1}&s=${sorting}&f=${research}">Next &rarr;</a>
+                                </li>
+                            </c:when>
+                            <c:otherwise>
+                                <li class="next disabled">
+                                    <a>Next &rarr;</a>
+                                </li>
+                            </c:otherwise>
+                        </c:choose>
+                    </ul>
+                </div>
+            </c:otherwise>
+        </c:choose>
+
 
     </section>
     </body>
