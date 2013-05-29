@@ -48,12 +48,8 @@ public class IndexServlet extends javax.servlet.http.HttpServlet implements java
         List<Computer> computers = queryResult.getMatchingComputers();
 
         int maxPage = (int) Math.ceil((1.0 * numberOfMatchingComputers)/ C.COMPUTERS_PER_PAGE);
-
         if (lastComputerIndice > numberOfMatchingComputers){
             lastComputerIndice = numberOfMatchingComputers;
-        }
-        if (firstComputerIndice > numberOfMatchingComputers){
-            firstComputerIndice =  lastComputerIndice - C.COMPUTERS_PER_PAGE;
         }
 
         request.setAttribute("alertMessage",alertMessage);

@@ -33,11 +33,11 @@ public class NewComputerServlet extends javax.servlet.http.HttpServlet implement
 
     @Override
     protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException{
-        ComputerForm form = new ComputerForm(request,computerDatabaseService);
+        ComputerForm form = new ComputerForm(request);
 
         if (form.isValid()){
             request.getSession().setAttribute("alertMessage","Computer "+form.getComputer().getName()+" added successfully");
-            computerDatabaseService.saveOrUpdateComputer(form.getComputer());
+            computerDatabaseService.createComputerAndSetCompany(form.getComputer(), form.getCompanyId());
             response.sendRedirect("/computers");
         }
         else{

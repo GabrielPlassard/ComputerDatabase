@@ -47,7 +47,8 @@ public enum JdbcComputerDao implements ComputerDao {
         return computer;
     }
 
-    private void save(Computer computer) {
+    @Override
+    public void save(Computer computer) {
         PreparedStatement statement = null;
         ResultSet resultKey = null;
         threadLocalConnection = new ThreadLocal<Connection>();
@@ -77,7 +78,8 @@ public enum JdbcComputerDao implements ComputerDao {
         }
     }
 
-    private void update(Computer computer) {
+    @Override
+    public void update(Computer computer) {
         threadLocalConnection = new ThreadLocal<Connection>();
         PreparedStatement statement = null;
         try {
@@ -124,16 +126,6 @@ public enum JdbcComputerDao implements ComputerDao {
             JdbcUtils.closeConnection(threadLocalConnection.get());
         }
         return result;
-    }
-
-    @Override
-    public void saveOrUpdate(Computer computer) {
-        if (findById(computer.getId()) == null){
-            save(computer);
-        }
-        else{
-            update(computer);
-        }
     }
 
     @Override

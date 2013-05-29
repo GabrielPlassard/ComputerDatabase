@@ -15,17 +15,11 @@ import java.util.List;
  */
 public interface ComputerDatabaseService {
 
-    List<Computer> allComputers();
-    List<Computer> getMatchingComputersFromToSortedByColumn(String namePattern, int firstIndice, int lastIndice, int columnId);
-    int numberOfMatchingComputers(String namePattern);
     List<Company> allCompanies();
-    Company companyById(int id);
-
-    void saveOrUpdateComputer(Computer computer);
-
-    Computer computerById(int id);
-
+    void createComputerAndSetCompany(Computer computer, int companyId);
     void deleteComputerById(int computerId);
-
     ComputersAndTotalNumber indexGetQuery(String search, int sortedColumn, int firstComputerIndice, int lastComputerIndice);
+    ComputerAndCompanies computerByIdAndCompanies(int computerId);
+    void updateComputerAndSetCompany(Computer computer, int companyId);
+
 }

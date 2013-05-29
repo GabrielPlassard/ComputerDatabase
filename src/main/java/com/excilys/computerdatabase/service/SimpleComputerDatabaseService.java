@@ -6,8 +6,8 @@ import com.excilys.computerdatabase.dao.JdbcCompanyDao;
 import com.excilys.computerdatabase.dao.JdbcComputerDao;
 import com.excilys.computerdatabase.model.Company;
 import com.excilys.computerdatabase.model.Computer;
+import com.excilys.computerdatabase.queryresults.ComputerAndCompanies;
 import com.excilys.computerdatabase.queryresults.ComputersAndTotalNumber;
-import com.excilys.computerdatabase.utils.C;
 
 import java.util.List;
 
@@ -24,39 +24,10 @@ public enum SimpleComputerDatabaseService implements ComputerDatabaseService {
     private ComputerDao computerDao = JdbcComputerDao.INSTANCE;
     private CompanyDao  companyDao  = JdbcCompanyDao.INSTANCE;
 
-    @Override
-    public List<Computer> allComputers() {
-        return computerDao.getAll();
-    }
-
-    @Override
-    public List<Computer> getMatchingComputersFromToSortedByColumn(String namePattern, int firstIndice, int lastIndice, int columnId) {
-        return computerDao.getMatchingFromToWhithSortedByColumn(namePattern, firstIndice, lastIndice, columnId);
-    }
-
-    @Override
-    public int numberOfMatchingComputers(String namePattern) {
-        return computerDao.numberOfMatching(namePattern);
-    }
 
     @Override
     public List<Company> allCompanies() {
         return companyDao.getAll();  //To change body of implemented methods use File | Settings | File Templates.
-    }
-
-    @Override
-    public Company companyById(int id) {
-        return companyDao.findById(id);
-    }
-
-    @Override
-    public void saveOrUpdateComputer(Computer computer) {
-        computerDao.saveOrUpdate(computer);
-    }
-
-    @Override
-    public Computer computerById(int id) {
-        return computerDao.findById(id);
     }
 
     @Override
@@ -72,6 +43,28 @@ public enum SimpleComputerDatabaseService implements ComputerDatabaseService {
         ComputersAndTotalNumber result = new ComputersAndTotalNumber(computers,matchingComputers);
 
         return result;
+    }
+
+    @Override
+    public ComputerAndCompanies computerByIdAndCompanies(int computerId) {
+        Computer computer = computerDao.findById(computerId);
+        List<Company> companies = companyDao.getAll();
+        ComputerAndCompanies result = new ComputerAndCompanies(computer,companies);
+        return result;
+    }
+
+    @Override
+    public void createComputerAndSetCompany(Computer computer, int companyId) {
+        Company company = companyDao.findById(companyId);
+        computer.setCompany(company);
+        computerDao.save(computer);
+    }
+
+    @Override
+    public void updateComputerAndSetCompany(Computer computer, int companyId) {
+        Company company = companyDao.findById(companyId);
+        computer.setCompany(company);
+        computerDao.update(computer);
     }
 
 

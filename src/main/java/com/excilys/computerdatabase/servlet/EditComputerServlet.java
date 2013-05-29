@@ -2,6 +2,7 @@ package com.excilys.computerdatabase.servlet;
 
 import com.excilys.computerdatabase.form.ComputerForm;
 import com.excilys.computerdatabase.model.Computer;
+import com.excilys.computerdatabase.queryresults.ComputerAndCompanies;
 import com.excilys.computerdatabase.service.ComputerDatabaseService;
 import com.excilys.computerdatabase.service.SimpleComputerDatabaseService;
 import com.excilys.computerdatabase.utils.Utils;
@@ -28,23 +29,25 @@ public class EditComputerServlet extends javax.servlet.http.HttpServlet implemen
     @Override
     protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
         int id = Utils.intParameterOrDefault(request.getParameter("id"),0);
-        ComputerForm form = new ComputerForm(computerDatabaseService.computerById(id));
+        ComputerAndCompanies queryResult = computerDatabaseService.computerByIdAndCompanies(id);
+
+        ComputerForm form = new ComputerForm(queryResult.getComputer());
         request.setAttribute("mode","edit");
         request.setAttribute("fieldValues",form.getFieldValues());
-        request.setAttribute("companies", computerDatabaseService.allCompanies());
+        request.setAttribute("companies", queryResult.getCompanies());
         getServletContext().getRequestDispatcher("/WEB-INF/jsp/computer.jsp").forward(request,response);
     }
 
     @Override
     protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException{
-        ComputerForm form = new ComputerForm(request,computerDatabaseService);
+        ComputerForm form = new ComputerForm(request);
 
         if (form.isValid()){
             request.getSession().setAttribute("alertMessage","Computer "+form.getComputer().getName()+" modified successfully");
             Computer computer = form.getComputer();
             int id = Utils.intParameterOrDefault(request.getParameter("id"),0);
             computer.setId(id);
-            computerDatabaseService.saveOrUpdateComputer(computer);
+            computerDatabaseService.updateComputerAndSetCompany(computer, form.getCompanyId());
             response.sendRedirect("/computers");
         }
         else{

@@ -15,7 +15,8 @@ import java.util.Set;
 public interface ComputerDao {
 
     List<Computer> getAll();
-    void saveOrUpdate(Computer computer);
+    void save(Computer computer);
+    void update(Computer computer);
     void deleteAll();
     Computer findById(int computerId);
     List<Computer> getMatchingFromToWhithSortedByColumn(String namePattern, int firstIndice, int lastIndice, int columnId);

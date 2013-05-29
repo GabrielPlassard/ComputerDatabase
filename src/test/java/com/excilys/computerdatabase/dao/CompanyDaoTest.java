@@ -24,7 +24,6 @@ public class CompanyDaoTest {
         insertSomeCompanies();
     }
 
-
     @Test
     public void testGetAll(){
         assertEquals(10, companyDao.getAll().size());

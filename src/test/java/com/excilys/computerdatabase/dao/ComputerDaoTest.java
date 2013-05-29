@@ -36,16 +36,16 @@ public class ComputerDaoTest {
     @Test
     public void testAddComputer(){
         Computer computer = new Computer("Mon ordinateur");
-        computerDao.saveOrUpdate(computer);
+        computerDao.save(computer);
         assertEquals(21, computerDao.getAll().size());
     }
 
     @Test
     public void testUpdate(){
         Computer computer = new Computer("Mon ordinateur");
-        computerDao.saveOrUpdate(computer);
+        computerDao.save(computer);
         computer.setName("Mon nouvel ordinateur");
-        computerDao.saveOrUpdate(computer);
+        computerDao.update(computer);
         assertEquals("Mon nouvel ordinateur", computerDao.findById(computer.getId()).getName());
         assertEquals(21, computerDao.getAll().size());
     }
@@ -56,26 +56,26 @@ public class ComputerDaoTest {
     }
 
     private void insertSomeComputers() {
-        computerDao.saveOrUpdate(new Computer("MacBook Pro 15.4 inch",null,null,null));
-        computerDao.saveOrUpdate(new Computer("CM-2a",null,null,null));
-        computerDao.saveOrUpdate(new Computer("CM-200",null,null,null));
-        computerDao.saveOrUpdate(new Computer("CM-5e",null,null,null));
-        computerDao.saveOrUpdate(new Computer("CM-5","1991-01-01",null,null));
-        computerDao.saveOrUpdate(new Computer("MacBook Pro","2006-01-10",null,null));
-        computerDao.saveOrUpdate(new Computer("Apple IIe",null,null,null));
-        computerDao.saveOrUpdate(new Computer("Apple IIc",null,null,null));
-        computerDao.saveOrUpdate(new Computer("Apple IIGS",null,null,null));
-        computerDao.saveOrUpdate(new Computer("Apple IIc Plus",null,null,null));
-        computerDao.saveOrUpdate(new Computer("Apple II Plus",null,null,null));
-        computerDao.saveOrUpdate(new Computer("Apple III","1980-05-01","1984-04-01",null));
-        computerDao.saveOrUpdate(new Computer("Apple Lisa",null,null,null));
-        computerDao.saveOrUpdate(new Computer("CM-2",null,null,null));
-        computerDao.saveOrUpdate(new Computer("Connection Machine","1987-01-01",null,null));
-        computerDao.saveOrUpdate(new Computer("Apple II","1977-04-01","1993-10-01",null));
-        computerDao.saveOrUpdate(new Computer("Apple III Plus","1983-12-01","1984-04-01",null));
-        computerDao.saveOrUpdate(new Computer("COSMAC ELF",null,null,null));
-        computerDao.saveOrUpdate(new Computer("COSMAC VIP","1977-01-01",null,null));
-        computerDao.saveOrUpdate(new Computer("ELF II","1977-01-01",null,null));
+        computerDao.save(new Computer("MacBook Pro 15.4 inch",null,null,null));
+        computerDao.save(new Computer("CM-2a",null,null,null));
+        computerDao.save(new Computer("CM-200",null,null,null));
+        computerDao.save(new Computer("CM-5e",null,null,null));
+        computerDao.save(new Computer("CM-5","1991-01-01",null,null));
+        computerDao.save(new Computer("MacBook Pro","2006-01-10",null,null));
+        computerDao.save(new Computer("Apple IIe",null,null,null));
+        computerDao.save(new Computer("Apple IIc",null,null,null));
+        computerDao.save(new Computer("Apple IIGS",null,null,null));
+        computerDao.save(new Computer("Apple IIc Plus",null,null,null));
+        computerDao.save(new Computer("Apple II Plus",null,null,null));
+        computerDao.save(new Computer("Apple III","1980-05-01","1984-04-01",null));
+        computerDao.save(new Computer("Apple Lisa",null,null,null));
+        computerDao.save(new Computer("CM-2",null,null,null));
+        computerDao.save(new Computer("Connection Machine","1987-01-01",null,null));
+        computerDao.save(new Computer("Apple II","1977-04-01","1993-10-01",null));
+        computerDao.save(new Computer("Apple III Plus","1983-12-01","1984-04-01",null));
+        computerDao.save(new Computer("COSMAC ELF",null,null,null));
+        computerDao.save(new Computer("COSMAC VIP","1977-01-01",null,null));
+        computerDao.save(new Computer("ELF II","1977-01-01",null,null));
     }
 
     private void insertSomeCompanies() {

@@ -1,5 +1,6 @@
 package com.excilys.computerdatabase.form;
 
+import com.excilys.computerdatabase.model.Company;
 import com.excilys.computerdatabase.model.Computer;
 import com.excilys.computerdatabase.service.ComputerDatabaseService;
 import com.excilys.computerdatabase.utils.Utils;
@@ -16,8 +17,6 @@ import javax.servlet.http.HttpServletRequest;
  * To change this template use File | Settings | File Templates.
  */
 public class ComputerForm {
-    private ComputerDatabaseService computerDatabaseService;
-
     private String name;
     private String stringIntroduced;
     private String stringDiscontinued;
@@ -30,8 +29,7 @@ public class ComputerForm {
 
     ComputerForm(){}
 
-    public ComputerForm(HttpServletRequest request, ComputerDatabaseService computerDatabaseService){
-        this.computerDatabaseService = computerDatabaseService;
+    public ComputerForm(HttpServletRequest request){
         name = request.getParameter("name");
         stringIntroduced = request.getParameter("introduced");
         stringDiscontinued = request.getParameter("discontinued");
@@ -82,7 +80,6 @@ public class ComputerForm {
         computer.setName(name);
         computer.setIntroduced(Utils.dateParameterOrDefault(stringIntroduced, null));
         computer.setDiscontinued(Utils.dateParameterOrDefault(stringDiscontinued,null));
-        computer.setCompany(computerDatabaseService.companyById(Utils.intParameterOrDefault(stringCompanyId, 0)));
     }
 
     boolean isBadFormatted(String date){
@@ -108,5 +105,7 @@ public class ComputerForm {
         return computer;
     }
 
-
+    public int getCompanyId() {
+        return Utils.intParameterOrDefault(fieldValues.get("company"),0);
+    }
 }
