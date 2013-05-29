@@ -2,6 +2,7 @@ package com.excilys.computerdatabase.dao;
 
 import com.excilys.computerdatabase.model.Company;
 
+import java.sql.Connection;
 import java.util.List;
 import java.util.Set;
 
@@ -14,9 +15,14 @@ import java.util.Set;
  */
 public interface CompanyDao {
 
+
     Company findByName(String name);
     List<Company> getAll();
     void saveOrUpdate(Company company);
     void deleteAll();
     Company findById(int companyId);
+
+    void setConnection(Connection connection);
+
+    Connection getConnection();
 }

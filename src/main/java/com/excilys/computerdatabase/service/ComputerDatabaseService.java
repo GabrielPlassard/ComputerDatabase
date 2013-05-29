@@ -18,7 +18,7 @@ public interface ComputerDatabaseService {
     List<Company> allCompanies();
     void createComputerAndSetCompany(Computer computer, int companyId);
     void deleteComputerById(int computerId);
-    ComputersAndTotalNumber indexGetQuery(String search, int sortedColumn, int firstComputerIndice, int lastComputerIndice);
+    ComputersAndTotalNumber listOfComputers(String search, int sortedColumn, int firstComputerIndice, int lastComputerIndice);
     ComputerAndCompanies computerByIdAndCompanies(int computerId);
     void updateComputerAndSetCompany(Computer computer, int companyId);
 

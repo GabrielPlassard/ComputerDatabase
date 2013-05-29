@@ -26,6 +26,17 @@ public enum JdbcCompanyDao implements CompanyDao{
 
     private ThreadLocal<Connection> threadLocalConnection;
 
+    @Override
+    public void setConnection(Connection connection){
+        threadLocalConnection = new ThreadLocal<Connection>();
+        threadLocalConnection.set(connection);
+    }
+
+    @Override
+    public Connection getConnection(){
+        return threadLocalConnection.get();
+    }
+
     private Company companyFromTuple(ResultSet resultSet) throws SQLException {
         Company company = new Company();
         int id = resultSet.getInt("id");
@@ -37,11 +48,9 @@ public enum JdbcCompanyDao implements CompanyDao{
 
     @Override
     public Company findById(int companyId) {
-        threadLocalConnection = new ThreadLocal<Connection>();
         PreparedStatement statement = null;
         ResultSet resultSet = null;
         try {
-            threadLocalConnection.set(JdbcUtils.getConnection());
             statement = threadLocalConnection.get().prepareStatement(FIND_BY_ID);
             statement.setInt(1,companyId);
             resultSet = statement.executeQuery();
@@ -53,18 +62,15 @@ public enum JdbcCompanyDao implements CompanyDao{
         } finally {
             JdbcUtils.closeResultSet(resultSet);
             JdbcUtils.closeStatement(statement);
-            JdbcUtils.closeConnection(threadLocalConnection.get());
         }
         return null;
     }
 
     @Override
     public Company findByName(String companyName) {
-        threadLocalConnection = new ThreadLocal<Connection>();
         PreparedStatement statement = null;
         ResultSet resultSet = null;
         try {
-            threadLocalConnection.set(JdbcUtils.getConnection());
             statement = threadLocalConnection.get().prepareStatement(FIND_BY_NAME);
             statement.setString(1, companyName);
             resultSet = statement.executeQuery();
@@ -76,17 +82,15 @@ public enum JdbcCompanyDao implements CompanyDao{
         }finally {
             JdbcUtils.closeResultSet(resultSet);
             JdbcUtils.closeStatement(statement);
-            JdbcUtils.closeConnection(threadLocalConnection.get());
+
         }
         return null;
     }
 
     private void save(Company company) {
-        threadLocalConnection = new ThreadLocal<Connection>();
         PreparedStatement statement = null;
         ResultSet resultKey = null;
         try {
-            threadLocalConnection.set(JdbcUtils.getConnection());
             statement =  threadLocalConnection.get().prepareStatement(SAVE, Statement.RETURN_GENERATED_KEYS);
             statement.setString(1, company.getName());
             statement.execute();
@@ -99,15 +103,12 @@ public enum JdbcCompanyDao implements CompanyDao{
         }finally {
             JdbcUtils.closeResultSet(resultKey);
             JdbcUtils.closeStatement(statement);
-            JdbcUtils.closeConnection(threadLocalConnection.get());
         }
     }
 
     private void update(Company company) {
-        threadLocalConnection = new ThreadLocal<Connection>();
         PreparedStatement statement = null;
         try {
-            threadLocalConnection.set(JdbcUtils.getConnection());
             statement =  threadLocalConnection.get().prepareStatement(UPDATE);
             statement.setString(1, company.getName());
             statement.setInt(2,company.getId());
@@ -116,18 +117,15 @@ public enum JdbcCompanyDao implements CompanyDao{
             e.printStackTrace();  //To change body of catch statement use File | Settings | File Templates.
         }finally {
             JdbcUtils.closeStatement(statement);
-            JdbcUtils.closeConnection(threadLocalConnection.get());
         }
     }
 
     @Override
     public List<Company> getAll() {
-        threadLocalConnection = new ThreadLocal<Connection>();
         PreparedStatement statement = null;
         ResultSet resultSet = null;
         List<Company> result = new ArrayList<Company>();
         try {
-            threadLocalConnection.set(JdbcUtils.getConnection());
             statement = threadLocalConnection.get().prepareStatement(GET_ALL);
             resultSet = statement.executeQuery();
             while (resultSet.next()){
@@ -138,7 +136,6 @@ public enum JdbcCompanyDao implements CompanyDao{
         }finally {
             JdbcUtils.closeResultSet(resultSet);
             JdbcUtils.closeStatement(statement);
-            JdbcUtils.closeConnection(threadLocalConnection.get());
         }
         return result;
     }
@@ -156,17 +153,14 @@ public enum JdbcCompanyDao implements CompanyDao{
 
     @Override
     public void deleteAll() {
-        threadLocalConnection = new ThreadLocal<Connection>();
         PreparedStatement statement = null;
         try {
-            threadLocalConnection.set(JdbcUtils.getConnection());
             statement =  threadLocalConnection.get().prepareStatement(DELETE);
             statement.execute();
         } catch (SQLException e) {
             e.printStackTrace();  //To change body of catch statement use File | Settings | File Templates.
         } finally {
             JdbcUtils.closeStatement(statement);
-            JdbcUtils.closeConnection(threadLocalConnection.get());
         }
     }
 }

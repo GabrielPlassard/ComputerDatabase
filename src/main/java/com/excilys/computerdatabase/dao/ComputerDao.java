@@ -2,6 +2,7 @@ package com.excilys.computerdatabase.dao;
 
 import com.excilys.computerdatabase.model.Computer;
 
+import java.sql.Connection;
 import java.util.List;
 import java.util.Set;
 
@@ -23,4 +24,8 @@ public interface ComputerDao {
     int numberOfMatching(String namePattern);
 
     void deleteById(int computerId);
+
+    void setConnection(Connection connection);
+
+    Connection getConnection();
 }

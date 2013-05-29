@@ -20,8 +20,13 @@ public class JdbcUtils {
     }
 
 
-    static Connection getConnection() throws SQLException {
-        return DriverManager.getConnection("jdbc:mysql://localhost/computer_database", "root", "root");
+    public static Connection getConnection() {
+        try {
+            return DriverManager.getConnection("jdbc:mysql://localhost/computer_database", "root", "root");
+        } catch (SQLException e) {
+            e.printStackTrace();  //To change body of catch statement use File | Settings | File Templates.
+            return null;
+        }
     }
 
     public static void closeResultSet(ResultSet resultSet) {

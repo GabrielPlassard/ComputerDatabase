@@ -43,7 +43,7 @@ public class IndexServlet extends javax.servlet.http.HttpServlet implements java
         int firstComputerIndice = (currentPage - 1) * C.COMPUTERS_PER_PAGE;
         int lastComputerIndice = firstComputerIndice + C.COMPUTERS_PER_PAGE;
 
-        ComputersAndTotalNumber queryResult = computerDatabaseService.indexGetQuery(research,sortedColumnNumber,firstComputerIndice,lastComputerIndice);
+        ComputersAndTotalNumber queryResult = computerDatabaseService.listOfComputers(research, sortedColumnNumber, firstComputerIndice, lastComputerIndice);
         int numberOfMatchingComputers =  queryResult.getNumberOfMatchingComputers();
         List<Computer> computers = queryResult.getMatchingComputers();
 
