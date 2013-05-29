@@ -6,8 +6,6 @@ import org.junit.After;
 import org.junit.Before;
 import org.junit.Test;
 
-import java.sql.Connection;
-
 import static org.junit.Assert.assertEquals;
 
 /**
@@ -21,13 +19,10 @@ public class ComputerDaoTest {
 
     private CompanyDao companyDao = JdbcCompanyDao.INSTANCE;
     private ComputerDao computerDao = JdbcComputerDao.INSTANCE;
-    private Connection connection;
 
     @Before
     public void setUp(){
-        connection = JdbcUtils.getConnection();
-        companyDao.setConnection(connection);
-        computerDao.setConnection(connection);
+        JdbcUtils.openConnection();
         companyDao.deleteAll();
         insertSomeCompanies();
 
@@ -37,7 +32,7 @@ public class ComputerDaoTest {
 
     @After
     public void tearDown(){
-        JdbcUtils.closeConnection(connection);
+        JdbcUtils.closeConnection();
     }
 
     @Test

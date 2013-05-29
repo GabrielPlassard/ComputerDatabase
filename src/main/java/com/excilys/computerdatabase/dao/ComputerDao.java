@@ -2,9 +2,7 @@ package com.excilys.computerdatabase.dao;
 
 import com.excilys.computerdatabase.model.Computer;
 
-import java.sql.Connection;
 import java.util.List;
-import java.util.Set;
 
 /**
  * Created with IntelliJ IDEA.
@@ -22,10 +20,5 @@ public interface ComputerDao {
     Computer findById(int computerId);
     List<Computer> getMatchingFromToWhithSortedByColumn(String namePattern, int firstIndice, int lastIndice, int columnId);
     int numberOfMatching(String namePattern);
-
     void deleteById(int computerId);
-
-    void setConnection(Connection connection);
-
-    Connection getConnection();
 }

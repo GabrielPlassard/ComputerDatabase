@@ -6,9 +6,7 @@ import org.junit.After;
 import org.junit.Before;
 import org.junit.Test;
 
-import java.sql.Connection;
-
-import static org.junit.Assert.*;
+import static org.junit.Assert.assertEquals;
 
 /**
  * Created with IntelliJ IDEA.
@@ -20,19 +18,17 @@ import static org.junit.Assert.*;
 public class CompanyDaoTest {
 
     private CompanyDao companyDao = JdbcCompanyDao.INSTANCE;
-    private Connection connection;
 
     @Before
     public void setUp(){
-        connection = JdbcUtils.getConnection();
-        companyDao.setConnection(connection);
+        JdbcUtils.openConnection();
         companyDao.deleteAll();
         insertSomeCompanies();
     }
 
     @After
     public void tearDown(){
-        JdbcUtils.closeConnection(connection);
+        JdbcUtils.closeConnection();
     }
 
     @Test

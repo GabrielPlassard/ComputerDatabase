@@ -1,13 +1,11 @@
 package com.excilys.computerdatabase.form;
 
-import com.excilys.computerdatabase.model.Company;
 import com.excilys.computerdatabase.model.Computer;
-import com.excilys.computerdatabase.service.ComputerDatabaseService;
 import com.excilys.computerdatabase.utils.Utils;
 
+import javax.servlet.http.HttpServletRequest;
 import java.util.HashMap;
 import java.util.Map;
-import javax.servlet.http.HttpServletRequest;
 
 /**
  * Created with IntelliJ IDEA.

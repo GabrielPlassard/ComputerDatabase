@@ -2,7 +2,8 @@ package com.excilys.computerdatabase.service;
 
 import com.excilys.computerdatabase.model.Company;
 import com.excilys.computerdatabase.model.Computer;
-import com.excilys.computerdatabase.queryresults.*;
+import com.excilys.computerdatabase.queryresults.ComputerAndCompanies;
+import com.excilys.computerdatabase.queryresults.ComputersAndTotalNumber;
 
 import java.util.List;
 

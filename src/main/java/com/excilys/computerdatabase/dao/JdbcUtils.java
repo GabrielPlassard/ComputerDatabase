@@ -11,6 +11,8 @@ import java.sql.*;
  */
 public class JdbcUtils {
 
+    private static ThreadLocal<Connection> connectionThreadLocal = new ThreadLocal<Connection>();
+
     static{
         try {
             Class.forName("com.mysql.jdbc.Driver");
@@ -21,11 +23,14 @@ public class JdbcUtils {
 
 
     public static Connection getConnection() {
+        return connectionThreadLocal.get();
+    }
+
+    public static void openConnection(){
         try {
-            return DriverManager.getConnection("jdbc:mysql://localhost/computer_database", "root", "root");
+            connectionThreadLocal.set(DriverManager.getConnection("jdbc:mysql://localhost/computer_database", "root", "root"));
         } catch (SQLException e) {
             e.printStackTrace();  //To change body of catch statement use File | Settings | File Templates.
-            return null;
         }
     }
 
@@ -49,10 +54,10 @@ public class JdbcUtils {
         }
     }
 
-    public static void closeConnection(Connection connection) {
-        if (connection != null){
+    public static void closeConnection() {
+        if (connectionThreadLocal.get() != null){
             try {
-                connection.close();
+                connectionThreadLocal.get().close();
             } catch (SQLException e) {
                 e.printStackTrace();  //To change body of catch statement use File | Settings | File Templates.
             }

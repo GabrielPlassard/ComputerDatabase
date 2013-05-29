@@ -6,7 +6,6 @@ import com.excilys.computerdatabase.model.Computer;
 import com.excilys.computerdatabase.queryresults.ComputerAndCompanies;
 import com.excilys.computerdatabase.queryresults.ComputersAndTotalNumber;
 
-import java.sql.Connection;
 import java.util.List;
 
 /**
@@ -24,79 +23,67 @@ public enum SimpleComputerDatabaseService implements ComputerDatabaseService {
 
     @Override
     public List<Company> allCompanies() {
-        Connection connection = JdbcUtils.getConnection();
-        computerDao.setConnection(connection);
-        companyDao.setConnection(connection);
+        JdbcUtils.openConnection();
 
         List<Company> companies =  companyDao.getAll();
 
-        JdbcUtils.closeConnection(connection);
+        JdbcUtils.closeConnection();
         return companies;
     }
 
     @Override
     public void deleteComputerById(int computerId) {
-        Connection connection = JdbcUtils.getConnection();
-        computerDao.setConnection(connection);
-        companyDao.setConnection(connection);
+        JdbcUtils.openConnection();
 
         computerDao.deleteById(computerId);
 
-        JdbcUtils.closeConnection(connection);
+        JdbcUtils.closeConnection();
     }
 
     @Override
     public ComputersAndTotalNumber listOfComputers(String search, int sortedColumn, int firstComputerIndice, int lastComputerIndice) {
-        Connection connection = JdbcUtils.getConnection();
-        computerDao.setConnection(connection);
-        companyDao.setConnection(connection);
+        JdbcUtils.openConnection();
 
         List<Computer> computers = computerDao.getMatchingFromToWhithSortedByColumn(search, firstComputerIndice, lastComputerIndice,sortedColumn);
         int matchingComputers = computerDao.numberOfMatching(search);
         ComputersAndTotalNumber result = new ComputersAndTotalNumber(computers,matchingComputers);
 
-        JdbcUtils.closeConnection(connection);
+        JdbcUtils.closeConnection();
         return result;
     }
 
     @Override
     public ComputerAndCompanies computerByIdAndCompanies(int computerId) {
-        Connection connection = JdbcUtils.getConnection();
-        computerDao.setConnection(connection);
-        companyDao.setConnection(connection);
+        JdbcUtils.openConnection();
 
         Computer computer = computerDao.findById(computerId);
         List<Company> companies = companyDao.getAll();
         ComputerAndCompanies result = new ComputerAndCompanies(computer,companies);
 
-        JdbcUtils.closeConnection(connection);
+        JdbcUtils.closeConnection();
         return result;
     }
 
     @Override
     public void createComputerAndSetCompany(Computer computer, int companyId) {
-        Connection connection = JdbcUtils.getConnection();
-        computerDao.setConnection(connection);
-        companyDao.setConnection(connection);
+        JdbcUtils.openConnection();
 
         Company company = companyDao.findById(companyId);
         computer.setCompany(company);
         computerDao.save(computer);
 
-        JdbcUtils.closeConnection(connection);
+        JdbcUtils.closeConnection();
     }
 
     @Override
     public void updateComputerAndSetCompany(Computer computer, int companyId) {
-        Connection connection = JdbcUtils.getConnection();
-        computerDao.setConnection(connection);
-        companyDao.setConnection(connection);
+        JdbcUtils.openConnection();
 
         Company company = companyDao.findById(companyId);
         computer.setCompany(company);
         computerDao.update(computer);
 
-        JdbcUtils.closeConnection(connection);
+        JdbcUtils.closeConnection();
     }
 
 

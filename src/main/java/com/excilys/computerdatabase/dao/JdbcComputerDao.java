@@ -1,11 +1,14 @@
 package com.excilys.computerdatabase.dao;
 
 import com.excilys.computerdatabase.model.Computer;
-import com.sun.javafx.binding.StringFormatter;
 
-import java.sql.*;
-import java.util.*;
+import java.sql.PreparedStatement;
+import java.sql.ResultSet;
+import java.sql.SQLException;
+import java.sql.Statement;
+import java.util.ArrayList;
 import java.util.Date;
+import java.util.List;
 
 /**
  * Created with IntelliJ IDEA.
@@ -30,18 +33,6 @@ public enum JdbcComputerDao implements ComputerDao {
     private static final String DELETE_BY_ID = "DELETE FROM computer WHERE id=?";
 
     private CompanyDao companyDao = JdbcCompanyDao.INSTANCE;
-    private ThreadLocal<Connection> threadLocalConnection;
-
-    @Override
-    public void setConnection(Connection connection){
-        threadLocalConnection = new ThreadLocal<Connection>();
-        threadLocalConnection.set(connection);
-    }
-
-    @Override
-    public Connection getConnection(){
-        return threadLocalConnection.get();
-    }
 
     private Computer computerFromTuple(ResultSet resultSet) throws SQLException{
         Computer computer = new Computer();
@@ -58,12 +49,11 @@ public enum JdbcComputerDao implements ComputerDao {
         return computer;
     }
 
-    @Override
     public void save(Computer computer) {
         PreparedStatement statement = null;
         ResultSet resultKey = null;
         try {
-            statement =  threadLocalConnection.get().prepareStatement(SAVE_QUERY, Statement.RETURN_GENERATED_KEYS);
+            statement =  JdbcUtils.getConnection().prepareStatement(SAVE_QUERY, Statement.RETURN_GENERATED_KEYS);
             statement.setString(1, computer.getName());
             statement.setDate(2, JdbcUtils.dateUtilToSql(computer.getIntroduced()));
             statement.setDate(3, JdbcUtils.dateUtilToSql(computer.getDiscontinued()));
@@ -86,11 +76,10 @@ public enum JdbcComputerDao implements ComputerDao {
         }
     }
 
-    @Override
     public void update(Computer computer) {
         PreparedStatement statement = null;
         try {
-            statement =  threadLocalConnection.get().prepareStatement(UPDATE_QUERY);
+            statement =  JdbcUtils.getConnection().prepareStatement(UPDATE_QUERY);
             statement.setString(1, computer.getName());
             statement.setDate(2, JdbcUtils.dateUtilToSql(computer.getIntroduced()));
             statement.setDate(3, JdbcUtils.dateUtilToSql(computer.getDiscontinued()));
@@ -116,7 +105,7 @@ public enum JdbcComputerDao implements ComputerDao {
         ResultSet resultSet = null;
         List<Computer> result = new ArrayList<Computer>();
         try {
-            statement = threadLocalConnection.get().prepareStatement(GET_ALL_QUERY);
+            statement = JdbcUtils.getConnection().prepareStatement(GET_ALL_QUERY);
             resultSet = statement.executeQuery();
             while (resultSet.next()){
                 result.add(computerFromTuple(resultSet));
@@ -134,7 +123,7 @@ public enum JdbcComputerDao implements ComputerDao {
     public void deleteAll() {
         PreparedStatement statement = null;
         try {
-            statement =  threadLocalConnection.get().prepareStatement(DELETE_ALL_QUERY);
+            statement =  JdbcUtils.getConnection().prepareStatement(DELETE_ALL_QUERY);
             statement.execute();
         } catch (SQLException e) {
             e.printStackTrace();  //To change body of catch statement use File | Settings | File Templates.
@@ -148,7 +137,7 @@ public enum JdbcComputerDao implements ComputerDao {
         PreparedStatement statement = null;
         ResultSet resultSet = null;
         try {
-            statement = threadLocalConnection.get().prepareStatement(FIND_BY_ID_QUERY);
+            statement = JdbcUtils.getConnection().prepareStatement(FIND_BY_ID_QUERY);
             statement.setInt(1,computerId);
             resultSet = statement.executeQuery();
             if (resultSet.next()){
@@ -169,11 +158,10 @@ public enum JdbcComputerDao implements ComputerDao {
         ResultSet resultSet = null;
         List<Computer> result = new ArrayList<Computer>();
         try {
-            statement = threadLocalConnection.get().prepareStatement(getSqlSelect(columnId));
-            statement.setString(1,new StringBuilder("%").append(namePattern).append("%").toString());
+            statement = JdbcUtils.getConnection().prepareStatement(getSqlSelect(columnId));
+            statement.setString(1, new StringBuilder("%").append(namePattern).append("%").toString());
             statement.setInt(2, lastIndice - firstIndice);
             statement.setInt(3, firstIndice);
-            System.out.println("thread : "+Thread.currentThread().getName());
             System.out.println("query : " + statement.toString());
             resultSet = statement.executeQuery();
             while (resultSet.next()){
@@ -207,9 +195,8 @@ public enum JdbcComputerDao implements ComputerDao {
         ResultSet resultSet = null;
         int numberOfMatchings = 0;
         try {
-            statement = threadLocalConnection.get().prepareStatement(SELECT_NUMBER_MATCHING);
-            statement.setString(1,"%"+namePattern+"%");
-            System.out.println("thread : "+Thread.currentThread().getName());
+            statement = JdbcUtils.getConnection().prepareStatement(SELECT_NUMBER_MATCHING);
+            statement.setString(1, "%" + namePattern + "%");
             System.out.println("query : "+statement.toString());
             resultSet = statement.executeQuery();
             resultSet.next();
@@ -227,7 +214,7 @@ public enum JdbcComputerDao implements ComputerDao {
     public void deleteById(int computerId) {
         PreparedStatement statement = null;
         try {
-            statement =  threadLocalConnection.get().prepareStatement(DELETE_BY_ID);
+            statement =  JdbcUtils.getConnection().prepareStatement(DELETE_BY_ID);
             statement.setInt(1,computerId);
             statement.execute();
         } catch (SQLException e) {

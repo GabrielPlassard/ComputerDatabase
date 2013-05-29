@@ -2,9 +2,7 @@ package com.excilys.computerdatabase.dao;
 
 import com.excilys.computerdatabase.model.Company;
 
-import java.sql.Connection;
 import java.util.List;
-import java.util.Set;
 
 /**
  * Created with IntelliJ IDEA.
@@ -14,15 +12,9 @@ import java.util.Set;
  * To change this template use File | Settings | File Templates.
  */
 public interface CompanyDao {
-
-
     Company findByName(String name);
     List<Company> getAll();
     void saveOrUpdate(Company company);
     void deleteAll();
     Company findById(int companyId);
-
-    void setConnection(Connection connection);
-
-    Connection getConnection();
 }

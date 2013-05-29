@@ -2,11 +2,12 @@ package com.excilys.computerdatabase.dao;
 
 import com.excilys.computerdatabase.model.Company;
 
-import java.sql.*;
+import java.sql.PreparedStatement;
+import java.sql.ResultSet;
+import java.sql.SQLException;
+import java.sql.Statement;
 import java.util.ArrayList;
-import java.util.HashSet;
 import java.util.List;
-import java.util.Set;
 
 /**
  * Created with IntelliJ IDEA.
@@ -24,19 +25,6 @@ public enum JdbcCompanyDao implements CompanyDao{
     private static final String GET_ALL = "SELECT * FROM company ORDER BY name";
     private static final String DELETE = "DELETE FROM company";
 
-    private ThreadLocal<Connection> threadLocalConnection;
-
-    @Override
-    public void setConnection(Connection connection){
-        threadLocalConnection = new ThreadLocal<Connection>();
-        threadLocalConnection.set(connection);
-    }
-
-    @Override
-    public Connection getConnection(){
-        return threadLocalConnection.get();
-    }
-
     private Company companyFromTuple(ResultSet resultSet) throws SQLException {
         Company company = new Company();
         int id = resultSet.getInt("id");
@@ -51,7 +39,7 @@ public enum JdbcCompanyDao implements CompanyDao{
         PreparedStatement statement = null;
         ResultSet resultSet = null;
         try {
-            statement = threadLocalConnection.get().prepareStatement(FIND_BY_ID);
+            statement = JdbcUtils.getConnection().prepareStatement(FIND_BY_ID);
             statement.setInt(1,companyId);
             resultSet = statement.executeQuery();
             if (resultSet.next()){
@@ -71,7 +59,7 @@ public enum JdbcCompanyDao implements CompanyDao{
         PreparedStatement statement = null;
         ResultSet resultSet = null;
         try {
-            statement = threadLocalConnection.get().prepareStatement(FIND_BY_NAME);
+            statement = JdbcUtils.getConnection().prepareStatement(FIND_BY_NAME);
             statement.setString(1, companyName);
             resultSet = statement.executeQuery();
             if (resultSet.next()){
@@ -82,7 +70,6 @@ public enum JdbcCompanyDao implements CompanyDao{
         }finally {
             JdbcUtils.closeResultSet(resultSet);
             JdbcUtils.closeStatement(statement);
-
         }
         return null;
     }
@@ -91,7 +78,7 @@ public enum JdbcCompanyDao implements CompanyDao{
         PreparedStatement statement = null;
         ResultSet resultKey = null;
         try {
-            statement =  threadLocalConnection.get().prepareStatement(SAVE, Statement.RETURN_GENERATED_KEYS);
+            statement =  JdbcUtils.getConnection().prepareStatement(SAVE, Statement.RETURN_GENERATED_KEYS);
             statement.setString(1, company.getName());
             statement.execute();
             resultKey = statement.getGeneratedKeys();
@@ -109,7 +96,7 @@ public enum JdbcCompanyDao implements CompanyDao{
     private void update(Company company) {
         PreparedStatement statement = null;
         try {
-            statement =  threadLocalConnection.get().prepareStatement(UPDATE);
+            statement =  JdbcUtils.getConnection().prepareStatement(UPDATE);
             statement.setString(1, company.getName());
             statement.setInt(2,company.getId());
             statement.execute();
@@ -126,7 +113,7 @@ public enum JdbcCompanyDao implements CompanyDao{
         ResultSet resultSet = null;
         List<Company> result = new ArrayList<Company>();
         try {
-            statement = threadLocalConnection.get().prepareStatement(GET_ALL);
+            statement = JdbcUtils.getConnection().prepareStatement(GET_ALL);
             resultSet = statement.executeQuery();
             while (resultSet.next()){
                 result.add(companyFromTuple(resultSet));
@@ -155,7 +142,7 @@ public enum JdbcCompanyDao implements CompanyDao{
     public void deleteAll() {
         PreparedStatement statement = null;
         try {
-            statement =  threadLocalConnection.get().prepareStatement(DELETE);
+            statement =  JdbcUtils.getConnection().prepareStatement(DELETE);
             statement.execute();
         } catch (SQLException e) {
             e.printStackTrace();  //To change body of catch statement use File | Settings | File Templates.
