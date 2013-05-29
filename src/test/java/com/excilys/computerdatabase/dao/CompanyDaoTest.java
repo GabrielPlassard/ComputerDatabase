@@ -2,8 +2,11 @@ package com.excilys.computerdatabase.dao;
 
 
 import com.excilys.computerdatabase.model.Company;
+import org.junit.After;
 import org.junit.Before;
 import org.junit.Test;
+
+import java.sql.Connection;
 
 import static org.junit.Assert.*;
 
@@ -17,11 +20,19 @@ import static org.junit.Assert.*;
 public class CompanyDaoTest {
 
     private CompanyDao companyDao = JdbcCompanyDao.INSTANCE;
+    private Connection connection;
 
     @Before
     public void setUp(){
+        connection = JdbcUtils.getConnection();
+        companyDao.setConnection(connection);
         companyDao.deleteAll();
         insertSomeCompanies();
+    }
+
+    @After
+    public void tearDown(){
+        JdbcUtils.closeConnection(connection);
     }
 
     @Test

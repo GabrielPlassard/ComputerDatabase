@@ -2,8 +2,11 @@ package com.excilys.computerdatabase.dao;
 
 import com.excilys.computerdatabase.model.Company;
 import com.excilys.computerdatabase.model.Computer;
+import org.junit.After;
 import org.junit.Before;
 import org.junit.Test;
+
+import java.sql.Connection;
 
 import static org.junit.Assert.assertEquals;
 
@@ -18,14 +21,23 @@ public class ComputerDaoTest {
 
     private CompanyDao companyDao = JdbcCompanyDao.INSTANCE;
     private ComputerDao computerDao = JdbcComputerDao.INSTANCE;
+    private Connection connection;
 
     @Before
     public void setUp(){
+        connection = JdbcUtils.getConnection();
+        companyDao.setConnection(connection);
+        computerDao.setConnection(connection);
         companyDao.deleteAll();
         insertSomeCompanies();
 
         computerDao.deleteAll();
         insertSomeComputers();
+    }
+
+    @After
+    public void tearDown(){
+        JdbcUtils.closeConnection(connection);
     }
 
     @Test
@@ -56,26 +68,26 @@ public class ComputerDaoTest {
     }
 
     private void insertSomeComputers() {
-        computerDao.save(new Computer("MacBook Pro 15.4 inch",null,null,null));
-        computerDao.save(new Computer("CM-2a",null,null,null));
-        computerDao.save(new Computer("CM-200",null,null,null));
-        computerDao.save(new Computer("CM-5e",null,null,null));
-        computerDao.save(new Computer("CM-5","1991-01-01",null,null));
-        computerDao.save(new Computer("MacBook Pro","2006-01-10",null,null));
-        computerDao.save(new Computer("Apple IIe",null,null,null));
-        computerDao.save(new Computer("Apple IIc",null,null,null));
-        computerDao.save(new Computer("Apple IIGS",null,null,null));
-        computerDao.save(new Computer("Apple IIc Plus",null,null,null));
-        computerDao.save(new Computer("Apple II Plus",null,null,null));
-        computerDao.save(new Computer("Apple III","1980-05-01","1984-04-01",null));
-        computerDao.save(new Computer("Apple Lisa",null,null,null));
-        computerDao.save(new Computer("CM-2",null,null,null));
-        computerDao.save(new Computer("Connection Machine","1987-01-01",null,null));
-        computerDao.save(new Computer("Apple II","1977-04-01","1993-10-01",null));
-        computerDao.save(new Computer("Apple III Plus","1983-12-01","1984-04-01",null));
-        computerDao.save(new Computer("COSMAC ELF",null,null,null));
-        computerDao.save(new Computer("COSMAC VIP","1977-01-01",null,null));
-        computerDao.save(new Computer("ELF II","1977-01-01",null,null));
+        computerDao.save(new Computer("MacBook Pro 15.4 inch", null, null, null));
+        computerDao.save(new Computer("CM-2a", null, null, null));
+        computerDao.save(new Computer("CM-200", null, null, null));
+        computerDao.save(new Computer("CM-5e", null, null, null));
+        computerDao.save(new Computer("CM-5", "1991-01-01", null, null));
+        computerDao.save(new Computer("MacBook Pro", "2006-01-10", null, null));
+        computerDao.save(new Computer("Apple IIe", null, null, null));
+        computerDao.save(new Computer("Apple IIc", null, null, null));
+        computerDao.save(new Computer("Apple IIGS", null, null, null));
+        computerDao.save(new Computer("Apple IIc Plus", null, null, null));
+        computerDao.save(new Computer("Apple II Plus", null, null, null));
+        computerDao.save(new Computer("Apple III", "1980-05-01", "1984-04-01", null));
+        computerDao.save(new Computer("Apple Lisa", null, null, null));
+        computerDao.save(new Computer("CM-2", null, null, null));
+        computerDao.save(new Computer("Connection Machine", "1987-01-01", null, null));
+        computerDao.save(new Computer("Apple II", "1977-04-01", "1993-10-01", null));
+        computerDao.save(new Computer("Apple III Plus", "1983-12-01", "1984-04-01", null));
+        computerDao.save(new Computer("COSMAC ELF", null, null, null));
+        computerDao.save(new Computer("COSMAC VIP", "1977-01-01", null, null));
+        computerDao.save(new Computer("ELF II", "1977-01-01", null, null));
     }
 
     private void insertSomeCompanies() {
