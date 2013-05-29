@@ -6,6 +6,8 @@ import com.excilys.computerdatabase.dao.JdbcCompanyDao;
 import com.excilys.computerdatabase.dao.JdbcComputerDao;
 import com.excilys.computerdatabase.model.Company;
 import com.excilys.computerdatabase.model.Computer;
+import com.excilys.computerdatabase.queryresults.ComputersAndTotalNumber;
+import com.excilys.computerdatabase.utils.C;
 
 import java.util.List;
 
@@ -60,6 +62,16 @@ public enum SimpleComputerDatabaseService implements ComputerDatabaseService {
     @Override
     public void deleteComputerById(int computerId) {
         computerDao.deleteById(computerId);
+    }
+
+    @Override
+    public ComputersAndTotalNumber indexGetQuery(String search, int sortedColumn, int firstComputerIndice, int lastComputerIndice) {
+
+        List<Computer> computers = computerDao.getMatchingFromToWhithSortedByColumn(search, firstComputerIndice, lastComputerIndice,sortedColumn);
+        int matchingComputers = computerDao.numberOfMatching(search);
+        ComputersAndTotalNumber result = new ComputersAndTotalNumber(computers,matchingComputers);
+
+        return result;
     }
 
 

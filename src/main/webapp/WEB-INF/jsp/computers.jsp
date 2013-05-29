@@ -30,7 +30,7 @@
         </c:if>
 
         <div id="actions">
-            <form action="/computers?p=${currentSheet}&s=${sorting}" method="GET" >
+            <form action="/computers?p=${currentPage}&s=${sorting}" method="GET" >
                 <input type="search" id="searchbox" name="f" value="${research}" placeholder="Filter by computer name...">
                 <input type="submit" id="searchsubmit" value="Filter by name" class="btn primary">
             </form>
@@ -40,10 +40,10 @@
         <table class="computers zebra-striped">
             <thead>
                 <tr>
-                    <tag:tableHeader columnNumber="2" columnName="Computer name" currentSheet="${currentSheet}" research="${research}" sorting="${sorting}" />
-                    <tag:tableHeader columnNumber="3" columnName="Introduced" currentSheet="${currentSheet}" research="${research}" sorting="${sorting}" />
-                    <tag:tableHeader columnNumber="4" columnName="Discontinued" currentSheet="${currentSheet}" research="${research}" sorting="${sorting}" />
-                    <tag:tableHeader columnNumber="5" columnName="Company" currentSheet="${currentSheet}" research="${research}" sorting="${sorting}" />
+                    <tag:tableHeader columnNumber="2" columnName="Computer name" currentPage="${currentPage}" research="${research}" sorting="${sorting}" />
+                    <tag:tableHeader columnNumber="3" columnName="Introduced" currentPage="${currentPage}" research="${research}" sorting="${sorting}" />
+                    <tag:tableHeader columnNumber="4" columnName="Discontinued" currentPage="${currentPage}" research="${research}" sorting="${sorting}" />
+                    <tag:tableHeader columnNumber="5" columnName="Company" currentPage="${currentPage}" research="${research}" sorting="${sorting}" />
                 </tr>
             </thead>
 
@@ -74,9 +74,9 @@
         <div id="pagination" class="pagination">
             <ul>
                 <c:choose>
-                    <c:when test="${currentSheet > 1}">
+                    <c:when test="${currentPage > 1}">
                         <li class="prev">
-                            <a href="computers?p=${currentSheet - 1}&s=${sorting}&f=${research}">&larr; Previous</a>
+                            <a href="computers?p=${currentPage - 1}&s=${sorting}&f=${research}">&larr; Previous</a>
                         </li>
                     </c:when>
                     <c:otherwise>
@@ -91,9 +91,9 @@
                 </li>
 
                 <c:choose>
-                    <c:when test="${currentSheet < maxSheet}">
+                    <c:when test="${currentPage < maxPage}">
                         <li class="next">
-                            <a href="computers?p=${currentSheet + 1}&s=${sorting}&f=${research}">Next &rarr;</a>
+                            <a href="computers?p=${currentPage + 1}&s=${sorting}&f=${research}">Next &rarr;</a>
                         </li>
                     </c:when>
                     <c:otherwise>

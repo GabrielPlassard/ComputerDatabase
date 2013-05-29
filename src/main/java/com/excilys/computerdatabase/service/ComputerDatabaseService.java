@@ -2,6 +2,7 @@ package com.excilys.computerdatabase.service;
 
 import com.excilys.computerdatabase.model.Company;
 import com.excilys.computerdatabase.model.Computer;
+import com.excilys.computerdatabase.queryresults.*;
 
 import java.util.List;
 
@@ -25,4 +26,6 @@ public interface ComputerDatabaseService {
     Computer computerById(int id);
 
     void deleteComputerById(int computerId);
+
+    ComputersAndTotalNumber indexGetQuery(String search, int sortedColumn, int firstComputerIndice, int lastComputerIndice);
 }

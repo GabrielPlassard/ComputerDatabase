@@ -5,7 +5,7 @@
 
 <%@ attribute name="columnNumber" required="true" type="java.lang.Integer"%>
 <%@ attribute name="columnName" required="true" type="java.lang.String"%>
-<%@ attribute name="currentSheet" required="true" type="java.lang.Integer"%>
+<%@ attribute name="currentPage" required="true" type="java.lang.Integer"%>
 <%@ attribute name="sorting" required="true" type="java.lang.Integer"%>
 <%@ attribute name="research" required="true" type="java.lang.String"%>
 
