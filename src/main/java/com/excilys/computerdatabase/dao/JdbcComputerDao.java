@@ -22,30 +22,26 @@ public enum JdbcComputerDao implements ComputerDao {
     private static final String[] COLUMN_NAMES = {"","computer.id","computer.name","computer.introduced","computer.discontinued","company.name"};
 
     private static final String SAVE_QUERY = "INSERT INTO computer(name,introduced,discontinued,company_id) VALUES(?,?,?,?)";
-    private static final String UPDATE_QUERY = "UPDATE computer SET name=?,introduced=?, discontinued=?, company_id=? WHERE id=?";
-    private static final String GET_ALL_QUERY = "SELECT * FROM computer";
+    private static final String UPDATE_QUERY = "UPDATE computer SET name=?,introduced=?, discontinued=?, company_id=? WHERE computer.id=?";
+    private static final String GET_ALL_QUERY = "SELECT * FROM computer LEFT JOIN company ON computer.company_id=company.id";
     private static final String DELETE_ALL_QUERY = "DELETE FROM computer";
-    private static final String FIND_BY_ID_QUERY = "SELECT * FROM computer WHERE id=?";
+    private static final String FIND_BY_ID_QUERY = "SELECT * FROM computer LEFT JOIN company ON computer.company_id=company.id WHERE computer.id=?";
 
-    private static final String SELECT_QUERY = "SELECT * FROM computer %s WHERE computer.name LIKE ? ORDER BY ISNULL(%s),%s %s LIMIT ? OFFSET ?";
-    private static final String JOIN_COMPANY = " LEFT JOIN company ON computer.company_id=company.id ";
+    private static final String SELECT_QUERY = "SELECT * FROM computer LEFT JOIN company ON computer.company_id=company.id WHERE computer.name LIKE ? ORDER BY ISNULL(%s),%s %s LIMIT ? OFFSET ?";
     private static final String SELECT_NUMBER_MATCHING = "SELECT COUNT(id) FROM computer WHERE name LIKE ?";
     private static final String DELETE_BY_ID = "DELETE FROM computer WHERE id=?";
 
-    private CompanyDao companyDao = JdbcCompanyDao.INSTANCE;
-
-    private Computer computerFromTuple(ResultSet resultSet) throws SQLException{
+    static Computer computerFromTuple(ResultSet resultSet) throws SQLException{
         Computer computer = new Computer();
-        int id = resultSet.getInt("id");
-        String name = resultSet.getString("name");
-        Date introduced = resultSet.getDate("introduced");
-        Date discontinued = resultSet.getDate("discontinued");
-        int companyId = resultSet.getInt("company_id");
+        int id = resultSet.getInt(COLUMN_NAMES[1]);
+        String name = resultSet.getString(COLUMN_NAMES[2]);
+        Date introduced = resultSet.getDate(COLUMN_NAMES[3]);
+        Date discontinued = resultSet.getDate(COLUMN_NAMES[4]);
         computer.setId(id);
         computer.setName(name);
         computer.setIntroduced(introduced);
         computer.setDiscontinued(discontinued);
-        computer.setCompany(companyDao.findById(companyId));
+        computer.setCompany(JdbcCompanyDao.companyFromTuple(resultSet));
         return computer;
     }
 
@@ -177,16 +173,12 @@ public enum JdbcComputerDao implements ComputerDao {
     }
 
     private String getSqlSelect(int columnId) {
-        String leftJoin = "";
-        if (Math.abs(columnId) == 5){
-            leftJoin = JOIN_COMPANY;
-        }
         String column = COLUMN_NAMES[Math.abs(columnId)];
         String order = "ASC";
         if (columnId < 0){
             order = "DESC";
         }
-        return String.format(SELECT_QUERY, leftJoin, column, column, order );
+        return String.format(SELECT_QUERY, column, column, order );
     }
 
     @Override

@@ -25,10 +25,10 @@ public enum JdbcCompanyDao implements CompanyDao{
     private static final String GET_ALL = "SELECT * FROM company ORDER BY name";
     private static final String DELETE = "DELETE FROM company";
 
-    private Company companyFromTuple(ResultSet resultSet) throws SQLException {
+    static Company companyFromTuple(ResultSet resultSet) throws SQLException {
         Company company = new Company();
-        int id = resultSet.getInt("id");
-        String name = resultSet.getString("name");
+        int id = resultSet.getInt("company.id");
+        String name = resultSet.getString("company.name");
         company.setId(id);
         company.setName(name);
         return company;
