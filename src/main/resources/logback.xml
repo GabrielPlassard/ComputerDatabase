@@ -7,7 +7,7 @@
         </layout>
     </appender>
 
-    <logger name="com.excilys.computerdatabase" level="TRACE"/>
+    <logger name="com.excilys.computerdatabase" level="DEBUG"/>
 
 
     <root level="debug">

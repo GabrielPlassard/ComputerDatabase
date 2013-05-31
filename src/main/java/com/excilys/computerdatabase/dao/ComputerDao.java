@@ -1,5 +1,6 @@
 package com.excilys.computerdatabase.dao;
 
+import com.excilys.computerdatabase.exceptions.DaoException;
 import com.excilys.computerdatabase.model.Computer;
 
 import java.util.List;
@@ -13,12 +14,12 @@ import java.util.List;
  */
 public interface ComputerDao {
 
-    List<Computer> getAll();
-    void save(Computer computer);
-    void update(Computer computer);
-    void deleteAll();
-    Computer findById(int computerId);
-    List<Computer> getMatchingFromToWhithSortedByColumn(String namePattern, int firstIndice, int lastIndice, int columnId);
-    int numberOfMatching(String namePattern);
-    void deleteById(int computerId);
+    List<Computer> getAll() throws DaoException;
+    void save(Computer computer) throws DaoException;
+    void update(Computer computer) throws DaoException;
+    void deleteAll() throws DaoException;
+    Computer findById(int computerId) throws DaoException;
+    List<Computer> getMatchingFromToWhithSortedByColumn(String namePattern, int firstIndice, int lastIndice, int columnId) throws DaoException;
+    int numberOfMatching(String namePattern) throws DaoException;
+    void deleteById(int computerId) throws DaoException;
 }

@@ -1,5 +1,6 @@
 package com.excilys.computerdatabase.dao;
 
+import com.excilys.computerdatabase.exceptions.DaoException;
 import com.excilys.computerdatabase.model.Company;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -40,7 +41,7 @@ public enum JdbcCompanyDao implements CompanyDao{
     }
 
     @Override
-    public Company findById(int companyId) {
+    public Company findById(int companyId)  throws DaoException {
         PreparedStatement statement = null;
         ResultSet resultSet = null;
         try {
@@ -52,6 +53,7 @@ public enum JdbcCompanyDao implements CompanyDao{
             }
         } catch (SQLException e) {
             logger.warn(e.getMessage());
+            throw new DaoException(e);
         } finally {
             JdbcUtils.closeResultSet(resultSet);
             JdbcUtils.closeStatement(statement);
@@ -60,7 +62,7 @@ public enum JdbcCompanyDao implements CompanyDao{
     }
 
     @Override
-    public Company findByName(String companyName) {
+    public Company findByName(String companyName)  throws DaoException{
         PreparedStatement statement = null;
         ResultSet resultSet = null;
         try {
@@ -72,6 +74,7 @@ public enum JdbcCompanyDao implements CompanyDao{
             }
         } catch (SQLException e) {
             logger.warn(e.getMessage());
+            throw new DaoException(e);
         }finally {
             JdbcUtils.closeResultSet(resultSet);
             JdbcUtils.closeStatement(statement);
@@ -79,7 +82,7 @@ public enum JdbcCompanyDao implements CompanyDao{
         return null;
     }
 
-    private void save(Company company) {
+    private void save(Company company)  throws DaoException{
         PreparedStatement statement = null;
         ResultSet resultKey = null;
         try {
@@ -92,13 +95,14 @@ public enum JdbcCompanyDao implements CompanyDao{
             company.setId(id);
         } catch (SQLException e) {
             logger.warn(e.getMessage());
+            throw new DaoException(e);
         }finally {
             JdbcUtils.closeResultSet(resultKey);
             JdbcUtils.closeStatement(statement);
         }
     }
 
-    private void update(Company company) {
+    private void update(Company company)  throws DaoException{
         PreparedStatement statement = null;
         try {
             statement =  JdbcUtils.getConnection().prepareStatement(UPDATE);
@@ -107,13 +111,14 @@ public enum JdbcCompanyDao implements CompanyDao{
             statement.execute();
         } catch (SQLException e) {
             logger.warn(e.getMessage());
+            throw new DaoException(e);
         }finally {
             JdbcUtils.closeStatement(statement);
         }
     }
 
     @Override
-    public List<Company> getAll() {
+    public List<Company> getAll()  throws DaoException{
         PreparedStatement statement = null;
         ResultSet resultSet = null;
         List<Company> result = new ArrayList<Company>();
@@ -125,6 +130,7 @@ public enum JdbcCompanyDao implements CompanyDao{
             }
         } catch (SQLException e) {
             logger.warn(e.getMessage());
+            throw new DaoException(e);
         }finally {
             JdbcUtils.closeResultSet(resultSet);
             JdbcUtils.closeStatement(statement);
@@ -134,7 +140,7 @@ public enum JdbcCompanyDao implements CompanyDao{
 
 
     @Override
-    public void saveOrUpdate(Company company) {
+    public void saveOrUpdate(Company company)  throws DaoException{
         if (findById(company.getId()) == null){
             save(company);
         }
@@ -144,13 +150,14 @@ public enum JdbcCompanyDao implements CompanyDao{
     }
 
     @Override
-    public void deleteAll() {
+    public void deleteAll()  throws DaoException{
         PreparedStatement statement = null;
         try {
             statement =  JdbcUtils.getConnection().prepareStatement(DELETE);
             statement.execute();
         } catch (SQLException e) {
             logger.warn(e.getMessage());
+            throw new DaoException(e);
         } finally {
             JdbcUtils.closeStatement(statement);
         }

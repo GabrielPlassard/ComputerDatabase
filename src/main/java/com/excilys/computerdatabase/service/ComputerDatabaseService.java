@@ -1,5 +1,6 @@
 package com.excilys.computerdatabase.service;
 
+import com.excilys.computerdatabase.exceptions.ServiceException;
 import com.excilys.computerdatabase.model.Company;
 import com.excilys.computerdatabase.model.Computer;
 import com.excilys.computerdatabase.queryresults.ComputerAndCompanies;
@@ -16,11 +17,11 @@ import java.util.List;
  */
 public interface ComputerDatabaseService {
 
-    List<Company> allCompanies();
-    void createComputerAndSetCompany(Computer computer, int companyId);
-    boolean deleteComputerById(int computerId);
-    ComputersAndTotalNumber listOfComputers(String search, int sortedColumn, int firstComputerIndice, int lastComputerIndice);
-    ComputerAndCompanies computerByIdAndCompanies(int computerId);
-    boolean updateComputerAndSetCompany(Computer computer, int companyId);
+    List<Company> allCompanies() throws ServiceException;
+    void createComputerAndSetCompany(Computer computer, int companyId) throws ServiceException;
+    boolean deleteComputerById(int computerId) throws ServiceException;
+    ComputersAndTotalNumber listOfComputers(String search, int sortedColumn, int firstComputerIndice, int lastComputerIndice) throws ServiceException;
+    ComputerAndCompanies computerByIdAndCompanies(int computerId) throws ServiceException;
+    boolean updateComputerAndSetCompany(Computer computer, int companyId) throws ServiceException;
 
 }

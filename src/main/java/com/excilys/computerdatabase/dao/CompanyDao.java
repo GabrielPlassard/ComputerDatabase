@@ -1,5 +1,6 @@
 package com.excilys.computerdatabase.dao;
 
+import com.excilys.computerdatabase.exceptions.DaoException;
 import com.excilys.computerdatabase.model.Company;
 
 import java.util.List;
@@ -12,9 +13,9 @@ import java.util.List;
  * To change this template use File | Settings | File Templates.
  */
 public interface CompanyDao {
-    Company findByName(String name);
-    List<Company> getAll();
-    void saveOrUpdate(Company company);
-    void deleteAll();
-    Company findById(int companyId);
+    Company findByName(String name) throws DaoException;
+    List<Company> getAll() throws DaoException;
+    void saveOrUpdate(Company company) throws DaoException;
+    void deleteAll() throws DaoException;
+    Company findById(int companyId) throws DaoException;
 }

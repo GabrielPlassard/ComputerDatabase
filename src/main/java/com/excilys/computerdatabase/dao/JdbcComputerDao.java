@@ -1,5 +1,6 @@
 package com.excilys.computerdatabase.dao;
 
+import com.excilys.computerdatabase.exceptions.DaoException;
 import com.excilys.computerdatabase.model.Computer;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -50,7 +51,7 @@ public enum JdbcComputerDao implements ComputerDao {
         return computer;
     }
 
-    public void save(Computer computer) {
+    public void save(Computer computer)  throws DaoException {
         PreparedStatement statement = null;
         ResultSet resultKey = null;
         try {
@@ -72,13 +73,14 @@ public enum JdbcComputerDao implements ComputerDao {
             computer.setId(id);
         } catch (SQLException e) {
             logger.warn(e.getMessage());
+            throw new DaoException(e);
         }finally {
             JdbcUtils.closeResultSet(resultKey);
             JdbcUtils.closeStatement(statement);
         }
     }
 
-    public void update(Computer computer) {
+    public void update(Computer computer)  throws DaoException{
         PreparedStatement statement = null;
         try {
             statement =  JdbcUtils.getConnection().prepareStatement(UPDATE_QUERY);
@@ -96,6 +98,7 @@ public enum JdbcComputerDao implements ComputerDao {
             statement.execute();
         } catch (SQLException e) {
             logger.warn(e.getMessage());
+            throw new DaoException(e);
         }finally {
             JdbcUtils.closeStatement(statement);
         }
@@ -103,7 +106,7 @@ public enum JdbcComputerDao implements ComputerDao {
 
 
     @Override
-    public List<Computer> getAll() {
+    public List<Computer> getAll()  throws DaoException{
         PreparedStatement statement = null;
         ResultSet resultSet = null;
         List<Computer> result = new ArrayList<Computer>();
@@ -116,6 +119,7 @@ public enum JdbcComputerDao implements ComputerDao {
             }
         } catch (SQLException e) {
             logger.warn(e.getMessage());
+            throw new DaoException(e);
         }finally {
             JdbcUtils.closeResultSet(resultSet);
             JdbcUtils.closeStatement(statement);
@@ -124,7 +128,7 @@ public enum JdbcComputerDao implements ComputerDao {
     }
 
     @Override
-    public void deleteAll() {
+    public void deleteAll()  throws DaoException{
         PreparedStatement statement = null;
         try {
             statement =  JdbcUtils.getConnection().prepareStatement(DELETE_ALL_QUERY);
@@ -132,13 +136,14 @@ public enum JdbcComputerDao implements ComputerDao {
             statement.execute();
         } catch (SQLException e) {
             logger.warn(e.getMessage());
+            throw new DaoException(e);
         } finally {
             JdbcUtils.closeStatement(statement);
         }
     }
 
     @Override
-    public Computer findById(int computerId) {
+    public Computer findById(int computerId) throws DaoException {
         PreparedStatement statement = null;
         ResultSet resultSet = null;
         try {
@@ -151,6 +156,7 @@ public enum JdbcComputerDao implements ComputerDao {
             }
         } catch (SQLException e) {
             logger.warn(e.getMessage());
+            throw new DaoException(e);
         } finally {
             JdbcUtils.closeResultSet(resultSet);
             JdbcUtils.closeStatement(statement);
@@ -159,7 +165,7 @@ public enum JdbcComputerDao implements ComputerDao {
     }
 
     @Override
-    public List<Computer> getMatchingFromToWhithSortedByColumn(String namePattern, int firstIndice, int lastIndice, int columnId) {
+    public List<Computer> getMatchingFromToWhithSortedByColumn(String namePattern, int firstIndice, int lastIndice, int columnId) throws DaoException {
         PreparedStatement statement = null;
         ResultSet resultSet = null;
         List<Computer> result = new ArrayList<Computer>();
@@ -175,6 +181,7 @@ public enum JdbcComputerDao implements ComputerDao {
             }
         } catch (SQLException e) {
             logger.warn(e.getMessage());
+            throw new DaoException(e);
         }finally {
             JdbcUtils.closeResultSet(resultSet);
             JdbcUtils.closeStatement(statement);
@@ -192,7 +199,7 @@ public enum JdbcComputerDao implements ComputerDao {
     }
 
     @Override
-    public int numberOfMatching(String namePattern) {
+    public int numberOfMatching(String namePattern) throws DaoException {
         PreparedStatement statement = null;
         ResultSet resultSet = null;
         int numberOfMatchings = 0;
@@ -205,6 +212,7 @@ public enum JdbcComputerDao implements ComputerDao {
             numberOfMatchings = resultSet.getInt(1);
         } catch (SQLException e) {
             logger.warn(e.getMessage());
+            throw new DaoException(e);
         }finally {
             JdbcUtils.closeResultSet(resultSet);
             JdbcUtils.closeStatement(statement);
@@ -213,7 +221,7 @@ public enum JdbcComputerDao implements ComputerDao {
     }
 
     @Override
-    public void deleteById(int computerId) {
+    public void deleteById(int computerId) throws DaoException {
         PreparedStatement statement = null;
         try {
             statement =  JdbcUtils.getConnection().prepareStatement(DELETE_BY_ID);
@@ -222,6 +230,7 @@ public enum JdbcComputerDao implements ComputerDao {
             statement.execute();
         } catch (SQLException e) {
             logger.warn(e.getMessage());
+            throw new DaoException(e);
         } finally {
             JdbcUtils.closeStatement(statement);
         }
