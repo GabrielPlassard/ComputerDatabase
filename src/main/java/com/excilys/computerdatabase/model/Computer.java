@@ -1,5 +1,8 @@
 package com.excilys.computerdatabase.model;
 
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
+
 import java.text.DateFormat;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
@@ -13,6 +16,8 @@ import java.util.Date;
  * To change this template use File | Settings | File Templates.
  */
 public class Computer{
+
+    private final Logger logger = LoggerFactory.getLogger(Computer.class);
 
     private static final DateFormat dateFormatter = new SimpleDateFormat("yyyy-MM-dd");
 
@@ -82,7 +87,7 @@ public class Computer{
         try {
             introduced = dateFormatter.parse(stringIntroduced);
         } catch (ParseException e) {
-            e.printStackTrace();  //To change body of catch statement use File | Settings | File Templates.
+            logger.warn(e.getMessage());
         }
     }
 
@@ -91,7 +96,7 @@ public class Computer{
         try {
             discontinued = dateFormatter.parse(stringDiscontinued);
         } catch (ParseException e) {
-            e.printStackTrace();  //To change body of catch statement use File | Settings | File Templates.
+            logger.warn(e.getMessage());
         }
     }
 }

@@ -1,6 +1,8 @@
 package com.excilys.computerdatabase.dao;
 
 import com.excilys.computerdatabase.model.Computer;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
@@ -19,6 +21,9 @@ import java.util.List;
  */
 public enum JdbcComputerDao implements ComputerDao {
     INSTANCE;
+
+    private final Logger logger = LoggerFactory.getLogger(JdbcComputerDao.class);
+
     private static final String[] COLUMN_NAMES = {"","computer.id","computer.name","computer.introduced","computer.discontinued","company.name"};
 
     private static final String SAVE_QUERY = "INSERT INTO computer(name,introduced,discontinued,company_id) VALUES(?,?,?,?)";
@@ -59,14 +64,14 @@ public enum JdbcComputerDao implements ComputerDao {
             else{
                 statement.setNull(4,java.sql.Types.INTEGER);
             }
-            System.out.println("query : "+statement.toString());
+            logger.debug(statement.toString());
             statement.execute();
             resultKey = statement.getGeneratedKeys();
             resultKey.next();
             int id = resultKey.getInt(1);
             computer.setId(id);
         } catch (SQLException e) {
-            e.printStackTrace();  //To change body of catch statement use File | Settings | File Templates.
+            logger.warn(e.getMessage());
         }finally {
             JdbcUtils.closeResultSet(resultKey);
             JdbcUtils.closeStatement(statement);
@@ -87,10 +92,10 @@ public enum JdbcComputerDao implements ComputerDao {
                 statement.setNull(4,java.sql.Types.INTEGER);
             }
             statement.setInt(5,computer.getId());
-            System.out.println("query : "+statement.toString());
+            logger.debug(statement.toString());
             statement.execute();
         } catch (SQLException e) {
-            e.printStackTrace();  //To change body of catch statement use File | Settings | File Templates.
+            logger.warn(e.getMessage());
         }finally {
             JdbcUtils.closeStatement(statement);
         }
@@ -104,13 +109,13 @@ public enum JdbcComputerDao implements ComputerDao {
         List<Computer> result = new ArrayList<Computer>();
         try {
             statement = JdbcUtils.getConnection().prepareStatement(GET_ALL_QUERY);
-            System.out.println("query : "+statement.toString());
+            logger.debug(statement.toString());
             resultSet = statement.executeQuery();
             while (resultSet.next()){
                 result.add(computerFromTuple(resultSet));
             }
         } catch (SQLException e) {
-            e.printStackTrace();  //To change body of catch statement use File | Settings | File Templates.
+            logger.warn(e.getMessage());
         }finally {
             JdbcUtils.closeResultSet(resultSet);
             JdbcUtils.closeStatement(statement);
@@ -123,10 +128,10 @@ public enum JdbcComputerDao implements ComputerDao {
         PreparedStatement statement = null;
         try {
             statement =  JdbcUtils.getConnection().prepareStatement(DELETE_ALL_QUERY);
-            System.out.println("query : "+statement.toString());
+            logger.debug(statement.toString());
             statement.execute();
         } catch (SQLException e) {
-            e.printStackTrace();  //To change body of catch statement use File | Settings | File Templates.
+            logger.warn(e.getMessage());
         } finally {
             JdbcUtils.closeStatement(statement);
         }
@@ -139,13 +144,13 @@ public enum JdbcComputerDao implements ComputerDao {
         try {
             statement = JdbcUtils.getConnection().prepareStatement(FIND_BY_ID_QUERY);
             statement.setInt(1,computerId);
-            System.out.println("query : "+statement.toString());
+            logger.debug(statement.toString());
             resultSet = statement.executeQuery();
             if (resultSet.next()){
                 return computerFromTuple(resultSet);
             }
         } catch (SQLException e) {
-            e.printStackTrace();  //To change body of catch statement use File | Settings | File Templates.
+            logger.warn(e.getMessage());
         } finally {
             JdbcUtils.closeResultSet(resultSet);
             JdbcUtils.closeStatement(statement);
@@ -163,13 +168,13 @@ public enum JdbcComputerDao implements ComputerDao {
             statement.setString(1, new StringBuilder("%").append(namePattern).append("%").toString());
             statement.setInt(2, lastIndice - firstIndice);
             statement.setInt(3, firstIndice);
-            System.out.println("query : " + statement.toString());
+            logger.debug(statement.toString());
             resultSet = statement.executeQuery();
             while (resultSet.next()){
                 result.add(computerFromTuple(resultSet));
             }
         } catch (SQLException e) {
-            e.printStackTrace();  //To change body of catch statement use File | Settings | File Templates.
+            logger.warn(e.getMessage());
         }finally {
             JdbcUtils.closeResultSet(resultSet);
             JdbcUtils.closeStatement(statement);
@@ -194,12 +199,12 @@ public enum JdbcComputerDao implements ComputerDao {
         try {
             statement = JdbcUtils.getConnection().prepareStatement(SELECT_NUMBER_MATCHING);
             statement.setString(1, "%" + namePattern + "%");
-            System.out.println("query : "+statement.toString());
+            logger.debug(statement.toString());
             resultSet = statement.executeQuery();
             resultSet.next();
             numberOfMatchings = resultSet.getInt(1);
         } catch (SQLException e) {
-            e.printStackTrace();  //To change body of catch statement use File | Settings | File Templates.
+            logger.warn(e.getMessage());
         }finally {
             JdbcUtils.closeResultSet(resultSet);
             JdbcUtils.closeStatement(statement);
@@ -213,10 +218,10 @@ public enum JdbcComputerDao implements ComputerDao {
         try {
             statement =  JdbcUtils.getConnection().prepareStatement(DELETE_BY_ID);
             statement.setInt(1,computerId);
-            System.out.println("query : "+statement.toString());
+            logger.debug(statement.toString());
             statement.execute();
         } catch (SQLException e) {
-            e.printStackTrace();  //To change body of catch statement use File | Settings | File Templates.
+            logger.warn(e.getMessage());
         } finally {
             JdbcUtils.closeStatement(statement);
         }
