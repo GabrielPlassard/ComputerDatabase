@@ -26,8 +26,13 @@ public class DeleteComputerServlet extends javax.servlet.http.HttpServlet implem
     @Override
     protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException{
         int computerId = Utils.intParameterOrDefault(request.getParameter("id"),0);
-        computerDatabaseService.deleteComputerById(computerId);
-        request.getSession().setAttribute("alertMessage","Computer deleted successfully");
+        boolean succesfull = computerDatabaseService.deleteComputerById(computerId);
+        if (succesfull){
+            request.getSession().setAttribute("alertMessage","Computer deleted successfully");
+        }
+        else{
+            request.getSession().setAttribute("alertMessage","There has been a problem while deleting the computer");
+        }
         response.sendRedirect("/computers");
     }
 }

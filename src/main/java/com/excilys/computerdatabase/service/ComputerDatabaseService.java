@@ -18,9 +18,9 @@ public interface ComputerDatabaseService {
 
     List<Company> allCompanies();
     void createComputerAndSetCompany(Computer computer, int companyId);
-    void deleteComputerById(int computerId);
+    boolean deleteComputerById(int computerId);
     ComputersAndTotalNumber listOfComputers(String search, int sortedColumn, int firstComputerIndice, int lastComputerIndice);
     ComputerAndCompanies computerByIdAndCompanies(int computerId);
-    void updateComputerAndSetCompany(Computer computer, int companyId);
+    boolean updateComputerAndSetCompany(Computer computer, int companyId);
 
 }

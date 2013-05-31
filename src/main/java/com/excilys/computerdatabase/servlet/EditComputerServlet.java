@@ -43,11 +43,16 @@ public class EditComputerServlet extends javax.servlet.http.HttpServlet implemen
         ComputerForm form = new ComputerForm(request);
 
         if (form.isValid()){
-            request.getSession().setAttribute("alertMessage","Computer "+form.getComputer().getName()+" modified successfully");
             Computer computer = form.getComputer();
             int id = Utils.intParameterOrDefault(request.getParameter("id"),0);
             computer.setId(id);
-            computerDatabaseService.updateComputerAndSetCompany(computer, form.getCompanyId());
+            boolean succesfull = computerDatabaseService.updateComputerAndSetCompany(computer, form.getCompanyId());
+            if (succesfull){
+                request.getSession().setAttribute("alertMessage","Computer "+computer.getName()+" modified successfully");
+            }
+            else{
+                request.getSession().setAttribute("alertMessage","There has been a problem while updating "+computer.getName());
+            }
             response.sendRedirect("/computers");
         }
         else{

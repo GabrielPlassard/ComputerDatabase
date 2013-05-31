@@ -32,12 +32,14 @@ public enum SimpleComputerDatabaseService implements ComputerDatabaseService {
     }
 
     @Override
-    public void deleteComputerById(int computerId) {
+    public boolean deleteComputerById(int computerId) {
         JdbcUtils.openConnection();
 
         computerDao.deleteById(computerId);
+        boolean succesfull = computerDao.findById(computerId) == null;
 
         JdbcUtils.closeConnection();
+        return succesfull;
     }
 
     @Override
@@ -76,14 +78,16 @@ public enum SimpleComputerDatabaseService implements ComputerDatabaseService {
     }
 
     @Override
-    public void updateComputerAndSetCompany(Computer computer, int companyId) {
+    public boolean updateComputerAndSetCompany(Computer computer, int companyId) {
         JdbcUtils.openConnection();
 
         Company company = companyDao.findById(companyId);
+        if (company == null) return false;
         computer.setCompany(company);
         computerDao.update(computer);
 
         JdbcUtils.closeConnection();
+        return true;
     }
 
 

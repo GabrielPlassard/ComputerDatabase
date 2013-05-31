@@ -59,6 +59,7 @@ public enum JdbcComputerDao implements ComputerDao {
             else{
                 statement.setNull(4,java.sql.Types.INTEGER);
             }
+            System.out.println("query : "+statement.toString());
             statement.execute();
             resultKey = statement.getGeneratedKeys();
             resultKey.next();
@@ -86,6 +87,7 @@ public enum JdbcComputerDao implements ComputerDao {
                 statement.setNull(4,java.sql.Types.INTEGER);
             }
             statement.setInt(5,computer.getId());
+            System.out.println("query : "+statement.toString());
             statement.execute();
         } catch (SQLException e) {
             e.printStackTrace();  //To change body of catch statement use File | Settings | File Templates.
@@ -102,6 +104,7 @@ public enum JdbcComputerDao implements ComputerDao {
         List<Computer> result = new ArrayList<Computer>();
         try {
             statement = JdbcUtils.getConnection().prepareStatement(GET_ALL_QUERY);
+            System.out.println("query : "+statement.toString());
             resultSet = statement.executeQuery();
             while (resultSet.next()){
                 result.add(computerFromTuple(resultSet));
@@ -120,6 +123,7 @@ public enum JdbcComputerDao implements ComputerDao {
         PreparedStatement statement = null;
         try {
             statement =  JdbcUtils.getConnection().prepareStatement(DELETE_ALL_QUERY);
+            System.out.println("query : "+statement.toString());
             statement.execute();
         } catch (SQLException e) {
             e.printStackTrace();  //To change body of catch statement use File | Settings | File Templates.
@@ -135,6 +139,7 @@ public enum JdbcComputerDao implements ComputerDao {
         try {
             statement = JdbcUtils.getConnection().prepareStatement(FIND_BY_ID_QUERY);
             statement.setInt(1,computerId);
+            System.out.println("query : "+statement.toString());
             resultSet = statement.executeQuery();
             if (resultSet.next()){
                 return computerFromTuple(resultSet);
@@ -208,6 +213,7 @@ public enum JdbcComputerDao implements ComputerDao {
         try {
             statement =  JdbcUtils.getConnection().prepareStatement(DELETE_BY_ID);
             statement.setInt(1,computerId);
+            System.out.println("query : "+statement.toString());
             statement.execute();
         } catch (SQLException e) {
             e.printStackTrace();  //To change body of catch statement use File | Settings | File Templates.
