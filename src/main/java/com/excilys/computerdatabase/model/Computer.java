@@ -17,7 +17,7 @@ import java.util.Date;
  */
 public class Computer{
 
-    private final Logger logger = LoggerFactory.getLogger(Computer.class);
+    private final static Logger logger = LoggerFactory.getLogger(Computer.class);
 
     private static final DateFormat dateFormatter = new SimpleDateFormat("yyyy-MM-dd");
 

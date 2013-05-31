@@ -23,7 +23,7 @@ import java.util.List;
 public enum JdbcComputerDao implements ComputerDao {
     INSTANCE;
 
-    private final Logger logger = LoggerFactory.getLogger(JdbcComputerDao.class);
+    private final static Logger logger = LoggerFactory.getLogger(JdbcComputerDao.class);
 
     private static final String[] COLUMN_NAMES = {"","computer.id","computer.name","computer.introduced","computer.discontinued","company.name"};
 

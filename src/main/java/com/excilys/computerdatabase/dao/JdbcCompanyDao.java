@@ -22,7 +22,7 @@ import java.util.List;
 public enum JdbcCompanyDao implements CompanyDao{
     INSTANCE;
 
-    private final Logger logger = LoggerFactory.getLogger(JdbcCompanyDao.class);
+    private final static Logger logger = LoggerFactory.getLogger(JdbcCompanyDao.class);
 
     private static final String FIND_BY_ID = "SELECT * FROM company WHERE id=?";
     private static final String FIND_BY_NAME = "SELECT * FROM company WHERE name=?";

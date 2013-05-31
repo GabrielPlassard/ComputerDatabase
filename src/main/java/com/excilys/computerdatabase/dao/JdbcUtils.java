@@ -14,7 +14,6 @@ import java.sql.*;
  */
 public class JdbcUtils {
 
-
     private static final Logger logger = LoggerFactory.getLogger(JdbcUtils.class);
     private static ThreadLocal<Connection> connectionThreadLocal = new ThreadLocal<Connection>();
 
@@ -32,6 +31,7 @@ public class JdbcUtils {
     }
 
     public static void openConnection(){
+        logger.debug("Opening connection on thread : {}", Thread.currentThread());
         try {
             connectionThreadLocal.set(DriverManager.getConnection("jdbc:mysql://localhost/computer_database", "root", "root"));
         } catch (SQLException e) {
@@ -60,6 +60,7 @@ public class JdbcUtils {
     }
 
     public static void closeConnection() {
+        logger.debug("Closing connection on thread : {}",Thread.currentThread());
         if (connectionThreadLocal.get() != null){
             try {
                 connectionThreadLocal.get().close();
