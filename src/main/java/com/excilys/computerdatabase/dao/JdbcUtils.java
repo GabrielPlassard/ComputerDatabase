@@ -68,6 +68,7 @@ public class JdbcUtils {
                 logger.warn(e.getMessage());
             }
         }
+        connectionThreadLocal.remove();
     }
 
     public static java.sql.Date dateUtilToSql(java.util.Date date) {

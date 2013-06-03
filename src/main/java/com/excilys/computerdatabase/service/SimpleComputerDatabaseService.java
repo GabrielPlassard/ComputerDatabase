@@ -59,7 +59,7 @@ public enum SimpleComputerDatabaseService implements ComputerDatabaseService {
     public ComputersAndTotalNumber listOfComputers(String search, int sortedColumn, int firstComputerIndice, int lastComputerIndice) {
         try{
             JdbcUtils.openConnection();
-            List<Computer> computers = computerDao.getMatchingFromToWhithSortedByColumn(search, firstComputerIndice, lastComputerIndice,sortedColumn);
+            List<Computer> computers = computerDao.getMatchingFromToWithSortedByColumn(search, firstComputerIndice, lastComputerIndice, sortedColumn);
             int matchingComputers = computerDao.numberOfMatching(search);
             ComputersAndTotalNumber result = new ComputersAndTotalNumber(computers,matchingComputers);
             return result;

@@ -165,7 +165,7 @@ public enum JdbcComputerDao implements ComputerDao {
     }
 
     @Override
-    public List<Computer> getMatchingFromToWhithSortedByColumn(String namePattern, int firstIndice, int lastIndice, int columnId) throws DaoException {
+    public List<Computer> getMatchingFromToWithSortedByColumn(String namePattern, int firstIndice, int lastIndice, int columnId) throws DaoException {
         PreparedStatement statement = null;
         ResultSet resultSet = null;
         List<Computer> result = new ArrayList<Computer>();

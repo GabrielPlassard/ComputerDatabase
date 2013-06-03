@@ -19,7 +19,7 @@ public interface ComputerDao {
     void update(Computer computer) throws DaoException;
     void deleteAll() throws DaoException;
     Computer findById(int computerId) throws DaoException;
-    List<Computer> getMatchingFromToWhithSortedByColumn(String namePattern, int firstIndice, int lastIndice, int columnId) throws DaoException;
+    List<Computer> getMatchingFromToWithSortedByColumn(String namePattern, int firstIndice, int lastIndice, int columnId) throws DaoException;
     int numberOfMatching(String namePattern) throws DaoException;
     void deleteById(int computerId) throws DaoException;
 }
