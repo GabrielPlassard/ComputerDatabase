@@ -7,10 +7,13 @@ import com.excilys.computerdatabase.service.SimpleComputerDatabaseService;
 import com.excilys.computerdatabase.utils.C;
 import com.excilys.computerdatabase.utils.Utils;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.context.ApplicationContext;
 import org.springframework.stereotype.Component;
+import org.springframework.web.context.support.WebApplicationContextUtils;
 
 import javax.servlet.ServletException;
 import javax.servlet.annotation.WebServlet;
+import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import java.io.IOException;
@@ -24,19 +27,19 @@ import java.util.List;
  * To change this template use File | Settings | File Templates.
  */
 
-@Component
-public class IndexServlet implements org.springframework.web.HttpRequestHandler{
+@WebServlet("/computers")
+public class IndexServlet extends HttpServlet {
 
-    @Autowired
     private ComputerDatabaseService computerDatabaseService;
+    private ApplicationContext applicationContext;
 
     @Override
-    public void handleRequest(HttpServletRequest request, HttpServletResponse httpServletResponse) throws ServletException, IOException {
-        if (request.getMethod().equalsIgnoreCase(C.GET)){
-            doGet(request,httpServletResponse);
+    public void init() {
+        if (applicationContext == null) {
+            applicationContext = WebApplicationContextUtils.getWebApplicationContext(getServletContext());
         }
+        computerDatabaseService = applicationContext.getBean(ComputerDatabaseService.class);
     }
-
 
     protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
 

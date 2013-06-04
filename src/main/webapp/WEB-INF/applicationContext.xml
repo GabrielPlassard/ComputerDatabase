@@ -6,9 +6,6 @@
 
     <context:annotation-config/>
 
-    <context:component-scan base-package="com.excilys.computerdatabase.dao"/>
-    <context:component-scan base-package="com.excilys.computerdatabase.service"/>
-    <context:component-scan base-package="com.excilys.computerdatabase.servlet"/>
-    <context:component-scan base-package="com.excilys.computerdatabase.model"/>
+    <context:component-scan base-package="com.excilys.computerdatabase"/>
 
 </beans>
