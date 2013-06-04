@@ -1,5 +1,8 @@
 package com.excilys.computerdatabase.dao;
 
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
+
 import java.sql.*;
 
 /**
@@ -11,13 +14,14 @@ import java.sql.*;
  */
 public class JdbcUtils {
 
+    private static final Logger logger = LoggerFactory.getLogger(JdbcUtils.class);
     private static ThreadLocal<Connection> connectionThreadLocal = new ThreadLocal<Connection>();
 
     static{
         try {
             Class.forName("com.mysql.jdbc.Driver");
         } catch (ClassNotFoundException e) {
-            e.printStackTrace();  //To change body of catch statement use File | Settings | File Templates.
+            logger.warn(e.getMessage());
         }
     }
 
@@ -27,10 +31,11 @@ public class JdbcUtils {
     }
 
     public static void openConnection(){
+        logger.debug("Opening connection on thread : {}", Thread.currentThread());
         try {
             connectionThreadLocal.set(DriverManager.getConnection("jdbc:mysql://localhost/computer_database", "root", "root"));
         } catch (SQLException e) {
-            e.printStackTrace();  //To change body of catch statement use File | Settings | File Templates.
+            logger.warn(e.getMessage());
         }
     }
 
@@ -39,7 +44,7 @@ public class JdbcUtils {
             try {
                 resultSet.close();
             } catch (SQLException e) {
-                e.printStackTrace();  //To change body of catch statement use File | Settings | File Templates.
+                logger.warn(e.getMessage());
             }
         }
     }
@@ -49,19 +54,21 @@ public class JdbcUtils {
             try {
                 statement.close();
             } catch (SQLException e) {
-                e.printStackTrace();  //To change body of catch statement use File | Settings | File Templates.
+                logger.warn(e.getMessage());
             }
         }
     }
 
     public static void closeConnection() {
+        logger.debug("Closing connection on thread : {}",Thread.currentThread());
         if (connectionThreadLocal.get() != null){
             try {
                 connectionThreadLocal.get().close();
             } catch (SQLException e) {
-                e.printStackTrace();  //To change body of catch statement use File | Settings | File Templates.
+                logger.warn(e.getMessage());
             }
         }
+        connectionThreadLocal.remove();
     }
 
     public static java.sql.Date dateUtilToSql(java.util.Date date) {

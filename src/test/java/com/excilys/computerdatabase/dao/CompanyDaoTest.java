@@ -1,6 +1,7 @@
 package com.excilys.computerdatabase.dao;
 
 
+import com.excilys.computerdatabase.exceptions.DaoException;
 import com.excilys.computerdatabase.model.Company;
 import org.junit.After;
 import org.junit.Before;
@@ -20,7 +21,7 @@ public class CompanyDaoTest {
     private CompanyDao companyDao = JdbcCompanyDao.INSTANCE;
 
     @Before
-    public void setUp(){
+    public void setUp() throws DaoException {
         JdbcUtils.openConnection();
         companyDao.deleteAll();
         insertSomeCompanies();
@@ -32,19 +33,19 @@ public class CompanyDaoTest {
     }
 
     @Test
-    public void testGetAll(){
+    public void testGetAll() throws DaoException {
         assertEquals(10, companyDao.getAll().size());
     }
 
     @Test
-    public void testAddCompany(){
+    public void testAddCompany() throws DaoException {
         Company c = new Company("Excilys");
         companyDao.saveOrUpdate(c);
         assertEquals(11, companyDao.getAll().size());
     }
 
     @Test
-    public void testUpdate(){
+    public void testUpdate() throws DaoException {
         Company c = new Company("Excilys");
         companyDao.saveOrUpdate(c);
         c.setName("eBusiness");
@@ -54,12 +55,12 @@ public class CompanyDaoTest {
     }
 
     @Test
-    public void testGetWithBadId(){
+    public void testGetWithBadId() throws DaoException {
         assertEquals(null, companyDao.findById(-15));
     }
 
 
-    private void insertSomeCompanies() {
+    private void insertSomeCompanies() throws DaoException {
         companyDao.saveOrUpdate(new Company("Apple Inc."));
         companyDao.saveOrUpdate(new Company("RCA"));
         companyDao.saveOrUpdate(new Company("Thinking Machines"));

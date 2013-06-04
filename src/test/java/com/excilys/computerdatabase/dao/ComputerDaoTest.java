@@ -1,5 +1,6 @@
 package com.excilys.computerdatabase.dao;
 
+import com.excilys.computerdatabase.exceptions.DaoException;
 import com.excilys.computerdatabase.model.Company;
 import com.excilys.computerdatabase.model.Computer;
 import org.junit.After;
@@ -21,7 +22,7 @@ public class ComputerDaoTest {
     private ComputerDao computerDao = JdbcComputerDao.INSTANCE;
 
     @Before
-    public void setUp(){
+    public void setUp() throws DaoException {
         JdbcUtils.openConnection();
         companyDao.deleteAll();
         insertSomeCompanies();
@@ -36,19 +37,19 @@ public class ComputerDaoTest {
     }
 
     @Test
-    public void testGetAll(){
+    public void testGetAll() throws DaoException {
         assertEquals(20, computerDao.getAll().size());
     }
 
     @Test
-    public void testAddComputer(){
+    public void testAddComputer() throws DaoException {
         Computer computer = new Computer("Mon ordinateur");
         computerDao.save(computer);
         assertEquals(21, computerDao.getAll().size());
     }
 
     @Test
-    public void testUpdate(){
+    public void testUpdate() throws DaoException {
         Computer computer = new Computer("Mon ordinateur");
         computerDao.save(computer);
         computer.setName("Mon nouvel ordinateur");
@@ -58,11 +59,11 @@ public class ComputerDaoTest {
     }
 
     @Test
-    public void testGetWithBadId(){
+    public void testGetWithBadId() throws DaoException {
         assertEquals(null, computerDao.findById(-15));
     }
 
-    private void insertSomeComputers() {
+    private void insertSomeComputers() throws DaoException {
         computerDao.save(new Computer("MacBook Pro 15.4 inch", null, null, null));
         computerDao.save(new Computer("CM-2a", null, null, null));
         computerDao.save(new Computer("CM-200", null, null, null));
@@ -85,7 +86,7 @@ public class ComputerDaoTest {
         computerDao.save(new Computer("ELF II", "1977-01-01", null, null));
     }
 
-    private void insertSomeCompanies() {
+    private void insertSomeCompanies() throws DaoException {
         companyDao.saveOrUpdate(new Company("Apple Inc."));
         companyDao.saveOrUpdate(new Company("RCA"));
         companyDao.saveOrUpdate(new Company("Thinking Machines"));

@@ -1,6 +1,9 @@
 package com.excilys.computerdatabase.dao;
 
+import com.excilys.computerdatabase.exceptions.DaoException;
 import com.excilys.computerdatabase.model.Company;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
@@ -18,6 +21,9 @@ import java.util.List;
  */
 public enum JdbcCompanyDao implements CompanyDao{
     INSTANCE;
+
+    private final static Logger logger = LoggerFactory.getLogger(JdbcCompanyDao.class);
+
     private static final String FIND_BY_ID = "SELECT * FROM company WHERE id=?";
     private static final String FIND_BY_NAME = "SELECT * FROM company WHERE name=?";
     private static final String SAVE = "INSERT INTO company(name) VALUES(?)";
@@ -35,7 +41,7 @@ public enum JdbcCompanyDao implements CompanyDao{
     }
 
     @Override
-    public Company findById(int companyId) {
+    public Company findById(int companyId)  throws DaoException {
         PreparedStatement statement = null;
         ResultSet resultSet = null;
         try {
@@ -46,7 +52,8 @@ public enum JdbcCompanyDao implements CompanyDao{
                 return companyFromTuple(resultSet);
             }
         } catch (SQLException e) {
-            e.printStackTrace();  //To change body of catch statement use File | Settings | File Templates.
+            logger.warn(e.getMessage());
+            throw new DaoException(e);
         } finally {
             JdbcUtils.closeResultSet(resultSet);
             JdbcUtils.closeStatement(statement);
@@ -55,7 +62,7 @@ public enum JdbcCompanyDao implements CompanyDao{
     }
 
     @Override
-    public Company findByName(String companyName) {
+    public Company findByName(String companyName)  throws DaoException{
         PreparedStatement statement = null;
         ResultSet resultSet = null;
         try {
@@ -66,7 +73,8 @@ public enum JdbcCompanyDao implements CompanyDao{
                 return companyFromTuple(resultSet);
             }
         } catch (SQLException e) {
-            e.printStackTrace();  //To change body of catch statement use File | Settings | File Templates.
+            logger.warn(e.getMessage());
+            throw new DaoException(e);
         }finally {
             JdbcUtils.closeResultSet(resultSet);
             JdbcUtils.closeStatement(statement);
@@ -74,7 +82,7 @@ public enum JdbcCompanyDao implements CompanyDao{
         return null;
     }
 
-    private void save(Company company) {
+    private void save(Company company)  throws DaoException{
         PreparedStatement statement = null;
         ResultSet resultKey = null;
         try {
@@ -86,14 +94,15 @@ public enum JdbcCompanyDao implements CompanyDao{
             int id = resultKey.getInt(1);
             company.setId(id);
         } catch (SQLException e) {
-            e.printStackTrace();  //To change body of catch statement use File | Settings | File Templates.
+            logger.warn(e.getMessage());
+            throw new DaoException(e);
         }finally {
             JdbcUtils.closeResultSet(resultKey);
             JdbcUtils.closeStatement(statement);
         }
     }
 
-    private void update(Company company) {
+    private void update(Company company)  throws DaoException{
         PreparedStatement statement = null;
         try {
             statement =  JdbcUtils.getConnection().prepareStatement(UPDATE);
@@ -101,14 +110,15 @@ public enum JdbcCompanyDao implements CompanyDao{
             statement.setInt(2,company.getId());
             statement.execute();
         } catch (SQLException e) {
-            e.printStackTrace();  //To change body of catch statement use File | Settings | File Templates.
+            logger.warn(e.getMessage());
+            throw new DaoException(e);
         }finally {
             JdbcUtils.closeStatement(statement);
         }
     }
 
     @Override
-    public List<Company> getAll() {
+    public List<Company> getAll()  throws DaoException{
         PreparedStatement statement = null;
         ResultSet resultSet = null;
         List<Company> result = new ArrayList<Company>();
@@ -119,7 +129,8 @@ public enum JdbcCompanyDao implements CompanyDao{
                 result.add(companyFromTuple(resultSet));
             }
         } catch (SQLException e) {
-            e.printStackTrace();  //To change body of catch statement use File | Settings | File Templates.
+            logger.warn(e.getMessage());
+            throw new DaoException(e);
         }finally {
             JdbcUtils.closeResultSet(resultSet);
             JdbcUtils.closeStatement(statement);
@@ -129,7 +140,7 @@ public enum JdbcCompanyDao implements CompanyDao{
 
 
     @Override
-    public void saveOrUpdate(Company company) {
+    public void saveOrUpdate(Company company)  throws DaoException{
         if (findById(company.getId()) == null){
             save(company);
         }
@@ -139,13 +150,14 @@ public enum JdbcCompanyDao implements CompanyDao{
     }
 
     @Override
-    public void deleteAll() {
+    public void deleteAll()  throws DaoException{
         PreparedStatement statement = null;
         try {
             statement =  JdbcUtils.getConnection().prepareStatement(DELETE);
             statement.execute();
         } catch (SQLException e) {
-            e.printStackTrace();  //To change body of catch statement use File | Settings | File Templates.
+            logger.warn(e.getMessage());
+            throw new DaoException(e);
         } finally {
             JdbcUtils.closeStatement(statement);
         }
