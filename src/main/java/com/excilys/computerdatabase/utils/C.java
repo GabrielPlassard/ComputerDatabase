@@ -9,6 +9,8 @@ package com.excilys.computerdatabase.utils;
  */
 public class C {
 
+    private C() {}
+
     public final static int COMPUTERS_PER_PAGE = 10;
 
     public static final String GET = "GET";
