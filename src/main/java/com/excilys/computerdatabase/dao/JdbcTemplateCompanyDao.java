@@ -2,6 +2,8 @@ package com.excilys.computerdatabase.dao;
 
 import com.excilys.computerdatabase.exceptions.DaoException;
 import com.excilys.computerdatabase.model.Company;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.jdbc.core.JdbcTemplate;
 import org.springframework.jdbc.core.simple.SimpleJdbcInsert;
@@ -24,6 +26,8 @@ import java.util.Map;
 @Repository
 public class JdbcTemplateCompanyDao implements CompanyDao {
 
+    private final static Logger logger = LoggerFactory.getLogger(JdbcTemplateCompanyDao.class);
+
     private final static String SELECT_ALL = "SELECT * FROM company";
     private final static String FIND_BY_NAME = "SELECT * FROM company WHERE company.name=?";
     private final static String FIND_BY_ID = "SELECT * FROM company WHERE company.id=?";
@@ -39,6 +43,16 @@ public class JdbcTemplateCompanyDao implements CompanyDao {
         insertCompany = new SimpleJdbcInsert(dataSource).withTableName("company").usingGeneratedKeyColumns("company.id");
     }
 
+
+    @Override
+    public void openConnection() {
+        logger.debug("Not opening connection since it's Spring's job to do it");
+    }
+
+    @Override
+    public void closeConnection() {
+        logger.debug("Not closing connection since it's Spring's job to do it");
+    }
 
     @Override
     @Transactional(readOnly = true)

@@ -2,6 +2,8 @@ package com.excilys.computerdatabase.dao;
 
 import com.excilys.computerdatabase.exceptions.DaoException;
 import com.excilys.computerdatabase.model.Computer;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.jdbc.core.JdbcTemplate;
 import org.springframework.jdbc.core.simple.SimpleJdbcInsert;
@@ -24,6 +26,8 @@ import java.util.Map;
 @Repository
 public class JdbcTemplateComputerDao implements ComputerDao {
 
+    private final static Logger logger = LoggerFactory.getLogger(JdbcTemplateComputerDao.class);
+
     private static final String[] COLUMN_NAMES = {"", "computer.id", "computer.name", "computer.introduced", "computer.discontinued", "company.name"};
 
     private static final String SELECT_ALL = "SELECT * FROM computer LEFT JOIN company ON computer.company_id=company.id";
@@ -41,6 +45,16 @@ public class JdbcTemplateComputerDao implements ComputerDao {
     public void setDataSource(DriverManagerDataSource dataSource) {
         template = new JdbcTemplate(dataSource);
         insertComputer = new SimpleJdbcInsert(dataSource).withTableName("computer").usingGeneratedKeyColumns("computer.id");
+    }
+
+    @Override
+    public void openConnection() {
+        logger.debug("Not opening connection since it's Spring's job to do it");
+    }
+
+    @Override
+    public void closeConnection() {
+        logger.debug("Not closing connection since it's Spring's job to do it");
     }
 
 

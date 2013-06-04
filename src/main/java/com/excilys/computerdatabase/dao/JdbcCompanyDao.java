@@ -63,6 +63,16 @@ public class JdbcCompanyDao implements CompanyDao {
     }
 
     @Override
+    public void openConnection() {
+        JdbcUtils.openConnection();
+    }
+
+    @Override
+    public void closeConnection() {
+        JdbcUtils.closeConnection();
+    }
+
+    @Override
     public Company findByName(String companyName) throws DaoException {
         PreparedStatement statement = null;
         ResultSet resultSet = null;

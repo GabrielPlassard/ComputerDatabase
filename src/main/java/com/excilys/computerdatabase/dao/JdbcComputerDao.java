@@ -102,6 +102,16 @@ public class JdbcComputerDao implements ComputerDao {
 
 
     @Override
+    public void openConnection() {
+        JdbcUtils.openConnection();
+    }
+
+    @Override
+    public void closeConnection() {
+        JdbcUtils.closeConnection();
+    }
+
+    @Override
     public List<Computer> getAll() throws DaoException {
         PreparedStatement statement = null;
         ResultSet resultSet = null;

@@ -37,12 +37,12 @@ public class SimpleComputerDatabaseService implements ComputerDatabaseService {
 
         List<Company> companies = new ArrayList<Company>();
         try {
-            JdbcUtils.openConnection();
+            computerDao.openConnection();
             companies = companyDao.getAll();
         } catch (DaoException e) {
             throw new ServiceException(e);
         } finally {
-            JdbcUtils.closeConnection();
+            computerDao.closeConnection();
         }
         return companies;
     }
@@ -52,13 +52,13 @@ public class SimpleComputerDatabaseService implements ComputerDatabaseService {
         boolean succesfull = false;
 
         try {
-            JdbcUtils.openConnection();
+            computerDao.openConnection();
             computerDao.deleteById(computerId);
             succesfull = computerDao.findById(computerId) == null;
         } catch (DaoException e) {
             throw new ServiceException(e);
         } finally {
-            JdbcUtils.closeConnection();
+            computerDao.closeConnection();
         }
         return succesfull;
     }
@@ -66,7 +66,7 @@ public class SimpleComputerDatabaseService implements ComputerDatabaseService {
     @Override
     public ComputersAndTotalNumber listOfComputers(String search, int sortedColumn, int firstComputerIndice, int lastComputerIndice) {
         try {
-            JdbcUtils.openConnection();
+            computerDao.openConnection();
             List<Computer> computers = computerDao.getMatchingFromToWithSortedByColumn(search, firstComputerIndice, lastComputerIndice, sortedColumn);
             int matchingComputers = computerDao.numberOfMatching(search);
             ComputersAndTotalNumber result = new ComputersAndTotalNumber(computers, matchingComputers);
@@ -74,14 +74,14 @@ public class SimpleComputerDatabaseService implements ComputerDatabaseService {
         } catch (DaoException e) {
             throw new ServiceException(e);
         } finally {
-            JdbcUtils.closeConnection();
+            computerDao.closeConnection();
         }
     }
 
     @Override
     public ComputerAndCompanies computerByIdAndCompanies(long computerId) {
         try {
-            JdbcUtils.openConnection();
+            computerDao.openConnection();
 
             Computer computer = computerDao.findById(computerId);
             List<Company> companies = companyDao.getAll();
@@ -90,14 +90,14 @@ public class SimpleComputerDatabaseService implements ComputerDatabaseService {
         } catch (DaoException e) {
             throw new ServiceException(e);
         } finally {
-            JdbcUtils.closeConnection();
+            computerDao.closeConnection();
         }
     }
 
     @Override
     public void createComputerAndSetCompany(Computer computer, long companyId) {
         try {
-            JdbcUtils.openConnection();
+            computerDao.openConnection();
 
             Company company = companyDao.findById(companyId);
             computer.setCompany(company);
@@ -105,7 +105,7 @@ public class SimpleComputerDatabaseService implements ComputerDatabaseService {
         } catch (DaoException e) {
             throw new ServiceException(e);
         } finally {
-            JdbcUtils.closeConnection();
+            computerDao.closeConnection();
         }
     }
 
@@ -113,7 +113,7 @@ public class SimpleComputerDatabaseService implements ComputerDatabaseService {
     public boolean updateComputerAndSetCompany(Computer computer, long companyId) {
         boolean succesfull = false;
         try {
-            JdbcUtils.openConnection();
+            computerDao.openConnection();
             Company company = companyDao.findById(companyId);
             computer.setCompany(company);
             computerDao.update(computer);
@@ -121,7 +121,7 @@ public class SimpleComputerDatabaseService implements ComputerDatabaseService {
         } catch (DaoException e) {
             throw new ServiceException(e);
         } finally {
-            JdbcUtils.closeConnection();
+            computerDao.closeConnection();
         }
         return succesfull;
     }

@@ -14,6 +14,10 @@ import java.util.List;
  */
 public interface ComputerDao {
 
+    void openConnection();
+
+    void closeConnection();
+
     List<Computer> getAll() throws DaoException;
 
     void save(Computer computer) throws DaoException;

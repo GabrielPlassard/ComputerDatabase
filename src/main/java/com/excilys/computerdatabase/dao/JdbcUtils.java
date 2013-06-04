@@ -29,11 +29,11 @@ public class JdbcUtils {
     }
 
 
-    public static Connection getConnection() {
+    static Connection getConnection() {
         return connectionThreadLocal.get();
     }
 
-    public static void openConnection() {
+    static void openConnection() {
         logger.debug("Opening connection on thread : {}", Thread.currentThread());
         try {
             connectionThreadLocal.set(DriverManager.getConnection("jdbc:mysql://localhost/computer_database", "root", "root"));
@@ -42,7 +42,7 @@ public class JdbcUtils {
         }
     }
 
-    public static void closeResultSet(ResultSet resultSet) {
+    static void closeResultSet(ResultSet resultSet) {
         if (resultSet != null) {
             try {
                 resultSet.close();
@@ -52,7 +52,7 @@ public class JdbcUtils {
         }
     }
 
-    public static void closeStatement(PreparedStatement statement) {
+    static void closeStatement(PreparedStatement statement) {
         if (statement != null) {
             try {
                 statement.close();
@@ -62,7 +62,7 @@ public class JdbcUtils {
         }
     }
 
-    public static void closeConnection() {
+    static void closeConnection() {
         logger.debug("Closing connection on thread : {}", Thread.currentThread());
         if (connectionThreadLocal.get() != null) {
             try {

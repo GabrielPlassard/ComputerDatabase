@@ -13,6 +13,11 @@ import java.util.List;
  * To change this template use File | Settings | File Templates.
  */
 public interface CompanyDao {
+
+    void openConnection();
+
+    void closeConnection();
+
     Company findByName(String name) throws DaoException;
 
     List<Company> getAll() throws DaoException;
