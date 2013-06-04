@@ -21,7 +21,7 @@ import static org.junit.Assert.assertEquals;
  * To change this template use File | Settings | File Templates.
  */
 @RunWith(SpringJUnit4ClassRunner.class)
-@ContextConfiguration(locations = "file:src/test/resources/testContext.xml")
+@ContextConfiguration(locations = "file:src/main/webapp/WEB-INF/applicationContext.xml")
 public class ComputerDaoTest {
 
     @Autowired
