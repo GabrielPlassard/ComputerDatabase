@@ -22,7 +22,7 @@ import static org.junit.Assert.assertEquals;
  */
 
 @RunWith(SpringJUnit4ClassRunner.class)
-@ContextConfiguration(locations = "file:src/main/webapp/WEB-INF/applicationContext.xml")
+@ContextConfiguration(locations = "file:src/test/resources/testContext.xml")
 public class CompanyDaoTest {
 
     @Autowired
