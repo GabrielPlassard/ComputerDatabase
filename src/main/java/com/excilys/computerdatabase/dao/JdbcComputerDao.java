@@ -22,7 +22,7 @@ import java.util.List;
  * To change this template use File | Settings | File Templates.
  */
 
-@Repository
+//@Repository
 public class JdbcComputerDao implements ComputerDao {
 
     private final static Logger logger = LoggerFactory.getLogger(JdbcComputerDao.class);
