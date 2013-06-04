@@ -1,0 +1,24 @@
+package com.excilys.computerdatabase.dao;
+
+import com.excilys.computerdatabase.model.Computer;
+
+import java.util.List;
+
+/**
+ * Created with IntelliJ IDEA.
+ * User: gplassard
+ * Date: 24/05/13
+ * Time: 16:51
+ * To change this template use File | Settings | File Templates.
+ */
+public interface ComputerDao {
+
+    List<Computer> getAll();
+    void save(Computer computer);
+    void update(Computer computer);
+    void deleteAll();
+    Computer findById(int computerId);
+    List<Computer> getMatchingFromToWhithSortedByColumn(String namePattern, int firstIndice, int lastIndice, int columnId);
+    int numberOfMatching(String namePattern);
+    void deleteById(int computerId);
+}
