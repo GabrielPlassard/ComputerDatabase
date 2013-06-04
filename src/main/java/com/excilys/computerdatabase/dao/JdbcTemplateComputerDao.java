@@ -8,6 +8,7 @@ import org.springframework.jdbc.core.JdbcTemplate;
 import org.springframework.jdbc.core.simple.SimpleJdbcInsert;
 import org.springframework.jdbc.datasource.DriverManagerDataSource;
 import org.springframework.stereotype.Repository;
+import org.springframework.transaction.annotation.Transactional;
 
 import java.util.HashMap;
 import java.util.List;
@@ -50,6 +51,7 @@ public class JdbcTemplateComputerDao implements ComputerDao{
     }
 
     @Override
+    @Transactional
     public void save(Computer computer) throws DaoException {
         Map<String, Object> parameters = new HashMap<String,Object>();
         parameters.put("name",computer.getName());
@@ -66,17 +68,20 @@ public class JdbcTemplateComputerDao implements ComputerDao{
     }
 
     @Override
+    @Transactional
     public void update(Computer computer) throws DaoException {
         int companyId = computer.getCompany() == null ? 0 : computer.getCompany().getId();
         template.update(UPDATE,new Object[]{computer.getName(),computer.getIntroduced(),computer.getDiscontinued(),companyId,computer.getId()});
     }
 
     @Override
+    @Transactional
     public void deleteAll() throws DaoException {
         template.update(DELETE_ALL);
     }
 
     @Override
+    @Transactional(readOnly = true)
     public Computer findById(int computerId) throws DaoException {
         List<Computer> results = template.query(FIND_BY_ID,new Object[]{computerId},new ComputerRowMapper());
         if (results.size() == 0) return null;
@@ -84,6 +89,7 @@ public class JdbcTemplateComputerDao implements ComputerDao{
     }
 
     @Override
+    @Transactional(readOnly = true)
     public List<Computer> getMatchingFromToWithSortedByColumn(String namePattern, int firstIndice, int lastIndice, int columnId) throws DaoException {
         return template.query(getSqlSelect(columnId),new Object[]{"%"+namePattern+"%", lastIndice-firstIndice, firstIndice}, new ComputerRowMapper());
     }
@@ -98,11 +104,13 @@ public class JdbcTemplateComputerDao implements ComputerDao{
     }
 
     @Override
+    @Transactional(readOnly = true)
     public int numberOfMatching(String namePattern) throws DaoException {
         return template.queryForObject(SELECT_NUMBER_MATCHING, new Object[]{"%"+namePattern+"%"} , Integer.class);
     }
 
     @Override
+    @Transactional
     public void deleteById(int computerId) throws DaoException {
         template.update(DELETE_BY_ID, new Object[]{computerId});
     }

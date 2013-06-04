@@ -7,6 +7,7 @@ import org.springframework.jdbc.core.JdbcTemplate;
 import org.springframework.jdbc.core.simple.SimpleJdbcInsert;
 import org.springframework.jdbc.datasource.DriverManagerDataSource;
 import org.springframework.stereotype.Repository;
+import org.springframework.transaction.annotation.Transactional;
 
 import java.util.HashMap;
 import java.util.List;
@@ -21,7 +22,7 @@ import java.util.Map;
  */
 
 @Repository
-public class JdbcTemplateCompanydao implements CompanyDao{
+public class JdbcTemplateCompanyDao implements CompanyDao{
 
     private final static String SELECT_ALL = "SELECT * FROM company";
     private final static String FIND_BY_NAME = "SELECT * FROM company WHERE company.name=?";
@@ -40,6 +41,7 @@ public class JdbcTemplateCompanydao implements CompanyDao{
 
 
     @Override
+    @Transactional(readOnly = true)
     public Company findByName(String name) throws DaoException {
         List<Company> results = template.query(FIND_BY_NAME,new Object[]{name},new CompanyRowMapper());
         if (results.size() == 0) return null;
@@ -47,6 +49,7 @@ public class JdbcTemplateCompanydao implements CompanyDao{
     }
 
     @Override
+    @Transactional(readOnly = true)
     public List<Company> getAll() throws DaoException {
         return template.query(SELECT_ALL, new CompanyRowMapper());
     }
@@ -61,23 +64,27 @@ public class JdbcTemplateCompanydao implements CompanyDao{
         }
     }
 
+    @Transactional
     private void save(Company company){
         Map<String, Object> parameters = new HashMap<String,Object>();
-        parameters.put("name",company.getName());
+        parameters.put("name", company.getName());
         long id = (Long) insertCompany.executeAndReturnKey(parameters);
         company.setId((int) id);
     }
 
+    @Transactional
     private void update(Company company){
         template.update(UPDATE,new Object[]{company.getName(),company.getId()});
     }
 
     @Override
+    @Transactional
     public void deleteAll() throws DaoException {
         template.update(DELETE);
     }
 
     @Override
+    @Transactional(readOnly = true)
     public Company findById(int companyId) throws DaoException {
         List<Company> results = template.query(FIND_BY_ID,new Object[]{companyId},new CompanyRowMapper());
         if (results.size() == 0) return null;
