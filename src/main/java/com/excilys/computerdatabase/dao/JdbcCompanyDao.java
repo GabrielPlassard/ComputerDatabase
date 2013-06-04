@@ -35,7 +35,7 @@ public class JdbcCompanyDao implements CompanyDao{
 
     static Company companyFromTuple(ResultSet resultSet) throws SQLException {
         Company company = new Company();
-        int id = resultSet.getInt("company.id");
+        long id = resultSet.getLong("company.id");
         String name = resultSet.getString("company.name");
         company.setId(id);
         company.setName(name);
@@ -43,12 +43,12 @@ public class JdbcCompanyDao implements CompanyDao{
     }
 
     @Override
-    public Company findById(int companyId)  throws DaoException {
+    public Company findById(long companyId)  throws DaoException {
         PreparedStatement statement = null;
         ResultSet resultSet = null;
         try {
             statement = JdbcUtils.getConnection().prepareStatement(FIND_BY_ID);
-            statement.setInt(1,companyId);
+            statement.setLong(1,companyId);
             resultSet = statement.executeQuery();
             if (resultSet.next()){
                 return companyFromTuple(resultSet);
@@ -93,7 +93,7 @@ public class JdbcCompanyDao implements CompanyDao{
             statement.execute();
             resultKey = statement.getGeneratedKeys();
             resultKey.next();
-            int id = resultKey.getInt(1);
+            long id = resultKey.getLong(1);
             company.setId(id);
         } catch (SQLException e) {
             logger.warn(e.getMessage());
@@ -109,7 +109,7 @@ public class JdbcCompanyDao implements CompanyDao{
         try {
             statement =  JdbcUtils.getConnection().prepareStatement(UPDATE);
             statement.setString(1, company.getName());
-            statement.setInt(2,company.getId());
+            statement.setLong(2,company.getId());
             statement.execute();
         } catch (SQLException e) {
             logger.warn(e.getMessage());

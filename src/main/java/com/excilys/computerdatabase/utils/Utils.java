@@ -48,4 +48,12 @@ public class Utils {
         if (date == null) return null;
         return dateFormatter.format(date);
     }
+
+    public static long longParameterOrDefault(String id, long defaultValue) {
+        try{
+            return Long.valueOf(id);
+        }catch(NumberFormatException e){
+            return defaultValue;
+        }
+    }
 }

@@ -17,5 +17,5 @@ public interface CompanyDao {
     List<Company> getAll() throws DaoException;
     void saveOrUpdate(Company company) throws DaoException;
     void deleteAll() throws DaoException;
-    Company findById(int companyId) throws DaoException;
+    Company findById(long companyId) throws DaoException;
 }

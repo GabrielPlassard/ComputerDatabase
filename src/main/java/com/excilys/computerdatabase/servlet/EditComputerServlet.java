@@ -42,7 +42,7 @@ public class EditComputerServlet extends HttpServlet {
     }
 
     protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
-        int id = Utils.intParameterOrDefault(request.getParameter("id"),0);
+        long id = Utils.longParameterOrDefault(request.getParameter("id"),0);
         ComputerAndCompanies queryResult = computerDatabaseService.computerByIdAndCompanies(id);
 
         ComputerForm form = new ComputerForm(queryResult.getComputer());
@@ -57,7 +57,7 @@ public class EditComputerServlet extends HttpServlet {
 
         if (form.isValid()){
             Computer computer = form.getComputer();
-            int id = Utils.intParameterOrDefault(request.getParameter("id"),0);
+            long id = Utils.longParameterOrDefault(request.getParameter("id"),0);
             computer.setId(id);
             boolean succesfull = computerDatabaseService.updateComputerAndSetCompany(computer, form.getCompanyId());
             if (succesfull){

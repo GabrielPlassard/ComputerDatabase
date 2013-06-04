@@ -46,7 +46,7 @@ public class SimpleComputerDatabaseService implements ComputerDatabaseService {
     }
 
     @Override
-    public boolean deleteComputerById(int computerId) {
+    public boolean deleteComputerById(long computerId) {
         boolean succesfull = false;
 
         try{
@@ -77,7 +77,7 @@ public class SimpleComputerDatabaseService implements ComputerDatabaseService {
     }
 
     @Override
-    public ComputerAndCompanies computerByIdAndCompanies(int computerId) {
+    public ComputerAndCompanies computerByIdAndCompanies(long computerId) {
         try{
             JdbcUtils.openConnection();
 
@@ -93,7 +93,7 @@ public class SimpleComputerDatabaseService implements ComputerDatabaseService {
     }
 
     @Override
-    public void createComputerAndSetCompany(Computer computer, int companyId) {
+    public void createComputerAndSetCompany(Computer computer, long companyId) {
         try{
             JdbcUtils.openConnection();
 
@@ -108,7 +108,7 @@ public class SimpleComputerDatabaseService implements ComputerDatabaseService {
     }
 
     @Override
-    public boolean updateComputerAndSetCompany(Computer computer, int companyId) {
+    public boolean updateComputerAndSetCompany(Computer computer, long companyId) {
         boolean succesfull = false;
         try{
             JdbcUtils.openConnection();

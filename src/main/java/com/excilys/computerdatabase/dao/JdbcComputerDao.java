@@ -6,10 +6,7 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.stereotype.Repository;
 
-import java.sql.PreparedStatement;
-import java.sql.ResultSet;
-import java.sql.SQLException;
-import java.sql.Statement;
+import java.sql.*;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
@@ -41,7 +38,7 @@ public class JdbcComputerDao implements ComputerDao {
 
     static Computer computerFromTuple(ResultSet resultSet) throws SQLException{
         Computer computer = new Computer();
-        int id = resultSet.getInt(COLUMN_NAMES[1]);
+        long id = resultSet.getLong(COLUMN_NAMES[1]);
         String name = resultSet.getString(COLUMN_NAMES[2]);
         Date introduced = resultSet.getDate(COLUMN_NAMES[3]);
         Date discontinued = resultSet.getDate(COLUMN_NAMES[4]);
@@ -62,16 +59,16 @@ public class JdbcComputerDao implements ComputerDao {
             statement.setDate(2, JdbcUtils.dateUtilToSql(computer.getIntroduced()));
             statement.setDate(3, JdbcUtils.dateUtilToSql(computer.getDiscontinued()));
             if (computer.getCompany() != null){
-                statement.setInt(4, computer.getCompany().getId());
+                statement.setLong(4, computer.getCompany().getId());
             }
             else{
-                statement.setNull(4,java.sql.Types.INTEGER);
+                statement.setNull(4, Types.BIGINT);
             }
             logger.debug(statement.toString());
             statement.execute();
             resultKey = statement.getGeneratedKeys();
             resultKey.next();
-            int id = resultKey.getInt(1);
+            long id = resultKey.getLong(1);
             computer.setId(id);
         } catch (SQLException e) {
             logger.warn(e.getMessage());
@@ -90,12 +87,12 @@ public class JdbcComputerDao implements ComputerDao {
             statement.setDate(2, JdbcUtils.dateUtilToSql(computer.getIntroduced()));
             statement.setDate(3, JdbcUtils.dateUtilToSql(computer.getDiscontinued()));
             if (computer.getCompany() != null){
-                statement.setInt(4, computer.getCompany().getId());
+                statement.setLong(4, computer.getCompany().getId());
             }
             else{
-                statement.setNull(4,java.sql.Types.INTEGER);
+                statement.setNull(4, Types.BIGINT);
             }
-            statement.setInt(5,computer.getId());
+            statement.setLong(5,computer.getId());
             logger.debug(statement.toString());
             statement.execute();
         } catch (SQLException e) {
@@ -145,12 +142,12 @@ public class JdbcComputerDao implements ComputerDao {
     }
 
     @Override
-    public Computer findById(int computerId) throws DaoException {
+    public Computer findById(long computerId) throws DaoException {
         PreparedStatement statement = null;
         ResultSet resultSet = null;
         try {
             statement = JdbcUtils.getConnection().prepareStatement(FIND_BY_ID_QUERY);
-            statement.setInt(1,computerId);
+            statement.setLong(1,computerId);
             logger.debug(statement.toString());
             resultSet = statement.executeQuery();
             if (resultSet.next()){
@@ -223,11 +220,11 @@ public class JdbcComputerDao implements ComputerDao {
     }
 
     @Override
-    public void deleteById(int computerId) throws DaoException {
+    public void deleteById(long computerId) throws DaoException {
         PreparedStatement statement = null;
         try {
             statement =  JdbcUtils.getConnection().prepareStatement(DELETE_BY_ID);
-            statement.setInt(1,computerId);
+            statement.setLong(1,computerId);
             logger.debug(statement.toString());
             statement.execute();
         } catch (SQLException e) {

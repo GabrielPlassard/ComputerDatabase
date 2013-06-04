@@ -64,13 +64,13 @@ public class JdbcTemplateComputerDao implements ComputerDao{
             parameters.put("company_id",null);
         }
         long id = (Long) insertComputer.executeAndReturnKey(parameters);
-        computer.setId((int) id);
+        computer.setId( id);
     }
 
     @Override
     @Transactional
     public void update(Computer computer) throws DaoException {
-        int companyId = computer.getCompany() == null ? 0 : computer.getCompany().getId();
+        long companyId = computer.getCompany() == null ? 0 : computer.getCompany().getId();
         template.update(UPDATE,new Object[]{computer.getName(),computer.getIntroduced(),computer.getDiscontinued(),companyId,computer.getId()});
     }
 
@@ -82,7 +82,7 @@ public class JdbcTemplateComputerDao implements ComputerDao{
 
     @Override
     @Transactional(readOnly = true)
-    public Computer findById(int computerId) throws DaoException {
+    public Computer findById(long computerId) throws DaoException {
         List<Computer> results = template.query(FIND_BY_ID,new Object[]{computerId},new ComputerRowMapper());
         if (results.size() == 0) return null;
         return results.get(0);
@@ -111,7 +111,7 @@ public class JdbcTemplateComputerDao implements ComputerDao{
 
     @Override
     @Transactional
-    public void deleteById(int computerId) throws DaoException {
+    public void deleteById(long computerId) throws DaoException {
         template.update(DELETE_BY_ID, new Object[]{computerId});
     }
 }

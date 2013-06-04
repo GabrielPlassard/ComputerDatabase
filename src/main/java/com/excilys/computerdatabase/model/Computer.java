@@ -21,7 +21,7 @@ public class Computer{
 
     private static final DateFormat dateFormatter = new SimpleDateFormat("yyyy-MM-dd");
 
-    private int id;
+    private long id;
     private String name;
     private Date introduced;
     private Date discontinued;
@@ -40,7 +40,7 @@ public class Computer{
         this(name, null, null, null);
     }
 
-    public void setId(int id) {
+    public void setId(long id) {
         this.id = id;
 
     }
@@ -53,7 +53,7 @@ public class Computer{
         this.company = company;
     }
 
-    public int getId() {
+    public long getId() {
         return id;
     }
 

@@ -57,8 +57,6 @@ public class IndexServlet extends HttpServlet {
         int firstComputerIndice = (currentPage - 1) * C.COMPUTERS_PER_PAGE;
         int lastComputerIndice = firstComputerIndice + C.COMPUTERS_PER_PAGE;
 
-        System.out.println("service : ");
-        System.out.println(computerDatabaseService);
         ComputersAndTotalNumber queryResult = computerDatabaseService.listOfComputers(research, sortedColumnNumber, firstComputerIndice, lastComputerIndice);
         int numberOfMatchingComputers =  queryResult.getNumberOfMatchingComputers();
         List<Computer> computers = queryResult.getMatchingComputers();

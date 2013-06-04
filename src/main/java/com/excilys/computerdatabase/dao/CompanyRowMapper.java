@@ -18,7 +18,7 @@ public class CompanyRowMapper implements RowMapper{
     @Override
     public Company mapRow(ResultSet resultSet, int i) throws SQLException {
         Company company = new Company();
-        company.setId(resultSet.getInt("company.id"));
+        company.setId(resultSet.getLong("company.id"));
         company.setName(resultSet.getString("company.name"));
         return company;
     }

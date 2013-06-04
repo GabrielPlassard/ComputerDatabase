@@ -18,8 +18,8 @@ public interface ComputerDao {
     void save(Computer computer) throws DaoException;
     void update(Computer computer) throws DaoException;
     void deleteAll() throws DaoException;
-    Computer findById(int computerId) throws DaoException;
+    Computer findById(long computerId) throws DaoException;
     List<Computer> getMatchingFromToWithSortedByColumn(String namePattern, int firstIndice, int lastIndice, int columnId) throws DaoException;
     int numberOfMatching(String namePattern) throws DaoException;
-    void deleteById(int computerId) throws DaoException;
+    void deleteById(long computerId) throws DaoException;
 }

@@ -39,7 +39,7 @@ public class DeleteComputerServlet extends HttpServlet {
     }
 
     protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException{
-        int computerId = Utils.intParameterOrDefault(request.getParameter("id"),0);
+        long computerId = Utils.longParameterOrDefault(request.getParameter("id"),0);
         boolean succesfull = computerDatabaseService.deleteComputerById(computerId);
         if (succesfull){
             request.getSession().setAttribute("alertMessage","Computer deleted successfully");

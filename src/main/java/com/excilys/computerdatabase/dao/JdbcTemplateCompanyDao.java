@@ -69,7 +69,7 @@ public class JdbcTemplateCompanyDao implements CompanyDao{
         Map<String, Object> parameters = new HashMap<String,Object>();
         parameters.put("name", company.getName());
         long id = (Long) insertCompany.executeAndReturnKey(parameters);
-        company.setId((int) id);
+        company.setId( id);
     }
 
     @Transactional
@@ -85,7 +85,7 @@ public class JdbcTemplateCompanyDao implements CompanyDao{
 
     @Override
     @Transactional(readOnly = true)
-    public Company findById(int companyId) throws DaoException {
+    public Company findById(long companyId) throws DaoException {
         List<Company> results = template.query(FIND_BY_ID,new Object[]{companyId},new CompanyRowMapper());
         if (results.size() == 0) return null;
         return results.get(0);
