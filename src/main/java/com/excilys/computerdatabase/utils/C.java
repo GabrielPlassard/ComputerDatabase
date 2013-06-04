@@ -11,4 +11,6 @@ public class C {
 
     public final static int COMPUTERS_PER_PAGE = 10;
 
+    public static final String GET = "GET";
+    public static final String POST = "POST";
 }

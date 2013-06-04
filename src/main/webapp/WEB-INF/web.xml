@@ -8,4 +8,52 @@
 
     <display-name>Computer database</display-name>
 
+    <context-param>
+        <param-name>contextConfigLocation</param-name>
+        <param-value>/WEB-INF/applicationContext.xml</param-value>
+    </context-param>
+
+    <servlet>
+        <display-name>IndexServlet</display-name>
+        <servlet-name>indexServlet</servlet-name>
+        <servlet-class>org.springframework.web.context.support.HttpRequestHandlerServlet</servlet-class>
+    </servlet>
+    <servlet>
+        <display-name>EditComputerServlet</display-name>
+        <servlet-name>editComputerServlet</servlet-name>
+        <servlet-class>org.springframework.web.context.support.HttpRequestHandlerServlet</servlet-class>
+    </servlet>
+    <servlet>
+        <display-name>NewComputerServlet</display-name>
+        <servlet-name>newComputerServlet</servlet-name>
+        <servlet-class>org.springframework.web.context.support.HttpRequestHandlerServlet</servlet-class>
+    </servlet>
+    <servlet>
+        <display-name>DeleteComputerServlet</display-name>
+        <servlet-name>deleteComputerServlet</servlet-name>
+        <servlet-class>org.springframework.web.context.support.HttpRequestHandlerServlet</servlet-class>
+    </servlet>
+
+    <servlet-mapping>
+        <servlet-name>indexServlet</servlet-name>
+        <url-pattern>/computers</url-pattern>
+    </servlet-mapping>
+    <servlet-mapping>
+        <servlet-name>editComputerServlet</servlet-name>
+        <url-pattern>/computers/edit</url-pattern>
+    </servlet-mapping>
+    <servlet-mapping>
+        <servlet-name>newComputerServlet</servlet-name>
+        <url-pattern>/computers/new</url-pattern>
+    </servlet-mapping>
+    <servlet-mapping>
+        <servlet-name>deleteComputerServlet</servlet-name>
+        <url-pattern>/computers/delete</url-pattern>
+    </servlet-mapping>
+
+    <listener>
+        <listener-class>org.springframework.web.context.ContextLoaderListener</listener-class>
+    </listener>
+
+
 </web-app>

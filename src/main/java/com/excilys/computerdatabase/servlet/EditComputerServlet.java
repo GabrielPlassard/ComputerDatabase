@@ -5,7 +5,10 @@ import com.excilys.computerdatabase.model.Computer;
 import com.excilys.computerdatabase.queryresults.ComputerAndCompanies;
 import com.excilys.computerdatabase.service.ComputerDatabaseService;
 import com.excilys.computerdatabase.service.SimpleComputerDatabaseService;
+import com.excilys.computerdatabase.utils.C;
 import com.excilys.computerdatabase.utils.Utils;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Component;
 
 import javax.servlet.ServletException;
 import javax.servlet.annotation.WebServlet;
@@ -21,12 +24,22 @@ import java.io.IOException;
  * To change this template use File | Settings | File Templates.
  */
 
-@WebServlet("/computers/edit")
-public class EditComputerServlet extends javax.servlet.http.HttpServlet implements javax.servlet.Servlet{
+@Component
+public class EditComputerServlet implements org.springframework.web.HttpRequestHandler{
 
-    private ComputerDatabaseService computerDatabaseService = SimpleComputerDatabaseService.INSTANCE;
+    @Autowired
+    private ComputerDatabaseService computerDatabaseService;
 
     @Override
+    public void handleRequest(HttpServletRequest request, HttpServletResponse httpServletResponse) throws ServletException, IOException {
+        if (request.getMethod().equalsIgnoreCase(C.GET)){
+            doGet(request,httpServletResponse);
+        }
+        else if (request.getMethod().equalsIgnoreCase(C.POST)){
+            doPost(request,httpServletResponse);
+        }
+    }
+
     protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
         int id = Utils.intParameterOrDefault(request.getParameter("id"),0);
         ComputerAndCompanies queryResult = computerDatabaseService.computerByIdAndCompanies(id);
@@ -35,10 +48,9 @@ public class EditComputerServlet extends javax.servlet.http.HttpServlet implemen
         request.setAttribute("mode","edit");
         request.setAttribute("fieldValues",form.getFieldValues());
         request.setAttribute("companies", queryResult.getCompanies());
-        getServletContext().getRequestDispatcher("/WEB-INF/jsp/computer.jsp").forward(request,response);
+        request.getServletContext().getRequestDispatcher("/WEB-INF/jsp/computer.jsp").forward(request,response);
     }
 
-    @Override
     protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException{
         ComputerForm form = new ComputerForm(request);
 
@@ -60,7 +72,8 @@ public class EditComputerServlet extends javax.servlet.http.HttpServlet implemen
             request.setAttribute("companies", computerDatabaseService.allCompanies());
             request.setAttribute("errorMessages",form.getErrorMessages());
             request.setAttribute("fieldValues",form.getFieldValues());
-            getServletContext().getRequestDispatcher("/WEB-INF/jsp/computer.jsp").forward(request,response);
+            request.getServletContext().getRequestDispatcher("/WEB-INF/jsp/computer.jsp").forward(request,response);
         }
     }
+
 }
