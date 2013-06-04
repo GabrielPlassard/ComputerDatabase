@@ -7,7 +7,7 @@ package com.excilys.computerdatabase.exceptions;
  * Time: 17:15
  * To change this template use File | Settings | File Templates.
  */
-public class DaoException extends Exception{
+public class DaoException extends Exception {
     public DaoException() {
     }
 

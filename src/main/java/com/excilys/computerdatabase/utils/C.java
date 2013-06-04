@@ -9,7 +9,8 @@ package com.excilys.computerdatabase.utils;
  */
 public class C {
 
-    private C() {}
+    private C() {
+    }
 
     public final static int COMPUTERS_PER_PAGE = 10;
 

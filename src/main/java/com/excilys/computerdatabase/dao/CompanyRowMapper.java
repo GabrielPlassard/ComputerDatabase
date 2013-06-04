@@ -13,7 +13,7 @@ import java.sql.SQLException;
  * Time: 15:12
  * To change this template use File | Settings | File Templates.
  */
-public class CompanyRowMapper implements RowMapper{
+public class CompanyRowMapper implements RowMapper {
 
     @Override
     public Company mapRow(ResultSet resultSet, int i) throws SQLException {

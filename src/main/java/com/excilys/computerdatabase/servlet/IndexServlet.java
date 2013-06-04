@@ -3,12 +3,9 @@ package com.excilys.computerdatabase.servlet;
 import com.excilys.computerdatabase.model.Computer;
 import com.excilys.computerdatabase.queryresults.ComputersAndTotalNumber;
 import com.excilys.computerdatabase.service.ComputerDatabaseService;
-import com.excilys.computerdatabase.service.SimpleComputerDatabaseService;
 import com.excilys.computerdatabase.utils.C;
 import com.excilys.computerdatabase.utils.Utils;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.ApplicationContext;
-import org.springframework.stereotype.Component;
 import org.springframework.web.context.support.WebApplicationContextUtils;
 
 import javax.servlet.ServletException;
@@ -47,35 +44,35 @@ public class IndexServlet extends HttpServlet {
         String research = Utils.stringParameterOrDefault(request.getParameter("f"), "");
         int sortedColumnNumber = Utils.intParameterOrDefault(request.getParameter("s"), 2);
 
-        if (Math.abs(sortedColumnNumber) < 2 || Math.abs(sortedColumnNumber) > 5){
+        if (Math.abs(sortedColumnNumber) < 2 || Math.abs(sortedColumnNumber) > 5) {
             sortedColumnNumber = 2;
         }
 
-        String alertMessage = Utils.stringParameterOrDefault((String)request.getSession().getAttribute("alertMessage"),null);
+        String alertMessage = Utils.stringParameterOrDefault((String) request.getSession().getAttribute("alertMessage"), null);
         request.getSession().removeAttribute("alertMessage");
 
         int firstComputerIndice = (currentPage - 1) * C.COMPUTERS_PER_PAGE;
         int lastComputerIndice = firstComputerIndice + C.COMPUTERS_PER_PAGE;
 
         ComputersAndTotalNumber queryResult = computerDatabaseService.listOfComputers(research, sortedColumnNumber, firstComputerIndice, lastComputerIndice);
-        int numberOfMatchingComputers =  queryResult.getNumberOfMatchingComputers();
+        int numberOfMatchingComputers = queryResult.getNumberOfMatchingComputers();
         List<Computer> computers = queryResult.getMatchingComputers();
 
-        int maxPage = (int) Math.ceil((1.0 * numberOfMatchingComputers)/ C.COMPUTERS_PER_PAGE);
-        if (lastComputerIndice > numberOfMatchingComputers){
+        int maxPage = (int) Math.ceil((1.0 * numberOfMatchingComputers) / C.COMPUTERS_PER_PAGE);
+        if (lastComputerIndice > numberOfMatchingComputers) {
             lastComputerIndice = numberOfMatchingComputers;
         }
 
-        request.setAttribute("alertMessage",alertMessage);
-        request.setAttribute("sorting",sortedColumnNumber);
-        request.setAttribute("research",research);
-        request.setAttribute("currentPage",currentPage);
-        request.setAttribute("maxPage",maxPage);
-        request.setAttribute("firstComputerIndice",firstComputerIndice + 1);
-        request.setAttribute("lastComputerIndice",lastComputerIndice);
-        request.setAttribute("totalComputersFound",numberOfMatchingComputers);
-        request.setAttribute("computers",computers);
-        request.getServletContext().getRequestDispatcher("/WEB-INF/jsp/computers.jsp").forward(request,response);
+        request.setAttribute("alertMessage", alertMessage);
+        request.setAttribute("sorting", sortedColumnNumber);
+        request.setAttribute("research", research);
+        request.setAttribute("currentPage", currentPage);
+        request.setAttribute("maxPage", maxPage);
+        request.setAttribute("firstComputerIndice", firstComputerIndice + 1);
+        request.setAttribute("lastComputerIndice", lastComputerIndice);
+        request.setAttribute("totalComputersFound", numberOfMatchingComputers);
+        request.setAttribute("computers", computers);
+        request.getServletContext().getRequestDispatcher("/WEB-INF/jsp/computers.jsp").forward(request, response);
     }
 
 

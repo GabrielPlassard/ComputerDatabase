@@ -1,7 +1,6 @@
 package com.excilys.computerdatabase.dao;
 
 import com.excilys.computerdatabase.exceptions.DaoException;
-import com.excilys.computerdatabase.model.Company;
 import com.excilys.computerdatabase.model.Computer;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.jdbc.core.JdbcTemplate;
@@ -23,9 +22,9 @@ import java.util.Map;
  */
 
 @Repository
-public class JdbcTemplateComputerDao implements ComputerDao{
+public class JdbcTemplateComputerDao implements ComputerDao {
 
-    private static final String[] COLUMN_NAMES = {"","computer.id","computer.name","computer.introduced","computer.discontinued","company.name"};
+    private static final String[] COLUMN_NAMES = {"", "computer.id", "computer.name", "computer.introduced", "computer.discontinued", "company.name"};
 
     private static final String SELECT_ALL = "SELECT * FROM computer LEFT JOIN company ON computer.company_id=company.id";
     private static final String UPDATE = "UPDATE computer SET name=?, introduced=?, discontinued=?, company_id=? WHERE id=?";
@@ -39,7 +38,7 @@ public class JdbcTemplateComputerDao implements ComputerDao{
     private SimpleJdbcInsert insertComputer;
 
     @Autowired
-    public void setDataSource(DriverManagerDataSource dataSource){
+    public void setDataSource(DriverManagerDataSource dataSource) {
         template = new JdbcTemplate(dataSource);
         insertComputer = new SimpleJdbcInsert(dataSource).withTableName("computer").usingGeneratedKeyColumns("computer.id");
     }
@@ -53,25 +52,24 @@ public class JdbcTemplateComputerDao implements ComputerDao{
     @Override
     @Transactional
     public void save(Computer computer) throws DaoException {
-        Map<String, Object> parameters = new HashMap<String,Object>();
-        parameters.put("name",computer.getName());
-        parameters.put("introduced",computer.getIntroduced());
-        parameters.put("discontinued",computer.getDiscontinued());
-        if (computer.getCompany() != null){
-            parameters.put("company_id",computer.getCompany().getId());
-        }
-        else{
-            parameters.put("company_id",null);
+        Map<String, Object> parameters = new HashMap<String, Object>();
+        parameters.put("name", computer.getName());
+        parameters.put("introduced", computer.getIntroduced());
+        parameters.put("discontinued", computer.getDiscontinued());
+        if (computer.getCompany() != null) {
+            parameters.put("company_id", computer.getCompany().getId());
+        } else {
+            parameters.put("company_id", null);
         }
         long id = (Long) insertComputer.executeAndReturnKey(parameters);
-        computer.setId( id);
+        computer.setId(id);
     }
 
     @Override
     @Transactional
     public void update(Computer computer) throws DaoException {
         long companyId = computer.getCompany() == null ? 0 : computer.getCompany().getId();
-        template.update(UPDATE,new Object[]{computer.getName(),computer.getIntroduced(),computer.getDiscontinued(),companyId,computer.getId()});
+        template.update(UPDATE, new Object[]{computer.getName(), computer.getIntroduced(), computer.getDiscontinued(), companyId, computer.getId()});
     }
 
     @Override
@@ -83,7 +81,7 @@ public class JdbcTemplateComputerDao implements ComputerDao{
     @Override
     @Transactional(readOnly = true)
     public Computer findById(long computerId) throws DaoException {
-        List<Computer> results = template.query(FIND_BY_ID,new Object[]{computerId},new ComputerRowMapper());
+        List<Computer> results = template.query(FIND_BY_ID, new Object[]{computerId}, new ComputerRowMapper());
         if (results.size() == 0) return null;
         return results.get(0);
     }
@@ -91,22 +89,22 @@ public class JdbcTemplateComputerDao implements ComputerDao{
     @Override
     @Transactional(readOnly = true)
     public List<Computer> getMatchingFromToWithSortedByColumn(String namePattern, int firstIndice, int lastIndice, int columnId) throws DaoException {
-        return template.query(getSqlSelect(columnId),new Object[]{"%"+namePattern+"%", lastIndice-firstIndice, firstIndice}, new ComputerRowMapper());
+        return template.query(getSqlSelect(columnId), new Object[]{"%" + namePattern + "%", lastIndice - firstIndice, firstIndice}, new ComputerRowMapper());
     }
 
     private String getSqlSelect(int columnId) {
         String column = COLUMN_NAMES[Math.abs(columnId)];
         String order = "ASC";
-        if (columnId < 0){
+        if (columnId < 0) {
             order = "DESC";
         }
-        return String.format(SELECT_QUERY, column, column, order );
+        return String.format(SELECT_QUERY, column, column, order);
     }
 
     @Override
     @Transactional(readOnly = true)
     public int numberOfMatching(String namePattern) throws DaoException {
-        return template.queryForObject(SELECT_NUMBER_MATCHING, new Object[]{"%"+namePattern+"%"} , Integer.class);
+        return template.queryForObject(SELECT_NUMBER_MATCHING, new Object[]{"%" + namePattern + "%"}, Integer.class);
     }
 
     @Override

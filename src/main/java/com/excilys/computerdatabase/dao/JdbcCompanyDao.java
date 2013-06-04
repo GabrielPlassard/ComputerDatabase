@@ -4,7 +4,6 @@ import com.excilys.computerdatabase.exceptions.DaoException;
 import com.excilys.computerdatabase.model.Company;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
-import org.springframework.stereotype.Repository;
 
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
@@ -22,7 +21,7 @@ import java.util.List;
  */
 
 //@Repository
-public class JdbcCompanyDao implements CompanyDao{
+public class JdbcCompanyDao implements CompanyDao {
 
     private final static Logger logger = LoggerFactory.getLogger(JdbcCompanyDao.class);
 
@@ -43,14 +42,14 @@ public class JdbcCompanyDao implements CompanyDao{
     }
 
     @Override
-    public Company findById(long companyId)  throws DaoException {
+    public Company findById(long companyId) throws DaoException {
         PreparedStatement statement = null;
         ResultSet resultSet = null;
         try {
             statement = JdbcUtils.getConnection().prepareStatement(FIND_BY_ID);
-            statement.setLong(1,companyId);
+            statement.setLong(1, companyId);
             resultSet = statement.executeQuery();
-            if (resultSet.next()){
+            if (resultSet.next()) {
                 return companyFromTuple(resultSet);
             }
         } catch (SQLException e) {
@@ -64,31 +63,31 @@ public class JdbcCompanyDao implements CompanyDao{
     }
 
     @Override
-    public Company findByName(String companyName)  throws DaoException{
+    public Company findByName(String companyName) throws DaoException {
         PreparedStatement statement = null;
         ResultSet resultSet = null;
         try {
             statement = JdbcUtils.getConnection().prepareStatement(FIND_BY_NAME);
             statement.setString(1, companyName);
             resultSet = statement.executeQuery();
-            if (resultSet.next()){
+            if (resultSet.next()) {
                 return companyFromTuple(resultSet);
             }
         } catch (SQLException e) {
             logger.warn(e.getMessage());
             throw new DaoException(e);
-        }finally {
+        } finally {
             JdbcUtils.closeResultSet(resultSet);
             JdbcUtils.closeStatement(statement);
         }
         return null;
     }
 
-    private void save(Company company)  throws DaoException{
+    private void save(Company company) throws DaoException {
         PreparedStatement statement = null;
         ResultSet resultKey = null;
         try {
-            statement =  JdbcUtils.getConnection().prepareStatement(SAVE, Statement.RETURN_GENERATED_KEYS);
+            statement = JdbcUtils.getConnection().prepareStatement(SAVE, Statement.RETURN_GENERATED_KEYS);
             statement.setString(1, company.getName());
             statement.execute();
             resultKey = statement.getGeneratedKeys();
@@ -98,42 +97,42 @@ public class JdbcCompanyDao implements CompanyDao{
         } catch (SQLException e) {
             logger.warn(e.getMessage());
             throw new DaoException(e);
-        }finally {
+        } finally {
             JdbcUtils.closeResultSet(resultKey);
             JdbcUtils.closeStatement(statement);
         }
     }
 
-    private void update(Company company)  throws DaoException{
+    private void update(Company company) throws DaoException {
         PreparedStatement statement = null;
         try {
-            statement =  JdbcUtils.getConnection().prepareStatement(UPDATE);
+            statement = JdbcUtils.getConnection().prepareStatement(UPDATE);
             statement.setString(1, company.getName());
-            statement.setLong(2,company.getId());
+            statement.setLong(2, company.getId());
             statement.execute();
         } catch (SQLException e) {
             logger.warn(e.getMessage());
             throw new DaoException(e);
-        }finally {
+        } finally {
             JdbcUtils.closeStatement(statement);
         }
     }
 
     @Override
-    public List<Company> getAll()  throws DaoException{
+    public List<Company> getAll() throws DaoException {
         PreparedStatement statement = null;
         ResultSet resultSet = null;
         List<Company> result = new ArrayList<Company>();
         try {
             statement = JdbcUtils.getConnection().prepareStatement(GET_ALL);
             resultSet = statement.executeQuery();
-            while (resultSet.next()){
+            while (resultSet.next()) {
                 result.add(companyFromTuple(resultSet));
             }
         } catch (SQLException e) {
             logger.warn(e.getMessage());
             throw new DaoException(e);
-        }finally {
+        } finally {
             JdbcUtils.closeResultSet(resultSet);
             JdbcUtils.closeStatement(statement);
         }
@@ -142,20 +141,19 @@ public class JdbcCompanyDao implements CompanyDao{
 
 
     @Override
-    public void saveOrUpdate(Company company)  throws DaoException{
-        if (findById(company.getId()) == null){
+    public void saveOrUpdate(Company company) throws DaoException {
+        if (findById(company.getId()) == null) {
             save(company);
-        }
-        else{
+        } else {
             update(company);
         }
     }
 
     @Override
-    public void deleteAll()  throws DaoException{
+    public void deleteAll() throws DaoException {
         PreparedStatement statement = null;
         try {
-            statement =  JdbcUtils.getConnection().prepareStatement(DELETE);
+            statement = JdbcUtils.getConnection().prepareStatement(DELETE);
             statement.execute();
         } catch (SQLException e) {
             logger.warn(e.getMessage());

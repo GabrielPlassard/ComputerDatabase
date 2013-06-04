@@ -13,7 +13,7 @@ import java.sql.SQLException;
  * Time: 15:58
  * To change this template use File | Settings | File Templates.
  */
-public class ComputerRowMapper implements RowMapper{
+public class ComputerRowMapper implements RowMapper {
 
     @Override
     public Computer mapRow(ResultSet resultSet, int i) throws SQLException {
@@ -22,7 +22,7 @@ public class ComputerRowMapper implements RowMapper{
         computer.setName(resultSet.getString("computer.name"));
         computer.setIntroduced(resultSet.getDate("computer.introduced"));
         computer.setDiscontinued(resultSet.getDate("computer.discontinued"));
-        computer.setCompany(new CompanyRowMapper().mapRow(resultSet,i));
+        computer.setCompany(new CompanyRowMapper().mapRow(resultSet, i));
         return computer;
     }
 }

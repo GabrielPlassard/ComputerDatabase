@@ -18,10 +18,15 @@ import java.util.List;
 public interface ComputerDatabaseService {
 
     List<Company> allCompanies() throws ServiceException;
+
     void createComputerAndSetCompany(Computer computer, long companyId) throws ServiceException;
+
     boolean deleteComputerById(long computerId) throws ServiceException;
+
     ComputersAndTotalNumber listOfComputers(String search, int sortedColumn, int firstComputerIndice, int lastComputerIndice) throws ServiceException;
+
     ComputerAndCompanies computerByIdAndCompanies(long computerId) throws ServiceException;
+
     boolean updateComputerAndSetCompany(Computer computer, long companyId) throws ServiceException;
 
 }

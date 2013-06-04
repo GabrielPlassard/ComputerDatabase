@@ -15,11 +15,18 @@ import java.util.List;
 public interface ComputerDao {
 
     List<Computer> getAll() throws DaoException;
+
     void save(Computer computer) throws DaoException;
+
     void update(Computer computer) throws DaoException;
+
     void deleteAll() throws DaoException;
+
     Computer findById(long computerId) throws DaoException;
+
     List<Computer> getMatchingFromToWithSortedByColumn(String namePattern, int firstIndice, int lastIndice, int columnId) throws DaoException;
+
     int numberOfMatching(String namePattern) throws DaoException;
+
     void deleteById(long computerId) throws DaoException;
 }

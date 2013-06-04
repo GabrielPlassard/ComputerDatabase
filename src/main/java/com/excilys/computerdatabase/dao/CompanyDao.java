@@ -14,8 +14,12 @@ import java.util.List;
  */
 public interface CompanyDao {
     Company findByName(String name) throws DaoException;
+
     List<Company> getAll() throws DaoException;
+
     void saveOrUpdate(Company company) throws DaoException;
+
     void deleteAll() throws DaoException;
+
     Company findById(long companyId) throws DaoException;
 }

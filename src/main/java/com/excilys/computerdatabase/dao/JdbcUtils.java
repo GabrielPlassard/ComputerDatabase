@@ -14,12 +14,13 @@ import java.sql.*;
  */
 public class JdbcUtils {
 
-    private JdbcUtils(){}
+    private JdbcUtils() {
+    }
 
     private static final Logger logger = LoggerFactory.getLogger(JdbcUtils.class);
     private static ThreadLocal<Connection> connectionThreadLocal = new ThreadLocal<Connection>();
 
-    static{
+    static {
         try {
             Class.forName("com.mysql.jdbc.Driver");
         } catch (ClassNotFoundException e) {
@@ -32,7 +33,7 @@ public class JdbcUtils {
         return connectionThreadLocal.get();
     }
 
-    public static void openConnection(){
+    public static void openConnection() {
         logger.debug("Opening connection on thread : {}", Thread.currentThread());
         try {
             connectionThreadLocal.set(DriverManager.getConnection("jdbc:mysql://localhost/computer_database", "root", "root"));
@@ -42,7 +43,7 @@ public class JdbcUtils {
     }
 
     public static void closeResultSet(ResultSet resultSet) {
-        if (resultSet != null){
+        if (resultSet != null) {
             try {
                 resultSet.close();
             } catch (SQLException e) {
@@ -52,7 +53,7 @@ public class JdbcUtils {
     }
 
     public static void closeStatement(PreparedStatement statement) {
-        if (statement != null){
+        if (statement != null) {
             try {
                 statement.close();
             } catch (SQLException e) {
@@ -62,8 +63,8 @@ public class JdbcUtils {
     }
 
     public static void closeConnection() {
-        logger.debug("Closing connection on thread : {}",Thread.currentThread());
-        if (connectionThreadLocal.get() != null){
+        logger.debug("Closing connection on thread : {}", Thread.currentThread());
+        if (connectionThreadLocal.get() != null) {
             try {
                 connectionThreadLocal.get().close();
             } catch (SQLException e) {

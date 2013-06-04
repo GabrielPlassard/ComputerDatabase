@@ -12,7 +12,8 @@ public class Company {
     private long id = -1;
     private String name = "defaultName";
 
-    public Company(){}
+    public Company() {
+    }
 
     public Company(String name) {
         this.name = name;

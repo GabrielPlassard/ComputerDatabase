@@ -15,7 +15,7 @@ import java.util.Date;
  * Time: 12:12
  * To change this template use File | Settings | File Templates.
  */
-public class Computer{
+public class Computer {
 
     private final static Logger logger = LoggerFactory.getLogger(Computer.class);
 
@@ -27,7 +27,8 @@ public class Computer{
     private Date discontinued;
     private Company company;
 
-    public Computer(){}
+    public Computer() {
+    }
 
     public Computer(String name, String stringIntroduced, String stringDiscontinued, Company company) {
         this.name = name;
@@ -36,7 +37,7 @@ public class Computer{
         setDiscontinued(stringDiscontinued);
     }
 
-    public Computer(String name){
+    public Computer(String name) {
         this(name, null, null, null);
     }
 

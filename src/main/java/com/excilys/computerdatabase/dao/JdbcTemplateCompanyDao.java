@@ -22,7 +22,7 @@ import java.util.Map;
  */
 
 @Repository
-public class JdbcTemplateCompanyDao implements CompanyDao{
+public class JdbcTemplateCompanyDao implements CompanyDao {
 
     private final static String SELECT_ALL = "SELECT * FROM company";
     private final static String FIND_BY_NAME = "SELECT * FROM company WHERE company.name=?";
@@ -34,7 +34,7 @@ public class JdbcTemplateCompanyDao implements CompanyDao{
     private SimpleJdbcInsert insertCompany;
 
     @Autowired
-    public void setDataSource(DriverManagerDataSource dataSource){
+    public void setDataSource(DriverManagerDataSource dataSource) {
         template = new JdbcTemplate(dataSource);
         insertCompany = new SimpleJdbcInsert(dataSource).withTableName("company").usingGeneratedKeyColumns("company.id");
     }
@@ -43,7 +43,7 @@ public class JdbcTemplateCompanyDao implements CompanyDao{
     @Override
     @Transactional(readOnly = true)
     public Company findByName(String name) throws DaoException {
-        List<Company> results = template.query(FIND_BY_NAME,new Object[]{name},new CompanyRowMapper());
+        List<Company> results = template.query(FIND_BY_NAME, new Object[]{name}, new CompanyRowMapper());
         if (results.size() == 0) return null;
         return results.get(0);
     }
@@ -56,25 +56,24 @@ public class JdbcTemplateCompanyDao implements CompanyDao{
 
     @Override
     public void saveOrUpdate(Company company) throws DaoException {
-        if (findById(company.getId()) == null){
+        if (findById(company.getId()) == null) {
             save(company);
-        }
-        else{
+        } else {
             update(company);
         }
     }
 
     @Transactional
-    private void save(Company company){
-        Map<String, Object> parameters = new HashMap<String,Object>();
+    private void save(Company company) {
+        Map<String, Object> parameters = new HashMap<String, Object>();
         parameters.put("name", company.getName());
         long id = (Long) insertCompany.executeAndReturnKey(parameters);
-        company.setId( id);
+        company.setId(id);
     }
 
     @Transactional
-    private void update(Company company){
-        template.update(UPDATE,new Object[]{company.getName(),company.getId()});
+    private void update(Company company) {
+        template.update(UPDATE, new Object[]{company.getName(), company.getId()});
     }
 
     @Override
@@ -86,7 +85,7 @@ public class JdbcTemplateCompanyDao implements CompanyDao{
     @Override
     @Transactional(readOnly = true)
     public Company findById(long companyId) throws DaoException {
-        List<Company> results = template.query(FIND_BY_ID,new Object[]{companyId},new CompanyRowMapper());
+        List<Company> results = template.query(FIND_BY_ID, new Object[]{companyId}, new CompanyRowMapper());
         if (results.size() == 0) return null;
         return results.get(0);
     }

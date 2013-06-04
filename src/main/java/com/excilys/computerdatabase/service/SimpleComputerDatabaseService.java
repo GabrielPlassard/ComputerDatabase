@@ -1,6 +1,8 @@
 package com.excilys.computerdatabase.service;
 
-import com.excilys.computerdatabase.dao.*;
+import com.excilys.computerdatabase.dao.CompanyDao;
+import com.excilys.computerdatabase.dao.ComputerDao;
+import com.excilys.computerdatabase.dao.JdbcUtils;
 import com.excilys.computerdatabase.exceptions.DaoException;
 import com.excilys.computerdatabase.exceptions.ServiceException;
 import com.excilys.computerdatabase.model.Company;
@@ -28,7 +30,7 @@ public class SimpleComputerDatabaseService implements ComputerDatabaseService {
     private ComputerDao computerDao;
 
     @Autowired
-    private CompanyDao  companyDao;
+    private CompanyDao companyDao;
 
     @Override
     public List<Company> allCompanies() {
@@ -39,7 +41,7 @@ public class SimpleComputerDatabaseService implements ComputerDatabaseService {
             companies = companyDao.getAll();
         } catch (DaoException e) {
             throw new ServiceException(e);
-        }finally {
+        } finally {
             JdbcUtils.closeConnection();
         }
         return companies;
@@ -49,11 +51,11 @@ public class SimpleComputerDatabaseService implements ComputerDatabaseService {
     public boolean deleteComputerById(long computerId) {
         boolean succesfull = false;
 
-        try{
+        try {
             JdbcUtils.openConnection();
             computerDao.deleteById(computerId);
             succesfull = computerDao.findById(computerId) == null;
-        }  catch (DaoException e){
+        } catch (DaoException e) {
             throw new ServiceException(e);
         } finally {
             JdbcUtils.closeConnection();
@@ -63,46 +65,46 @@ public class SimpleComputerDatabaseService implements ComputerDatabaseService {
 
     @Override
     public ComputersAndTotalNumber listOfComputers(String search, int sortedColumn, int firstComputerIndice, int lastComputerIndice) {
-        try{
+        try {
             JdbcUtils.openConnection();
             List<Computer> computers = computerDao.getMatchingFromToWithSortedByColumn(search, firstComputerIndice, lastComputerIndice, sortedColumn);
             int matchingComputers = computerDao.numberOfMatching(search);
-            ComputersAndTotalNumber result = new ComputersAndTotalNumber(computers,matchingComputers);
+            ComputersAndTotalNumber result = new ComputersAndTotalNumber(computers, matchingComputers);
             return result;
-        } catch (DaoException e){
+        } catch (DaoException e) {
             throw new ServiceException(e);
-        } finally{
+        } finally {
             JdbcUtils.closeConnection();
         }
     }
 
     @Override
     public ComputerAndCompanies computerByIdAndCompanies(long computerId) {
-        try{
+        try {
             JdbcUtils.openConnection();
 
             Computer computer = computerDao.findById(computerId);
             List<Company> companies = companyDao.getAll();
-            ComputerAndCompanies result = new ComputerAndCompanies(computer,companies);
+            ComputerAndCompanies result = new ComputerAndCompanies(computer, companies);
             return result;
-        }catch (DaoException e){
+        } catch (DaoException e) {
             throw new ServiceException(e);
-        }finally {
-              JdbcUtils.closeConnection();
+        } finally {
+            JdbcUtils.closeConnection();
         }
     }
 
     @Override
     public void createComputerAndSetCompany(Computer computer, long companyId) {
-        try{
+        try {
             JdbcUtils.openConnection();
 
             Company company = companyDao.findById(companyId);
             computer.setCompany(company);
             computerDao.save(computer);
-        }catch (DaoException e){
+        } catch (DaoException e) {
             throw new ServiceException(e);
-        }finally {
+        } finally {
             JdbcUtils.closeConnection();
         }
     }
@@ -110,16 +112,15 @@ public class SimpleComputerDatabaseService implements ComputerDatabaseService {
     @Override
     public boolean updateComputerAndSetCompany(Computer computer, long companyId) {
         boolean succesfull = false;
-        try{
+        try {
             JdbcUtils.openConnection();
             Company company = companyDao.findById(companyId);
             computer.setCompany(company);
             computerDao.update(computer);
             succesfull = true;
-        }catch (DaoException e){
+        } catch (DaoException e) {
             throw new ServiceException(e);
-        }
-        finally {
+        } finally {
             JdbcUtils.closeConnection();
         }
         return succesfull;

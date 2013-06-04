@@ -15,23 +15,24 @@ import java.util.Locale;
  */
 public class Utils {
 
-    private Utils(){}
+    private Utils() {
+    }
 
     private static final DateFormat dateFormatter = new SimpleDateFormat("yyyy-MM-dd", Locale.FRANCE);
 
-    static{
+    static {
         dateFormatter.setLenient(false);
     }
 
-    public static int intParameterOrDefault(String parameter, int defaultValue){
-        try{
+    public static int intParameterOrDefault(String parameter, int defaultValue) {
+        try {
             return Integer.valueOf(parameter);
-        }catch(NumberFormatException e){
+        } catch (NumberFormatException e) {
             return defaultValue;
         }
     }
 
-    public static String stringParameterOrDefault(String parameter, String defaultValue){
+    public static String stringParameterOrDefault(String parameter, String defaultValue) {
         if (parameter != null) return parameter;
         return defaultValue;
     }
@@ -44,15 +45,15 @@ public class Utils {
         }
     }
 
-    public static String format(Date date){
+    public static String format(Date date) {
         if (date == null) return null;
         return dateFormatter.format(date);
     }
 
     public static long longParameterOrDefault(String id, long defaultValue) {
-        try{
+        try {
             return Long.valueOf(id);
-        }catch(NumberFormatException e){
+        } catch (NumberFormatException e) {
             return defaultValue;
         }
     }

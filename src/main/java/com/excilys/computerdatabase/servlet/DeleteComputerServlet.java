@@ -1,12 +1,8 @@
 package com.excilys.computerdatabase.servlet;
 
 import com.excilys.computerdatabase.service.ComputerDatabaseService;
-import com.excilys.computerdatabase.service.SimpleComputerDatabaseService;
-import com.excilys.computerdatabase.utils.C;
 import com.excilys.computerdatabase.utils.Utils;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.ApplicationContext;
-import org.springframework.stereotype.Component;
 import org.springframework.web.context.support.WebApplicationContextUtils;
 
 import javax.servlet.ServletException;
@@ -38,14 +34,13 @@ public class DeleteComputerServlet extends HttpServlet {
         computerDatabaseService = applicationContext.getBean(ComputerDatabaseService.class);
     }
 
-    protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException{
-        long computerId = Utils.longParameterOrDefault(request.getParameter("id"),0);
+    protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
+        long computerId = Utils.longParameterOrDefault(request.getParameter("id"), 0);
         boolean succesfull = computerDatabaseService.deleteComputerById(computerId);
-        if (succesfull){
-            request.getSession().setAttribute("alertMessage","Computer deleted successfully");
-        }
-        else{
-            request.getSession().setAttribute("alertMessage","There has been a problem while deleting the computer");
+        if (succesfull) {
+            request.getSession().setAttribute("alertMessage", "Computer deleted successfully");
+        } else {
+            request.getSession().setAttribute("alertMessage", "There has been a problem while deleting the computer");
         }
         response.sendRedirect("/computers");
     }
