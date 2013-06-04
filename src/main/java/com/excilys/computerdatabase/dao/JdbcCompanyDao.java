@@ -21,7 +21,7 @@ import java.util.List;
  * To change this template use File | Settings | File Templates.
  */
 
-@Repository
+//@Repository
 public class JdbcCompanyDao implements CompanyDao{
 
     private final static Logger logger = LoggerFactory.getLogger(JdbcCompanyDao.class);
