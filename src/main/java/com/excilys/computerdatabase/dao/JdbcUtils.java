@@ -14,6 +14,8 @@ import java.sql.*;
  */
 public class JdbcUtils {
 
+    private JdbcUtils(){}
+
     private static final Logger logger = LoggerFactory.getLogger(JdbcUtils.class);
     private static ThreadLocal<Connection> connectionThreadLocal = new ThreadLocal<Connection>();
 

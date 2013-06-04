@@ -13,7 +13,9 @@ import java.util.Locale;
  * Time: 09:58
  * To change this template use File | Settings | File Templates.
  */
-public abstract class Utils {
+public class Utils {
+
+    private Utils(){}
 
     private static final DateFormat dateFormatter = new SimpleDateFormat("yyyy-MM-dd", Locale.FRANCE);
 
