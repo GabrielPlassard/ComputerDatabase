@@ -7,6 +7,8 @@ import com.excilys.computerdatabase.model.Company;
 import com.excilys.computerdatabase.model.Computer;
 import com.excilys.computerdatabase.queryresults.ComputerAndCompanies;
 import com.excilys.computerdatabase.queryresults.ComputersAndTotalNumber;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Service;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -18,11 +20,15 @@ import java.util.List;
  * Time: 10:06
  * To change this template use File | Settings | File Templates.
  */
-public enum SimpleComputerDatabaseService implements ComputerDatabaseService {
-    INSTANCE;
 
-    private ComputerDao computerDao = JdbcComputerDao.INSTANCE;
-    private CompanyDao  companyDao  = JdbcCompanyDao.INSTANCE;
+@Service
+public class SimpleComputerDatabaseService implements ComputerDatabaseService {
+
+    @Autowired
+    private ComputerDao computerDao;
+
+    @Autowired
+    private CompanyDao  companyDao;
 
     @Override
     public List<Company> allCompanies() {

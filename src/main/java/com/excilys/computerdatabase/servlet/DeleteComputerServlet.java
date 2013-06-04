@@ -2,7 +2,10 @@ package com.excilys.computerdatabase.servlet;
 
 import com.excilys.computerdatabase.service.ComputerDatabaseService;
 import com.excilys.computerdatabase.service.SimpleComputerDatabaseService;
+import com.excilys.computerdatabase.utils.C;
 import com.excilys.computerdatabase.utils.Utils;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Component;
 
 import javax.servlet.ServletException;
 import javax.servlet.annotation.WebServlet;
@@ -18,12 +21,19 @@ import java.io.IOException;
  * To change this template use File | Settings | File Templates.
  */
 
-@WebServlet("/computers/delete")
-public class DeleteComputerServlet extends javax.servlet.http.HttpServlet implements javax.servlet.Servlet{
+@Component
+public class DeleteComputerServlet implements org.springframework.web.HttpRequestHandler{
 
-    private ComputerDatabaseService computerDatabaseService = SimpleComputerDatabaseService.INSTANCE;
+    @Autowired
+    private ComputerDatabaseService computerDatabaseService;
 
     @Override
+    public void handleRequest(HttpServletRequest request, HttpServletResponse httpServletResponse) throws ServletException, IOException {
+    if (request.getMethod().equalsIgnoreCase(C.POST)){
+            doPost(request,httpServletResponse);
+        }
+    }
+
     protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException{
         int computerId = Utils.intParameterOrDefault(request.getParameter("id"),0);
         boolean succesfull = computerDatabaseService.deleteComputerById(computerId);

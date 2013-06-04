@@ -4,6 +4,7 @@ import com.excilys.computerdatabase.exceptions.DaoException;
 import com.excilys.computerdatabase.model.Company;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+import org.springframework.stereotype.Repository;
 
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
@@ -19,8 +20,9 @@ import java.util.List;
  * Time: 12:20
  * To change this template use File | Settings | File Templates.
  */
-public enum JdbcCompanyDao implements CompanyDao{
-    INSTANCE;
+
+@Repository
+public class JdbcCompanyDao implements CompanyDao{
 
     private final static Logger logger = LoggerFactory.getLogger(JdbcCompanyDao.class);
 

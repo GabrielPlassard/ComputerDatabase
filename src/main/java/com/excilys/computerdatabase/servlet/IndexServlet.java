@@ -6,6 +6,8 @@ import com.excilys.computerdatabase.service.ComputerDatabaseService;
 import com.excilys.computerdatabase.service.SimpleComputerDatabaseService;
 import com.excilys.computerdatabase.utils.C;
 import com.excilys.computerdatabase.utils.Utils;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Component;
 
 import javax.servlet.ServletException;
 import javax.servlet.annotation.WebServlet;
@@ -22,13 +24,22 @@ import java.util.List;
  * To change this template use File | Settings | File Templates.
  */
 
-@WebServlet("/computers")
-public class IndexServlet extends javax.servlet.http.HttpServlet implements javax.servlet.Servlet  {
+@Component
+public class IndexServlet implements org.springframework.web.HttpRequestHandler{
 
-    private ComputerDatabaseService computerDatabaseService = SimpleComputerDatabaseService.INSTANCE;
+    @Autowired
+    private ComputerDatabaseService computerDatabaseService;
 
     @Override
+    public void handleRequest(HttpServletRequest request, HttpServletResponse httpServletResponse) throws ServletException, IOException {
+        if (request.getMethod().equalsIgnoreCase(C.GET)){
+            doGet(request,httpServletResponse);
+        }
+    }
+
+
     protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
+
         int currentPage = Utils.intParameterOrDefault(request.getParameter("p"), 1);
         String research = Utils.stringParameterOrDefault(request.getParameter("f"), "");
         int sortedColumnNumber = Utils.intParameterOrDefault(request.getParameter("s"), 2);
@@ -43,6 +54,8 @@ public class IndexServlet extends javax.servlet.http.HttpServlet implements java
         int firstComputerIndice = (currentPage - 1) * C.COMPUTERS_PER_PAGE;
         int lastComputerIndice = firstComputerIndice + C.COMPUTERS_PER_PAGE;
 
+        System.out.println("service : ");
+        System.out.println(computerDatabaseService);
         ComputersAndTotalNumber queryResult = computerDatabaseService.listOfComputers(research, sortedColumnNumber, firstComputerIndice, lastComputerIndice);
         int numberOfMatchingComputers =  queryResult.getNumberOfMatchingComputers();
         List<Computer> computers = queryResult.getMatchingComputers();
@@ -61,7 +74,8 @@ public class IndexServlet extends javax.servlet.http.HttpServlet implements java
         request.setAttribute("lastComputerIndice",lastComputerIndice);
         request.setAttribute("totalComputersFound",numberOfMatchingComputers);
         request.setAttribute("computers",computers);
-        getServletContext().getRequestDispatcher("/WEB-INF/jsp/computers.jsp").forward(request,response);
+        request.getServletContext().getRequestDispatcher("/WEB-INF/jsp/computers.jsp").forward(request,response);
     }
+
 
 }

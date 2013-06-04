@@ -4,6 +4,7 @@ import com.excilys.computerdatabase.exceptions.DaoException;
 import com.excilys.computerdatabase.model.Computer;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+import org.springframework.stereotype.Repository;
 
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
@@ -20,8 +21,9 @@ import java.util.List;
  * Time: 16:53
  * To change this template use File | Settings | File Templates.
  */
-public enum JdbcComputerDao implements ComputerDao {
-    INSTANCE;
+
+@Repository
+public class JdbcComputerDao implements ComputerDao {
 
     private final static Logger logger = LoggerFactory.getLogger(JdbcComputerDao.class);
 
