@@ -43,7 +43,8 @@ public class NewComputerServlet extends HttpServlet {
 
 
     protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
-        ComputerForm form = new ComputerForm(request);
+        ComputerForm form = new ComputerForm(request.getParameter("name"),request.getParameter("introduced"),request.getParameter("discontinued"),request.getParameter("company"));
+
         if (form.isValid()) {
             request.getSession().setAttribute("alertMessage", "Computer " + form.getComputer().getName() + " added successfully");
             computerDatabaseService.createComputerAndSetCompany(form.getComputer(), form.getCompanyId());
