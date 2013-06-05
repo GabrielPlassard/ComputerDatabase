@@ -23,7 +23,7 @@
 
     <h1>${mode =="edit" ? "Edit" : "Create"} a computer</h1>
 
-    <form action="<c:url value="/computers/${mode}?id=${fieldValues[id]}"/>" method="POST" >
+    <form action="<c:url value="/computers/${mode}?id=${fieldValues['id']}"/>" method="POST" >
 
         <fieldset>
             <div class="clearfix ${errorMessages["name"] == null ? "" : "error" }">
@@ -72,7 +72,7 @@
     </form>
 
     <c:if test= "${mode == 'edit'}" >
-        <form action="<c:url value="/computers/delete?id=${fieldValues[id]}"/>" method="POST" class="topRight">
+        <form action="<c:url value="/computers/delete?id=${fieldValues['id']}"/>" method="POST" class="topRight">
             <input type="submit" value="Delete this computer" class="btn danger">
         </form>
     </c:if>
