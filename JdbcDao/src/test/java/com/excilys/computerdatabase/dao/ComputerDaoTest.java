@@ -20,7 +20,7 @@ import static org.junit.Assert.assertEquals;
  * To change this template use File | Settings | File Templates.
  */
 @RunWith(SpringJUnit4ClassRunner.class)
-@ContextConfiguration(locations = "file:JdbcDao/src/main/resources/jdbcContext.xml")
+@ContextConfiguration(locations = "classpath:jdbcContext.xml")
 public class ComputerDaoTest {
 
     @Autowired

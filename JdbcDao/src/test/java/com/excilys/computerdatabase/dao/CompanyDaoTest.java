@@ -21,7 +21,7 @@ import static org.junit.Assert.assertEquals;
  */
 
 @RunWith(SpringJUnit4ClassRunner.class)
-@ContextConfiguration(locations = "file:JdbcDao/src/main/resources/jdbcContext.xml")
+@ContextConfiguration(locations = "classpath:jdbcContext.xml")
 public class CompanyDaoTest {
 
     @Autowired
