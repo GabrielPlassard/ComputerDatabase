@@ -19,6 +19,12 @@
             <groupId>com.excilys.computerdatabase</groupId>
             <artifactId>DaoApi</artifactId>
         </dependency>
+        <dependency>
+            <groupId>com.excilys.computerdatabase</groupId>
+            <artifactId>DaoApi</artifactId>
+            <scope>test</scope>
+            <classifier>tests</classifier>
+        </dependency>
 
         <dependency>
             <groupId>org.springframework</groupId>

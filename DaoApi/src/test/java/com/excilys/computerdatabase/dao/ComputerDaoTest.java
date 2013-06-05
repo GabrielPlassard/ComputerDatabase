@@ -5,10 +5,6 @@ import com.excilys.computerdatabase.model.Computer;
 import org.junit.After;
 import org.junit.Before;
 import org.junit.Test;
-import org.junit.runner.RunWith;
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.test.context.ContextConfiguration;
-import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
 
 import static org.junit.Assert.assertEquals;
 
@@ -19,15 +15,15 @@ import static org.junit.Assert.assertEquals;
  * Time: 17:26
  * To change this template use File | Settings | File Templates.
  */
-@RunWith(SpringJUnit4ClassRunner.class)
-@ContextConfiguration(locations = "classpath:jdbcTemplateContext.xml")
-public class ComputerDaoTest {
 
-    @Autowired
-    private CompanyDao companyDao;
+public abstract class ComputerDaoTest {
 
-    @Autowired
-    private ComputerDao computerDao;
+    public abstract void setCompanyDao(CompanyDao companyDao);
+    public abstract void setComputerDao(ComputerDao computerDao);
+
+    protected CompanyDao companyDao;
+
+    protected ComputerDao computerDao;
 
     @Before
     public void setUp() throws DaoException {

@@ -91,6 +91,12 @@
             </dependency>
             <dependency>
                 <groupId>com.excilys.computerdatabase</groupId>
+                <artifactId>DaoApi</artifactId>
+                <version>${computerdatabase.version}</version>
+                <classifier>tests</classifier>
+            </dependency>
+            <dependency>
+                <groupId>com.excilys.computerdatabase</groupId>
                 <artifactId>JdbcDao</artifactId>
                 <version>${computerdatabase.version}</version>
             </dependency>
