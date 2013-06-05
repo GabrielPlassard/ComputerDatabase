@@ -9,6 +9,7 @@ import com.excilys.computerdatabase.queryresults.ComputerAndCompanies;
 import com.excilys.computerdatabase.queryresults.ComputersAndTotalNumber;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -31,6 +32,7 @@ public class SimpleComputerDatabaseService implements ComputerDatabaseService {
     private CompanyDao companyDao;
 
     @Override
+    @Transactional(readOnly = true)
     public List<Company> allCompanies() {
 
         List<Company> companies = new ArrayList<Company>();
@@ -46,6 +48,7 @@ public class SimpleComputerDatabaseService implements ComputerDatabaseService {
     }
 
     @Override
+    @Transactional
     public boolean deleteComputerById(long computerId) {
         boolean succesfull = false;
 
@@ -62,6 +65,7 @@ public class SimpleComputerDatabaseService implements ComputerDatabaseService {
     }
 
     @Override
+    @Transactional(readOnly = true)
     public ComputersAndTotalNumber listOfComputers(String search, int sortedColumn, int firstComputerIndice, int lastComputerIndice) {
         try {
             computerDao.openConnection();
@@ -77,6 +81,7 @@ public class SimpleComputerDatabaseService implements ComputerDatabaseService {
     }
 
     @Override
+    @Transactional(readOnly = true)
     public ComputerAndCompanies computerByIdAndCompanies(long computerId) {
         try {
             computerDao.openConnection();
@@ -93,6 +98,7 @@ public class SimpleComputerDatabaseService implements ComputerDatabaseService {
     }
 
     @Override
+    @Transactional
     public void createComputerAndSetCompany(Computer computer, long companyId) {
         try {
             computerDao.openConnection();
@@ -108,6 +114,7 @@ public class SimpleComputerDatabaseService implements ComputerDatabaseService {
     }
 
     @Override
+    @Transactional
     public boolean updateComputerAndSetCompany(Computer computer, long companyId) {
         boolean succesfull = false;
         try {
