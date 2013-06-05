@@ -23,7 +23,7 @@
 
         <h1>${totalComputersFound} computer(s) found</h1>
 
-        <c:if test="${alertMessage != null}">
+        <c:if test="${not empty alertMessage}">
             <div class="alert-message warning">
                 <strong>${alertMessage}</strong>
             </div>
