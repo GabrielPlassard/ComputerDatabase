@@ -3,7 +3,6 @@ package com.excilys.computerdatabase.form;
 import com.excilys.computerdatabase.model.Computer;
 import com.excilys.computerdatabase.utils.Utils;
 
-import javax.servlet.http.HttpServletRequest;
 import java.util.HashMap;
 import java.util.Map;
 
@@ -28,11 +27,11 @@ public class ComputerForm {
     ComputerForm() {
     }
 
-    public ComputerForm(HttpServletRequest request) {
-        name = request.getParameter("name");
-        stringIntroduced = request.getParameter("introduced");
-        stringDiscontinued = request.getParameter("discontinued");
-        stringCompanyId = request.getParameter("company");
+    public ComputerForm(String name, String stringIntroduced, String stringDiscontinued, String stringCompanyId) {
+        this.name = name;
+        this.stringIntroduced = stringIntroduced;
+        this.stringDiscontinued = stringDiscontinued;
+        this.stringCompanyId = stringCompanyId;
 
         buildComputer();
         buildErrorMessages();

@@ -49,7 +49,7 @@ public class EditComputerServlet extends HttpServlet {
     }
 
     protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
-        ComputerForm form = new ComputerForm(request);
+        ComputerForm form = new ComputerForm(request.getParameter("name"),request.getParameter("introduced"),request.getParameter("discontinued"),request.getParameter("company"));
 
         if (form.isValid()) {
             Computer computer = form.getComputer();
