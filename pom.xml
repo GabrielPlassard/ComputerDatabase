@@ -15,6 +15,7 @@
         <module>ServiceImpl</module>
         <module>Web</module>
         <module>JdbcTemplateDao</module>
+        <module>WebSpringMvc</module>
     </modules>
     <name>com.excilys.computerdatabase</name>
     <url>http://maven.apache.org</url>
@@ -115,11 +116,6 @@
                 <artifactId>ServiceImpl</artifactId>
                 <version>${computerdatabase.version}</version>
             </dependency>
-            <dependency>
-                <groupId>com.excilys.computerdatabase</groupId>
-                <artifactId>Web</artifactId>
-                <version>${computerdatabase.version}</version>
-            </dependency>
 
             <dependency>
                 <groupId>javax</groupId>
@@ -157,6 +153,11 @@
             <dependency>
                 <groupId>org.springframework</groupId>
                 <artifactId>spring-jdbc</artifactId>
+                <version>${spring.version}</version>
+            </dependency>
+            <dependency>
+                <groupId>org.springframework</groupId>
+                <artifactId>spring-webmvc</artifactId>
                 <version>${spring.version}</version>
             </dependency>
 
