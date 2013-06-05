@@ -16,10 +16,6 @@
     <dependencies>
         <dependency>
             <groupId>com.excilys.computerdatabase</groupId>
-            <artifactId>Core</artifactId>
-        </dependency>
-        <dependency>
-            <groupId>com.excilys.computerdatabase</groupId>
             <artifactId>ServiceApi</artifactId>
         </dependency>
         <dependency>

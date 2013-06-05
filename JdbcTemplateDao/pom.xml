@@ -17,10 +17,6 @@
     <dependencies>
         <dependency>
             <groupId>com.excilys.computerdatabase</groupId>
-            <artifactId>Core</artifactId>
-        </dependency>
-        <dependency>
-            <groupId>com.excilys.computerdatabase</groupId>
             <artifactId>DaoApi</artifactId>
         </dependency>
 
