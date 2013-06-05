@@ -23,6 +23,11 @@
             <artifactId>ServiceImpl</artifactId>
             <scope>runtime</scope>
         </dependency>
+        <dependency>
+            <groupId>com.excilys.computerdatabase</groupId>
+            <artifactId>JdbcTemplateDao</artifactId>
+            <scope>runtime</scope>
+        </dependency>
 
         <dependency>
             <groupId>javax</groupId>

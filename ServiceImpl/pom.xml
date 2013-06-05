@@ -22,12 +22,6 @@
             <groupId>com.excilys.computerdatabase</groupId>
             <artifactId>DaoApi</artifactId>
         </dependency>
-
-        <dependency>
-            <groupId>com.excilys.computerdatabase</groupId>
-            <artifactId>JdbcTemplateDao</artifactId>
-            <scope>runtime</scope>
-        </dependency>
     </dependencies>
 
 
