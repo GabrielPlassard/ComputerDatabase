@@ -61,7 +61,7 @@ public class EditComputerServlet extends HttpServlet {
             } else {
                 request.getSession().setAttribute("alertMessage", "There has been a problem while updating " + computer.getName());
             }
-            response.sendRedirect("/computers");
+            response.sendRedirect("../computers");
         } else {
             request.setAttribute("mode", "edit");
             request.setAttribute("companies", computerDatabaseService.allCompanies());

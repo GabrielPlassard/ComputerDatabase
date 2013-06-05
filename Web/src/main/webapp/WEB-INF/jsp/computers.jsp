@@ -8,14 +8,14 @@
 <html>
     <head>
         <title>Computers database</title>
-        <link rel="stylesheet" type="text/css" media="screen" href="/css/bootstrap.min.css">
-        <link rel="stylesheet" type="text/css" media="screen" href="/css/main.css">
+        <link rel="stylesheet" type="text/css" media="screen" href="<c:url value="/css/bootstrap.min.css"/>"/>
+        <link rel="stylesheet" type="text/css" media="screen" href="<c:url value="/css/main.css"/>"/>
     </head>
     <body>
 
     <header class="topbar">
         <h1 class="fill">
-            <a href="computers">Play 2.0 sample application &mdash; Computer database</a>
+            <a href="<c:url value="/computers"/>"/>Play 2.0 sample application &mdash; Computer database</a>
         </h1>
     </header>
 
@@ -30,11 +30,11 @@
         </c:if>
 
         <div id="actions">
-            <form action="/computers?p=${currentPage}&s=${sorting}" method="GET" >
+            <form action="<c:url value="/computers?p=${currentPage}&s=${sorting}"/>" method="GET" />
                 <input type="search" id="searchbox" name="f" value="${research}" placeholder="Filter by computer name...">
                 <input type="submit" id="searchsubmit" value="Filter by name" class="btn primary">
             </form>
-            <a class="btn success" id="add" href="/computers/new">Add a new computer</a>
+            <a class="btn success" id="add" href="<c:url value="/computers/new"/>"/>Add a new computer</a>
         </div>
 
         <c:choose>

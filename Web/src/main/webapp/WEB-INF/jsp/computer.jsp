@@ -8,14 +8,14 @@
 <html>
     <head>
         <title>Computers database</title>
-        <link rel="stylesheet" type="text/css" media="screen" href="/css/bootstrap.min.css">
-        <link rel="stylesheet" type="text/css" media="screen" href="/css/main.css">
+        <link rel="stylesheet" type="text/css" media="screen" href="<c:url value="/css/bootstrap.min.css"/>"/>
+        <link rel="stylesheet" type="text/css" media="screen" href="<c:url value="/css/main.css"/>"/>
     </head>
 <body>
 
     <header class="topbar">
         <h1 class="fill">
-            <a href="/computers">Play 2.0 sample application &mdash; Computer database</a>
+            <a href="<c:url value="/computers"/>"/>Play 2.0 sample application &mdash; Computer database</a>
         </h1>
     </header>
 
@@ -23,7 +23,7 @@
 
     <h1>${mode =="edit" ? "Edit" : "Create"} a computer</h1>
 
-    <form action="/computers/${mode}?id=${fieldValues["id"]}" method="POST" >
+    <form action="<c:url value="/computers/${mode}?id=${fieldValues[id]}"/>" method="POST" >
 
         <fieldset>
             <div class="clearfix ${errorMessages["name"] == null ? "" : "error" }">
@@ -66,13 +66,13 @@
 
         <div class="actions">
             <input type="submit" value="${mode == "edit" ? "Save" : "Create"} this computer" class="btn primary"> or
-            <a href="/computers" class="btn">Cancel</a>
+            <a href="<c:url value="/computers"/>" class="btn">Cancel</a>
         </div>
 
     </form>
 
     <c:if test= "${mode == 'edit'}" >
-        <form action="/computers/delete?id=${fieldValues["id"]}" method="POST" class="topRight">
+        <form action="<c:url value="/computers/delete?id=${fieldValues[id]}"/>" method="POST" class="topRight">
             <input type="submit" value="Delete this computer" class="btn danger">
         </form>
     </c:if>

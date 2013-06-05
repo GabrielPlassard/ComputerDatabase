@@ -47,7 +47,7 @@ public class NewComputerServlet extends HttpServlet {
         if (form.isValid()) {
             request.getSession().setAttribute("alertMessage", "Computer " + form.getComputer().getName() + " added successfully");
             computerDatabaseService.createComputerAndSetCompany(form.getComputer(), form.getCompanyId());
-            response.sendRedirect("/computers");
+            response.sendRedirect("../computers");
         } else {
             request.setAttribute("mode", "new");
             request.setAttribute("companies", computerDatabaseService.allCompanies());

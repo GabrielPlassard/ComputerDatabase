@@ -42,6 +42,6 @@ public class DeleteComputerServlet extends HttpServlet {
         } else {
             request.getSession().setAttribute("alertMessage", "There has been a problem while deleting the computer");
         }
-        response.sendRedirect("/computers");
+        response.sendRedirect("../computers");
     }
 }

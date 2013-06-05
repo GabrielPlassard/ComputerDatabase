@@ -13,17 +13,17 @@
 <c:choose>
     <c:when test="${sorting == columnNumber}">
         <th class="col${columnNumber} header headerSortUp">
-            <a href="/computers?p=${currentSheet}&s=${-columnNumber}&f=${research}">${columnName}</a>
+            <a href="computers?p=${currentSheet}&s=${-columnNumber}&f=${research}">${columnName}</a>
         </th>
     </c:when>
     <c:when test="${sorting == -columnNumber}">
         <th class="col${columnNumber} header headerSortDown">
-            <a href="/computers?p=${currentSheet}&s=${columnNumber}&f=${research}">${columnName}</a>
+            <a href="computers?p=${currentSheet}&s=${columnNumber}&f=${research}">${columnName}</a>
         </th>
     </c:when>
     <c:otherwise>
         <th class="col${columnNumber} header">
-            <a href="/computers?p=${currentSheet}&s=${columnNumber}&f=${research}">${columnName}</a>
+            <a href="computers?p=${currentSheet}&s=${columnNumber}&f=${research}">${columnName}</a>
         </th>
     </c:otherwise>
 </c:choose>

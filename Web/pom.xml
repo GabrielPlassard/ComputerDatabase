@@ -24,7 +24,7 @@
         </dependency>
         <dependency>
             <groupId>com.excilys.computerdatabase</groupId>
-            <artifactId>JdbcDao</artifactId>
+            <artifactId>JdbcTemplateDao</artifactId>
             <scope>runtime</scope>
         </dependency>
         <dependency>
