@@ -50,6 +50,9 @@ public class ComputerController {
         int numberOfMatchingComputers = queryResult.getNumberOfMatchingComputers();
         List<Computer> computers = queryResult.getMatchingComputers();
         int maxPage = (int) Math.ceil((1.0 * numberOfMatchingComputers) / C.COMPUTERS_PER_PAGE);
+        if (lastComputerIndice > numberOfMatchingComputers){
+            lastComputerIndice = numberOfMatchingComputers;
+        }
 
         model.addAttribute("alertMessage", alertMessage);
         model.addAttribute("sorting", sortedColumnNumber);
