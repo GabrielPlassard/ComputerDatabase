@@ -114,6 +114,7 @@ public class ComputerController {
 
     @RequestMapping(value ="/computers/new", method = RequestMethod.GET)
     public String newComputer(ModelMap model){
+        model.addAttribute("computer",new Computer());
         model.addAttribute("mode", "new");
         model.addAttribute("companies", computerDatabaseService.allCompanies());
         return "computer";
@@ -121,22 +122,18 @@ public class ComputerController {
 
     @RequestMapping(value ="/computers/new", method = RequestMethod.POST)
     public String saveNewComputer(ModelMap model,final RedirectAttributes redirectAttributes,
-                                  @ModelAttribute(value="name") String name,
-                                  @ModelAttribute(value="introduced") String introduced,
-                                  @ModelAttribute(value="discontinued") String discontinued,
-                                  @ModelAttribute(value="company") String companyId){
+                                  @ModelAttribute Computer computer, BindingResult result){
 
-        ComputerForm form = new ComputerForm(name,introduced,discontinued,companyId);
+        System.out.println(result.getModel());
 
-        if (form.isValid()) {
-            redirectAttributes.addFlashAttribute("alertMessage", "Computer " + form.getComputer().getName() + " added successfully");
-            computerDatabaseService.createComputerAndSetCompany(form.getComputer(), form.getCompanyId());
+        if (!result.hasErrors()) {
+            redirectAttributes.addFlashAttribute("alertMessage", "Computer " + computer.getName() + " added successfully");
+            computerDatabaseService.createComputerAndSetCompany(computer, computer.getCompany() != null? computer.getCompany().getId() : 0);
             return "redirect:../computers";
         } else {
             model.addAttribute("mode", "new");
             model.addAttribute("companies", computerDatabaseService.allCompanies());
-            model.addAttribute("errorMessages", form.getErrorMessages());
-            model.addAttribute("fieldValues", form.getFieldValues());
+            model.addAttribute("result",result);
             return "computer";
         }
     }

@@ -24,27 +24,27 @@
 
     <h1>${mode =="edit" ? "Edit" : "Create"} a computer</h1>
 
-    <form:form commandName="computer" action="/computers/${mode}?id=${fieldValues['id']}" method="post">
+    <form:form commandName="computer" action="/computers/${mode.concat('?id=').concat(computer.id)}" method="post">
         <fieldset>
             <div class="clearfix ${empty result.getFieldError("name") ? "" : "error" }">
                 <label for="name">Computer name</label>
                 <div class="input">
                     <form:input type="text" id="name" path="name" />
-                    <span class="help-inline"> ${!empty result.getFieldError("name") ? "Required" : errorMessages["name"] }</span>
+                    <span class="help-inline"> ${!empty result.getFieldError("name") ? "Required" : result.getFieldError("name") }</span>
                 </div>
             </div>
-            <div class="clearfix ${errorMessages["introduced"] == null ? "" : "error" }">
+            <div class="clearfix ${empty result.getFieldError("introduced") ? "" : "error" }">
                 <label for="introduced">Introduced date</label>
                 <div class="input">
                     <form:input type="text" id="introduced" path="introduced"/>
-                    <span class="help-inline"> ${errorMessages["introduced"] == null ? "Date (&#x27;yyyy-MM-dd&#x27;)" : errorMessages["introduced"] }</span>
+                    <span class="help-inline"> ${errorMessages["introduced"] == null ? "Date (&#x27;yyyy-MM-dd&#x27;)" : result.getFieldError("introduced") }</span>
                 </div>
             </div>
-            <div class="clearfix ${errorMessages["discontinued"] == null ? "" : "error" }">
+            <div class="clearfix ${empty result.getFieldError("discontinued") ? "" : "error" }">
                 <label for="discontinued">Discontinued date</label>
                 <div class="input">
                     <form:input type="text" id="discontinued" path="discontinued" />
-                    <span class="help-inline"> ${errorMessages["discontinued"] == null ? "Date (&#x27;yyyy-MM-dd&#x27;)" : errorMessages["discontinued"] }</span>
+                    <span class="help-inline"> ${errorMessages["discontinued"] == null ? "Date (&#x27;yyyy-MM-dd&#x27;)" : result.getFieldError("discontinued") }</span>
                 </div>
             </div>
 
@@ -60,7 +60,6 @@
                     <span class="help-inline"></span>
                 </div>
             </div>
-
         </fieldset>
 
         <div class="actions">
