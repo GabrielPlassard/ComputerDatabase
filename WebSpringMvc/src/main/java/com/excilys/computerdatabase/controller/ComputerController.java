@@ -89,13 +89,9 @@ public class ComputerController {
                                             @RequestParam(value="id", defaultValue = "0") long id,
                                             @ModelAttribute Computer computer, BindingResult result){
 
-        System.out.println(result.getModel());
-
-        ComputerForm form = new ComputerForm(computer);
-
         if (!result.hasErrors()) {
             computer.setId(id);
-            boolean succesfull = computerDatabaseService.updateComputerAndSetCompany(computer, form.getCompanyId());
+            boolean succesfull = computerDatabaseService.updateComputerAndSetCompany(computer,  computer.getCompany() != null? computer.getCompany().getId() : 0);
             if (succesfull) {
                 redirectAttributes.addFlashAttribute("alertMessage", "Computer " + computer.getName() + " modified successfully");
             } else {
@@ -106,8 +102,6 @@ public class ComputerController {
             model.addAttribute("result",result);
             model.addAttribute("mode", "edit");
             model.addAttribute("companies", computerDatabaseService.allCompanies());
-            model.addAttribute("errorMessages", form.getErrorMessages());
-            model.addAttribute("fieldValues", form.getFieldValues());
             return "computer";
         }
     }
@@ -123,8 +117,6 @@ public class ComputerController {
     @RequestMapping(value ="/computers/new", method = RequestMethod.POST)
     public String saveNewComputer(ModelMap model,final RedirectAttributes redirectAttributes,
                                   @ModelAttribute Computer computer, BindingResult result){
-
-        System.out.println(result.getModel());
 
         if (!result.hasErrors()) {
             redirectAttributes.addFlashAttribute("alertMessage", "Computer " + computer.getName() + " added successfully");

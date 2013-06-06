@@ -30,21 +30,21 @@
                 <label for="name">Computer name</label>
                 <div class="input">
                     <form:input type="text" id="name" path="name" />
-                    <span class="help-inline"> ${!empty result.getFieldError("name") ? "Required" : result.getFieldError("name") }</span>
+                    <span class="help-inline"> Required</span>
                 </div>
             </div>
             <div class="clearfix ${empty result.getFieldError("introduced") ? "" : "error" }">
                 <label for="introduced">Introduced date</label>
                 <div class="input">
                     <form:input type="text" id="introduced" path="introduced"/>
-                    <span class="help-inline"> ${errorMessages["introduced"] == null ? "Date (&#x27;yyyy-MM-dd&#x27;)" : result.getFieldError("introduced") }</span>
+                    <span class="help-inline">Date (&#x27;yyyy-MM-dd&#x27;)</span>
                 </div>
             </div>
             <div class="clearfix ${empty result.getFieldError("discontinued") ? "" : "error" }">
                 <label for="discontinued">Discontinued date</label>
                 <div class="input">
                     <form:input type="text" id="discontinued" path="discontinued" />
-                    <span class="help-inline"> ${errorMessages["discontinued"] == null ? "Date (&#x27;yyyy-MM-dd&#x27;)" : result.getFieldError("discontinued") }</span>
+                    <span class="help-inline">Date (&#x27;yyyy-MM-dd&#x27;)</span>
                 </div>
             </div>
 
@@ -69,7 +69,7 @@
     </form:form>
 
     <c:if test= "${mode == 'edit'}" >
-        <form action="<c:url value="/computers/delete?id=${fieldValues['id']}"/>" method="POST" class="topRight">
+        <form action="<c:url value="/computers/delete?id=${computer.id}"/>" method="POST" class="topRight">
             <input type="submit" value="Delete this computer" class="btn danger">
         </form>
     </c:if>
