@@ -93,7 +93,7 @@ public class ComputerController {
 
         ComputerForm form = new ComputerForm(computer);
 
-        if (form.isValid()) {
+        if (!result.hasErrors()) {
             computer.setId(id);
             boolean succesfull = computerDatabaseService.updateComputerAndSetCompany(computer, form.getCompanyId());
             if (succesfull) {
@@ -103,6 +103,7 @@ public class ComputerController {
             }
             return "redirect:../computers";
         } else {
+            model.addAttribute("result",result);
             model.addAttribute("mode", "edit");
             model.addAttribute("companies", computerDatabaseService.allCompanies());
             model.addAttribute("errorMessages", form.getErrorMessages());

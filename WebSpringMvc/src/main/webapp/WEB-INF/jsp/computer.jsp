@@ -26,11 +26,11 @@
 
     <form:form commandName="computer" action="/computers/${mode}?id=${fieldValues['id']}" method="post">
         <fieldset>
-            <div class="clearfix ${errorMessages["name"] == null ? "" : "error" }">
+            <div class="clearfix ${empty result.getFieldError("name") ? "" : "error" }">
                 <label for="name">Computer name</label>
                 <div class="input">
                     <form:input type="text" id="name" path="name" />
-                    <span class="help-inline"> ${errorMessages["name"] == null ? "Required" : errorMessages["name"] }</span>
+                    <span class="help-inline"> ${!empty result.getFieldError("name") ? "Required" : errorMessages["name"] }</span>
                 </div>
             </div>
             <div class="clearfix ${errorMessages["introduced"] == null ? "" : "error" }">
