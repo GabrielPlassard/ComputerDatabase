@@ -2,6 +2,7 @@ package com.excilys.computerdatabase.model;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+import org.springframework.format.annotation.DateTimeFormat;
 
 import java.text.DateFormat;
 import java.text.ParseException;
@@ -23,7 +24,9 @@ public class Computer {
 
     private long id;
     private String name;
+    @DateTimeFormat(pattern="yyyy-MM-dd")
     private Date introduced;
+    @DateTimeFormat(pattern="yyyy-MM-dd")
     private Date discontinued;
     private Company company;
 
@@ -99,5 +102,17 @@ public class Computer {
         } catch (ParseException e) {
             logger.warn(e.getMessage());
         }
+    }
+
+    @Override
+    public String toString(){
+        StringBuilder str = new StringBuilder("Computer(");
+        str.append(id).append(", ");
+        str.append(name).append(", ");
+        str.append(introduced).append(", ");
+        str.append(discontinued);
+        str.append(company == null ? "" : ", "+company.getName());
+        str.append(")");
+        return str.toString();
     }
 }

@@ -131,5 +131,19 @@ public class SimpleComputerDatabaseService implements ComputerDatabaseService {
         return succesfull;
     }
 
+    @Override
+    @Transactional
+    public Company companyById(long id) {
+        try{
+            companyDao.openConnection();
+            return companyDao.findById(id);
+        } catch (DaoException e){
+            throw new ServiceException(e);
+        }
+        finally {
+            companyDao.closeConnection();
+        }
+    }
+
 
 }

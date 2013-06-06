@@ -1,18 +1,19 @@
 package com.excilys.computerdatabase.controller;
 
 import com.excilys.computerdatabase.form.ComputerForm;
+import com.excilys.computerdatabase.model.Company;
 import com.excilys.computerdatabase.model.Computer;
 import com.excilys.computerdatabase.queryresults.ComputerAndCompanies;
 import com.excilys.computerdatabase.queryresults.ComputersAndTotalNumber;
 import com.excilys.computerdatabase.service.ComputerDatabaseService;
 import com.excilys.computerdatabase.utils.C;
+import com.excilys.computerdatabase.utils.CompanyConverter;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.ModelMap;
-import org.springframework.web.bind.annotation.ModelAttribute;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestMethod;
-import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.validation.BindingResult;
+import org.springframework.web.bind.WebDataBinder;
+import org.springframework.web.bind.annotation.*;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
 import java.util.List;
@@ -31,6 +32,10 @@ public class ComputerController {
     @Autowired
     private ComputerDatabaseService computerDatabaseService;
 
+    @InitBinder
+    public void initBinderCompany(WebDataBinder binder) {
+        binder.registerCustomEditor(Company.class, new CompanyConverter(computerDatabaseService));
+    }
 
     @RequestMapping("/computers")
     public String index(ModelMap model,
@@ -68,9 +73,11 @@ public class ComputerController {
 
     @RequestMapping(value = "/computers/edit", method = RequestMethod.GET)
     public String editComputer(ModelMap model, @RequestParam(value="id", defaultValue = "0") long id){
+
         ComputerAndCompanies queryResult = computerDatabaseService.computerByIdAndCompanies(id);
         ComputerForm form = new ComputerForm(queryResult.getComputer());
 
+        model.addAttribute("computer",queryResult.getComputer());
         model.addAttribute("mode", "edit");
         model.addAttribute("fieldValues", form.getFieldValues());
         model.addAttribute("companies", queryResult.getCompanies());
@@ -80,15 +87,13 @@ public class ComputerController {
     @RequestMapping(value = "/computers/edit", method = RequestMethod.POST)
     public String saveEdit(ModelMap model, final RedirectAttributes redirectAttributes,
                                             @RequestParam(value="id", defaultValue = "0") long id,
-                                            @ModelAttribute(value="name") String name,
-                                            @ModelAttribute(value="introduced") String introduced,
-                                            @ModelAttribute(value="discontinued") String discontinued,
-                                            @ModelAttribute(value="company") String companyId){
+                                            @ModelAttribute Computer computer, BindingResult result){
 
-        ComputerForm form = new ComputerForm(name,introduced,discontinued,companyId);
+        System.out.println(result.getModel());
+
+        ComputerForm form = new ComputerForm(computer);
 
         if (form.isValid()) {
-            Computer computer = form.getComputer();
             computer.setId(id);
             boolean succesfull = computerDatabaseService.updateComputerAndSetCompany(computer, form.getCompanyId());
             if (succesfull) {

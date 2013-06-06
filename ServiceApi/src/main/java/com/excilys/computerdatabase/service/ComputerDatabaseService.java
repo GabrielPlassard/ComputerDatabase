@@ -28,4 +28,5 @@ public interface ComputerDatabaseService {
 
     boolean updateComputerAndSetCompany(Computer computer, long companyId) throws ServiceException;
 
+    Company companyById(long id);
 }
