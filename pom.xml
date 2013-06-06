@@ -161,13 +161,11 @@
                 <version>${spring.version}</version>
             </dependency>
 
-
             <dependency>
-                <groupId>org.slf4j</groupId>
-                <artifactId>slf4j-api</artifactId>
-                <version>${slf4j.version}</version>
+                <groupId>org.hibernate</groupId>
+                <artifactId>hibernate-validator</artifactId>
+                <version>5.0.1.Final</version>
             </dependency>
-
 
             <dependency>
                 <groupId>mysql</groupId>

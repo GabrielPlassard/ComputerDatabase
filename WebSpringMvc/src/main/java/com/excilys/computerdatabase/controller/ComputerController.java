@@ -16,6 +16,7 @@ import org.springframework.web.bind.WebDataBinder;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
+import javax.validation.Valid;
 import java.util.List;
 
 /**
@@ -87,7 +88,7 @@ public class ComputerController {
     @RequestMapping(value = "/computers/edit", method = RequestMethod.POST)
     public String saveEdit(ModelMap model, final RedirectAttributes redirectAttributes,
                                             @RequestParam(value="id", defaultValue = "0") long id,
-                                            @ModelAttribute Computer computer, BindingResult result){
+                                            @ModelAttribute @Valid Computer computer, BindingResult result){
 
         if (!result.hasErrors()) {
             computer.setId(id);
@@ -116,7 +117,7 @@ public class ComputerController {
 
     @RequestMapping(value ="/computers/new", method = RequestMethod.POST)
     public String saveNewComputer(ModelMap model,final RedirectAttributes redirectAttributes,
-                                  @ModelAttribute Computer computer, BindingResult result){
+                                  @ModelAttribute @Valid Computer computer, BindingResult result){
 
         if (!result.hasErrors()) {
             redirectAttributes.addFlashAttribute("alertMessage", "Computer " + computer.getName() + " added successfully");

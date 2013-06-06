@@ -1,5 +1,7 @@
 package com.excilys.computerdatabase.model;
 
+import org.hibernate.validator.constraints.NotBlank;
+import org.hibernate.validator.constraints.NotEmpty;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.format.annotation.DateTimeFormat;
@@ -23,6 +25,7 @@ public class Computer {
     private static final DateFormat dateFormatter = new SimpleDateFormat("yyyy-MM-dd");
 
     private long id;
+    @NotBlank
     private String name;
     @DateTimeFormat(pattern="yyyy-MM-dd")
     private Date introduced;
