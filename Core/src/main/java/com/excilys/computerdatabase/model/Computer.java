@@ -1,11 +1,11 @@
 package com.excilys.computerdatabase.model;
 
 import org.hibernate.validator.constraints.NotBlank;
-import org.hibernate.validator.constraints.NotEmpty;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.format.annotation.DateTimeFormat;
 
+import javax.persistence.*;
 import java.text.DateFormat;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
@@ -18,12 +18,16 @@ import java.util.Date;
  * Time: 12:12
  * To change this template use File | Settings | File Templates.
  */
+@Entity
+@Table(name = "computer")
 public class Computer {
 
     private final static Logger logger = LoggerFactory.getLogger(Computer.class);
 
     private static final DateFormat dateFormatter = new SimpleDateFormat("yyyy-MM-dd");
 
+    @Id
+    @GeneratedValue(strategy = GenerationType.AUTO)
     private long id;
     @NotBlank
     private String name;
@@ -31,6 +35,7 @@ public class Computer {
     private Date introduced;
     @DateTimeFormat(pattern="yyyy-MM-dd")
     private Date discontinued;
+    @ManyToOne
     private Company company;
 
     public Computer() {

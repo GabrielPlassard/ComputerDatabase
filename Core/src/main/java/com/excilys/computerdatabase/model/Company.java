@@ -1,5 +1,7 @@
 package com.excilys.computerdatabase.model;
 
+import javax.persistence.*;
+
 /**
  * Created with IntelliJ IDEA.
  * User: gplassard
@@ -7,8 +9,12 @@ package com.excilys.computerdatabase.model;
  * Time: 12:14
  * To change this template use File | Settings | File Templates.
  */
+@Entity
+@Table(name="company")
 public class Company {
 
+    @Id
+    @GeneratedValue(strategy = GenerationType.AUTO)
     private long id = -1;
     private String name = "defaultName";
 
@@ -33,5 +39,10 @@ public class Company {
 
     public long getId() {
         return id;
+    }
+
+    @Override
+    public String toString(){
+        return "Company "+name;
     }
 }
