@@ -82,7 +82,7 @@ public class HibernateComputerDao implements ComputerDao{
         }
         hqlQuery += String.format(" ORDER BY ISNULL(%s),%s %s",columns[Math.abs(columnId)],columns[Math.abs(columnId)], columnId > 0 ? "ASC" : "DESC");
         Query query = hibernateTemplate.getSessionFactory().getCurrentSession().createQuery(hqlQuery);
-        query.setFirstResult(firstIndice).setMaxResults(lastIndice);
+        query.setFirstResult(firstIndice).setMaxResults(lastIndice - firstIndice);
         return query.list();
     }
 
