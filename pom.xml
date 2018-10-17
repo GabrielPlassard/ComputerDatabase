@@ -27,7 +27,7 @@
         <spring.version>3.2.3.RELEASE</spring.version>
         <hibernate.version>3.6.10.Final</hibernate.version>
         <hibernate-validator.version>5.0.1.Final</hibernate-validator.version>
-        <slf4j.version>1.7.5</slf4j.version>
+        <slf4j.version>1.7.25</slf4j.version>
         <tomcat-maven-plugin.version>2.1</tomcat-maven-plugin.version>
         <computerdatabase.version>1.0</computerdatabase.version>
         <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
